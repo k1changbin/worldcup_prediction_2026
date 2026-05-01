@@ -1,0 +1,53 @@
+import math
+import json
+
+class EloSystem:
+    def __init__(self, k_factor=20):
+        self.k_factor = k_factor
+        self.ratings = {}
+
+    def load_ratings(self, path: str = "data/elo_ratings.json"):  # 들여쓰기 수정
+        """JSON 파일에서 초기 Elo 레이팅 로드"""
+        with open(path, "r") as f:
+            self.ratings = json.load(f)
+
+    def get_rating(self, team):
+        return self.ratings.get(team, 1500)
+
+    def expected_score(self, rating_a, rating_b):
+        return 1 / (1 + 10 ** ((rating_b - rating_a) / 400))
+
+    def update_rating(self, team_a, team_b, score_a, score_b):
+        ra = self.get_rating(team_a)
+        rb = self.get_rating(team_b)
+
+        ea = self.expected_score(ra, rb)
+        eb = self.expected_score(rb, ra)
+
+        if score_a > score_b:
+            sa, sb = 1, 0
+        elif score_a < score_b:
+            sa, sb = 0, 1
+        else:
+            sa, sb = 0.5, 0.5
+
+        self.ratings[team_a] = ra + self.k_factor * (sa - ea)
+        self.ratings[team_b] = rb + self.k_factor * (sb - eb)
+
+    def export_ratings(self):
+        return dict(sorted(self.ratings.items(), key=lambda item: item[1], reverse=True))
+
+
+if __name__ == "__main__":
+    elo = EloSystem()
+    elo.load_ratings()
+
+    team_a, team_b = "Brazil", "South Korea"
+    prob = elo.expected_score(
+        elo.get_rating(team_a),
+        elo.get_rating(team_b)
+    )
+
+    print(f"{team_a} vs {team_b}")
+    print(f"{team_a} 승리 확률: {prob:.1%}")
+    print(f"{team_b} 승리 확률: {1 - prob:.1%}")

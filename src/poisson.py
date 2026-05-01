@@ -1,0 +1,58 @@
+import math
+import json
+from elo import EloSystem
+
+
+def win_prob_to_lambda(win_prob: float, base_goals: float = 1.5) -> tuple:
+    """
+    Elo 승리 확률을 양 팀 예상 득점(λ)으로 변환
+    base_goals: 평균 득점 기준값 (축구 평균 약 1.5골)
+    """
+    lambda_a = base_goals * (win_prob / 0.5)
+    lambda_b = base_goals * ((1 - win_prob) / 0.5)
+    return lambda_a, lambda_b
+
+
+def poisson_prob(lam: float, k: int) -> float:
+    """팀이 정확히 k골 넣을 확률"""
+    return (lam ** k * math.exp(-lam)) / math.factorial(k)
+
+
+def match_probabilities(lambda_a: float, lambda_b: float, max_goals: int = 6) -> dict:
+    """
+    두 팀의 예상 득점으로 승/무/패 확률 계산
+    max_goals: 고려할 최대 득점 수
+    """
+    win, draw, lose = 0.0, 0.0, 0.0
+
+    for g_a in range(max_goals + 1):
+        for g_b in range(max_goals + 1):
+            prob = poisson_prob(lambda_a, g_a) * poisson_prob(lambda_b, g_b)
+            if g_a > g_b:
+                win += prob
+            elif g_a == g_b:
+                draw += prob
+            else:
+                lose += prob
+
+    return {"win": win, "draw": draw, "lose": lose}
+
+
+if __name__ == "__main__":
+    elo = EloSystem()
+    elo.load_ratings()
+
+    team_a, team_b = "Brazil", "South Korea"
+    win_prob = elo.expected_score(
+        elo.get_rating(team_a),
+        elo.get_rating(team_b)
+    )
+
+    lambda_a, lambda_b = win_prob_to_lambda(win_prob)
+    result = match_probabilities(lambda_a, lambda_b)
+
+    print(f"{team_a} vs {team_b}")
+    print(f"예상 득점 — {team_a}: {lambda_a:.2f}골, {team_b}: {lambda_b:.2f}골")
+    print(f"{team_a} 승리: {result['win']:.1%}")
+    print(f"무승부: {result['draw']:.1%}")
+    print(f"{team_b} 승리: {result['lose']:.1%}")
