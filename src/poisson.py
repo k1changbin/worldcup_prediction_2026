@@ -1,5 +1,6 @@
 import math
 import json
+import numpy as np
 from elo import EloSystem
 
 
@@ -38,6 +39,16 @@ def match_probabilities(lambda_a: float, lambda_b: float, max_goals: int = 6) ->
     return {"win": win, "draw": draw, "lose": lose}
 
 
+def simulate_match_score(lambda_a: float, lambda_b: float) -> tuple:
+    """
+    푸아송 분포를 바탕으로 양 팀의 예상 득점(람다)을 실제 스코어로 무작위 추출합니다.
+    반환값: (팀 A 득점, 팀 B 득점)
+    """
+    score_a = np.random.poisson(lambda_a)
+    score_b = np.random.poisson(lambda_b)
+    return score_a, score_b
+
+
 if __name__ == "__main__":
     elo = EloSystem()
     elo.load_ratings()
@@ -56,3 +67,8 @@ if __name__ == "__main__":
     print(f"{team_a} 승리: {result['win']:.1%}")
     print(f"무승부: {result['draw']:.1%}")
     print(f"{team_b} 승리: {result['lose']:.1%}")
+
+    # 실제 경기 시뮬레이션 결과 예시
+    sim_score_a, sim_score_b = simulate_match_score(lambda_a, lambda_b)
+    print("\n--- [시뮬레이션 1경기 진행] ---")
+    print(f"최종 스코어: {team_a} {sim_score_a} : {sim_score_b} {team_b}")
