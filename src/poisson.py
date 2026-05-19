@@ -1,7 +1,7 @@
 import math
-import json
+# pyrefly: ignore [missing-import]
 import numpy as np
-from elo import EloSystem
+from src.elo import EloSystem
 
 
 def win_prob_to_lambda(win_prob: float, base_goals: float = 1.5) -> tuple:

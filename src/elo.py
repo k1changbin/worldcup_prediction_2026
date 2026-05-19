@@ -1,4 +1,5 @@
 import math
+import os
 import json
 
 class EloSystem:
@@ -6,9 +7,14 @@ class EloSystem:
         self.k_factor = k_factor
         self.ratings = {}
 
-    def load_ratings(self, path: str = "data/elo_ratings.json"):  # 들여쓰기 수정
-        """JSON 파일에서 초기 Elo 레이팅 로드"""
-        with open(path, "r") as f:
+    def load_ratings(self, path: str = None):
+        """JSON 파일에서 초기 Elo 레이팅 로드 (경로 자동 해결)"""
+        if path is None:
+            # 현재 파일(elo.py) 위치 기준 상위 디렉토리의 data/elo_ratings.json 참조
+            base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            path = os.path.join(base_dir, "data", "elo_ratings.json")
+
+        with open(path, "r", encoding="utf-8") as f:
             self.ratings = json.load(f)
 
     def get_rating(self, team):
