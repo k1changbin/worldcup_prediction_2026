@@ -72,9 +72,27 @@ def predict_match():
     team_a_query = ""
     team_b_query = ""
     
+    rest_days_diff = 0
+    travel_fatigue_a = 0.0
+    travel_fatigue_b = 0.0
+    
     if len(sys.argv) >= 3:
         team_a_query = sys.argv[1]
         team_b_query = sys.argv[2]
+        
+        # 추가 인자 파싱 (휴식일 격차, 피로도 A, 피로도 B)
+        # 형식: predict_match.py "Korea" "Spain" [rest_days_diff] [fatigue_a] [fatigue_b]
+        if len(sys.argv) >= 4:
+            try:
+                rest_days_diff = int(sys.argv[3])
+            except ValueError:
+                pass
+        if len(sys.argv) >= 6:
+            try:
+                travel_fatigue_a = float(sys.argv[4])
+                travel_fatigue_b = float(sys.argv[5])
+            except ValueError:
+                pass
     else:
         print("[2026 월드컵 매치 승부예측기]")
         print("참가국 중 두 팀을 입력해 승률을 예측해보세요.")
@@ -112,13 +130,32 @@ def predict_match():
     rating_a = elo.get_rating(team_a)
     rating_b = elo.get_rating(team_b)
     
+    # 1. 개최국 홈 이점 적용 (+70 ELO)
+    from src.simulation import HOST_COUNTRIES, SQUAD_DEPTH_INDEX
+    is_host_a = team_a in HOST_COUNTRIES
+    is_host_b = team_b in HOST_COUNTRIES
+    home_adv_msg = ""
+    
+    if is_host_a and not is_host_b:
+        rating_a += 70
+        home_adv_msg = f" * {team_a} 개최국 홈 우위 버프 적용 (ELO +70)"
+    elif is_host_b and not is_host_a:
+        rating_b += 70
+        home_adv_msg = f" * {team_b} 개최국 홈 우위 버프 적용 (ELO +70)"
+        
+    # 2. 휴식일 체력 격차 보정 적용 (+15 ELO)
+    if rest_days_diff >= 1:
+        rating_a += 15
+    elif rest_days_diff <= -1:
+        rating_b += 15
+        
     # 기대 승률 계산
     win_prob_a = elo.expected_score(rating_a, rating_b)
     
     # 푸아송 람다 계산 (기본 득점력)
     lambda_a, lambda_b = win_prob_to_lambda(win_prob_a)
     
-    # 부상 및 뎁스 보정 로드
+    # 부상자 로드
     injuries_path = "data/injuries.json"
     injuries = {}
     if os.path.exists(injuries_path):
@@ -128,13 +165,12 @@ def predict_match():
             except json.JSONDecodeError:
                 pass
                 
-    from src.simulation import SQUAD_DEPTH_INDEX
-    
     att_mult_a, def_mult_a, details_a = get_injury_multipliers(team_a, injuries)
     att_mult_b, def_mult_b, details_b = get_injury_multipliers(team_b, injuries)
     
-    final_lambda_a = lambda_a * att_mult_a * def_mult_b
-    final_lambda_b = lambda_b * att_mult_b * def_mult_a
+    # 3. 부상 배율 및 4. 이동 피로도 적용
+    final_lambda_a = lambda_a * att_mult_a * def_mult_b * (1.0 - travel_fatigue_a)
+    final_lambda_b = lambda_b * att_mult_b * def_mult_a * (1.0 - travel_fatigue_b)
     
     # 보정된 평균 예상 득점으로 승무패 확률 계산
     result = match_probabilities(final_lambda_a, final_lambda_b)
@@ -146,8 +182,23 @@ def predict_match():
     print("\n" + "=" * 55)
     print(f"[승부 예측 결과] {team_a} vs {team_b}")
     print("=" * 55)
-    print(f"[Elo Rating] {team_a} ({rating_a:.1f}) vs {team_b} ({rating_b:.1f})")
+    print(f"[Elo Rating] {team_a} ({elo.get_rating(team_a):.1f}) vs {team_b} ({elo.get_rating(team_b):.1f})")
     
+    # 환경 변수 보정 현황 출력
+    if home_adv_msg or rest_days_diff != 0 or travel_fatigue_a > 0 or travel_fatigue_b > 0:
+        print("-" * 55)
+        print("[환경 변수 및 일정 보정 현황]")
+        if home_adv_msg:
+            print(home_adv_msg)
+        if rest_days_diff > 0:
+            print(f" * {team_a} 체력 우위 적용 (상대보다 휴식일 +{rest_days_diff}일, ELO +15)")
+        elif rest_days_diff < 0:
+            print(f" * {team_b} 체력 우위 적용 (상대보다 휴식일 +{-rest_days_diff}일, ELO +15)")
+        if travel_fatigue_a > 0:
+            print(f" * {team_a} 이동 피로도/로테이션 적용 (득점력 감쇄: -{travel_fatigue_a*100:.1f}%)")
+        if travel_fatigue_b > 0:
+            print(f" * {team_b} 이동 피로도/로테이션 적용 (득점력 감쇄: -{travel_fatigue_b*100:.1f}%)")
+            
     # 부상자 정보 섹션 출력
     if details_a or details_b:
         print("-" * 55)
@@ -163,10 +214,16 @@ def predict_match():
                 
     print("-" * 55)
     print(f"[평균 예상 득점] {team_a}: {final_lambda_a:.2f}골 | {team_b}: {final_lambda_b:.2f}골")
-    if att_mult_a * def_mult_b != 1.0 or att_mult_b * def_mult_a != 1.0:
-        print(f"   (기존 ELO 기준 예상 득점 - {team_a}: {lambda_a:.2f}골 | {team_b}: {lambda_b:.2f}골)")
-    print("-" * 55)
     
+    # 보정 전 ELO 득점력이랑 차이가 나는 경우에만 출력
+    is_modified = (rating_a != elo.get_rating(team_a) or rating_b != elo.get_rating(team_b) or
+                   final_lambda_a != lambda_a or final_lambda_b != lambda_b)
+    if is_modified:
+        base_win_prob = elo.expected_score(elo.get_rating(team_a), elo.get_rating(team_b))
+        base_lam_a, base_lam_b = win_prob_to_lambda(base_win_prob)
+        print(f"   (보정 전 순수 ELO 기준 - {team_a}: {base_lam_a:.2f}골 | {team_b}: {base_lam_b:.2f}골)")
+        
+    print("-" * 55)
     print(f"[{team_a} 승리] {win_pct:>5.1f}%  {draw_bar(win_pct)}")
     print(f"[ 무  승  부 ] {draw_pct:>5.1f}%  {draw_bar(draw_pct)}")
     print(f"[{team_b} 승리] {lose_pct:>5.1f}%  {draw_bar(lose_pct)}")
