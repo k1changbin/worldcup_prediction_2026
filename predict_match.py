@@ -130,24 +130,25 @@ def predict_match():
     rating_a = elo.get_rating(team_a)
     rating_b = elo.get_rating(team_b)
     
-    # 1. 개최국 홈 이점 적용 (+70 ELO)
+    # 1. 개최국 홈 이점 적용 (+40 ELO)
     from src.simulation import HOST_COUNTRIES, SQUAD_DEPTH_INDEX
     is_host_a = team_a in HOST_COUNTRIES
     is_host_b = team_b in HOST_COUNTRIES
     home_adv_msg = ""
     
     if is_host_a and not is_host_b:
-        rating_a += 70
-        home_adv_msg = f" * {team_a} 개최국 홈 우위 버프 적용 (ELO +70)"
+        rating_a += 40
+        home_adv_msg = f" * {team_a} 개최국 홈 우위 버프 적용 (ELO +40)"
     elif is_host_b and not is_host_a:
-        rating_b += 70
-        home_adv_msg = f" * {team_b} 개최국 홈 우위 버프 적용 (ELO +70)"
+        rating_b += 40
+        home_adv_msg = f" * {team_b} 개최국 홈 우위 버프 적용 (ELO +40)"
         
-    # 2. 휴식일 체력 격차 보정 적용 (+15 ELO)
+    # 2. 휴식일 체력 격차 보정 적용 (하루당 +5, 최대 +30 ELO)
+    rest_bonus = min(abs(rest_days_diff) * 5, 30)
     if rest_days_diff >= 1:
-        rating_a += 15
+        rating_a += rest_bonus
     elif rest_days_diff <= -1:
-        rating_b += 15
+        rating_b += rest_bonus
         
     # 기대 승률 계산
     win_prob_a = elo.expected_score(rating_a, rating_b)
@@ -191,9 +192,9 @@ def predict_match():
         if home_adv_msg:
             print(home_adv_msg)
         if rest_days_diff > 0:
-            print(f" * {team_a} 체력 우위 적용 (상대보다 휴식일 +{rest_days_diff}일, ELO +15)")
+            print(f" * {team_a} 체력 우위 적용 (상대보다 휴식일 +{rest_days_diff}일, ELO +{rest_bonus})")
         elif rest_days_diff < 0:
-            print(f" * {team_b} 체력 우위 적용 (상대보다 휴식일 +{-rest_days_diff}일, ELO +15)")
+            print(f" * {team_b} 체력 우위 적용 (상대보다 휴식일 +{-rest_days_diff}일, ELO +{rest_bonus})")
         if travel_fatigue_a > 0:
             print(f" * {team_a} 이동 피로도/로테이션 적용 (득점력 감쇄: -{travel_fatigue_a*100:.1f}%)")
         if travel_fatigue_b > 0:
