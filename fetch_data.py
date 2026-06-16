@@ -103,8 +103,7 @@ def fetch_live_world_cup_data():
         print(f"경기 결과 파일 요청 실패: {e}")
         return
         
-    actual_results = []
-    seen_matchups = set()
+    parsed_matches = []
     
     for line in r_results.text.strip().split("\n"):
         parts = line.split("\t")
@@ -118,6 +117,9 @@ def fetch_live_world_cup_data():
             away_code = parts[4]
             
             try:
+                year = int(parts[0])
+                month = int(parts[1])
+                day = int(parts[2])
                 score_a = int(parts[5])
                 score_b = int(parts[6])
             except ValueError:
@@ -131,24 +133,62 @@ def fetch_live_world_cup_data():
             away_team = normalize_team_name(away_name, valid_teams)
             
             if home_team and away_team and home_team != away_team:
-                match_key = tuple(sorted([home_team, away_team]))
-                if match_key in seen_matchups:
-                    continue
-                    
-                seen_matchups.add(match_key)
-                actual_results.append({
+                parsed_matches.append({
+                    "year": year,
+                    "month": month,
+                    "day": day,
                     "team_a": home_team,
                     "team_b": away_team,
                     "score_a": score_a,
                     "score_b": score_b
                 })
                 
+    actual_results = []
+    for idx, match in enumerate(parsed_matches):
+        team_a = match["team_a"]
+        team_b = match["team_b"]
+        score_a = match["score_a"]
+        score_b = match["score_b"]
+        month = match["month"]
+        day = match["day"]
+        
+        is_knockout = (month == 6 and day >= 28) or (month >= 7)
+        stage = "knockout" if is_knockout else "group"
+        
+        winner = None
+        if score_a > score_b:
+            winner = team_a
+        elif score_b > score_a:
+            winner = team_b
+        else:
+            if stage == "knockout":
+                # 다음 경기들을 탐색하여 어느 팀이 진출했는지 판별
+                for next_match in parsed_matches[idx + 1:]:
+                    next_teams = {next_match["team_a"], next_match["team_b"]}
+                    if team_a in next_teams:
+                        winner = team_a
+                        break
+                    elif team_b in next_teams:
+                        winner = team_b
+                        break
+                        
+        actual_results.append({
+            "team_a": team_a,
+            "team_b": team_b,
+            "score_a": score_a,
+            "score_b": score_b,
+            "date": f"{match['year']}-{month:02d}-{day:02d}",
+            "stage": stage,
+            "winner": winner
+        })
+                
     with open(actual_results_path, "w", encoding="utf-8") as f:
         json.dump(actual_results, f, ensure_ascii=False, indent=2)
         
     print(f"경기 결과 갱신 완료: 총 {len(actual_results)}개의 종료된 경기 결과를 {actual_results_path}에 고정 저장했습니다.")
     for res in actual_results:
-        print(f"   - {res['team_a']} {res['score_a']} : {res['score_b']} {res['team_b']}")
+        winner_str = f" (승자: {res['winner']})" if res['winner'] else ""
+        print(f"   - [{res['stage'].upper()}] {res['team_a']} {res['score_a']} : {res['score_b']} {res['team_b']}{winner_str}")
 
 if __name__ == "__main__":
     fetch_live_world_cup_data()
