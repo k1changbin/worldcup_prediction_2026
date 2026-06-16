@@ -4,13 +4,19 @@ import numpy as np
 from src.elo import EloSystem
 
 
-def win_prob_to_lambda(win_prob: float, base_goals: float = 1.5) -> tuple:
+def win_prob_to_lambda(win_prob: float, base_goals: float = 1.35) -> tuple:
     """
     Elo 승리 확률을 양 팀 예상 득점(λ)으로 변환
-    base_goals: 평균 득점 기준값 (축구 평균 약 1.5골)
+    base_goals: 평균 득점 기준값 (월드컵 평균 약 1.35골, 경기당 총합 2.7골)
     """
-    lambda_a = base_goals * (win_prob / 0.5)
-    lambda_b = base_goals * ((1 - win_prob) / 0.5)
+    eps = 1e-6
+    p = max(eps, min(1.0 - eps, win_prob))
+    
+    # ELO 기대 승률 비율 기반의 거듭제곱 공식 적용 (지수 = 0.376)
+    # 두 팀의 expected goals 비율이 ELO 기대 승률 비율과 매칭되도록 보정
+    ratio = p / (1.0 - p)
+    lambda_a = base_goals * (ratio ** 0.376)
+    lambda_b = base_goals * ((1.0 / ratio) ** 0.376)
     return lambda_a, lambda_b
 
 
