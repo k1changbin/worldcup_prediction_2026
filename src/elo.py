@@ -23,7 +23,7 @@ class EloSystem:
     def expected_score(self, rating_a, rating_b):
         return 1 / (1 + 10 ** ((rating_b - rating_a) / 400))
 
-    def update_rating(self, team_a, team_b, score_a, score_b):
+    def update_rating(self, team_a, team_b, score_a, score_b, k_factor=None):
         ra = self.get_rating(team_a)
         rb = self.get_rating(team_b)
 
@@ -37,8 +37,9 @@ class EloSystem:
         else:
             sa, sb = 0.5, 0.5
 
-        self.ratings[team_a] = ra + self.k_factor * (sa - ea)
-        self.ratings[team_b] = rb + self.k_factor * (sb - eb)
+        k = self.k_factor if k_factor is None else k_factor
+        self.ratings[team_a] = ra + k * (sa - ea)
+        self.ratings[team_b] = rb + k * (sb - eb)
 
     def export_ratings(self):
         return dict(sorted(self.ratings.items(), key=lambda item: item[1], reverse=True))

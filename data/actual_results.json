@@ -1,0 +1,98 @@
+[
+  {
+    "team_a": "South Korea",
+    "team_b": "Czechia",
+    "score_a": 2,
+    "score_b": 1
+  },
+  {
+    "team_a": "Mexico",
+    "team_b": "South Africa",
+    "score_a": 2,
+    "score_b": 0
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Paraguay",
+    "score_a": 4,
+    "score_b": 1
+  },
+  {
+    "team_a": "Canada",
+    "team_b": "Bosnia and Herzegovina",
+    "score_a": 1,
+    "score_b": 1
+  },
+  {
+    "team_a": "Scotland",
+    "team_b": "Haiti",
+    "score_a": 1,
+    "score_b": 0
+  },
+  {
+    "team_a": "Qatar",
+    "team_b": "Switzerland",
+    "score_a": 1,
+    "score_b": 1
+  },
+  {
+    "team_a": "Brazil",
+    "team_b": "Morocco",
+    "score_a": 1,
+    "score_b": 1
+  },
+  {
+    "team_a": "Australia",
+    "team_b": "Türkiye",
+    "score_a": 2,
+    "score_b": 0
+  },
+  {
+    "team_a": "Sweden",
+    "team_b": "Tunisia",
+    "score_a": 5,
+    "score_b": 1
+  },
+  {
+    "team_a": "Japan",
+    "team_b": "Netherlands",
+    "score_a": 2,
+    "score_b": 2
+  },
+  {
+    "team_a": "Ivory Coast",
+    "team_b": "Ecuador",
+    "score_a": 1,
+    "score_b": 0
+  },
+  {
+    "team_a": "Germany",
+    "team_b": "Curaçao",
+    "score_a": 7,
+    "score_b": 1
+  },
+  {
+    "team_a": "Saudi Arabia",
+    "team_b": "Uruguay",
+    "score_a": 1,
+    "score_b": 1
+  },
+  {
+    "team_a": "Iran",
+    "team_b": "New Zealand",
+    "score_a": 2,
+    "score_b": 2
+  },
+  {
+    "team_a": "Cape Verde",
+    "team_b": "Spain",
+    "score_a": 0,
+    "score_b": 0
+  },
+  {
+    "team_a": "Belgium",
+    "team_b": "Egypt",
+    "score_a": 1,
+    "score_b": 1
+  }
+]

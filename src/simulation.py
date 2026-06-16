@@ -1,3 +1,4 @@
+import os
 import json
 import itertools
 import random
@@ -7,10 +8,28 @@ from src.poisson import win_prob_to_lambda, simulate_match_score
 
 
 class WorldCupSimulation:
-    def __init__(self, elo_system: EloSystem, groups_file: str = "data/groups.json"):
+    def __init__(self, elo_system: EloSystem, groups_file: str = "data/groups.json", actual_results_file: str = None):
         self.elo_system = elo_system
         with open(groups_file, "r", encoding="utf-8") as f:
             self.groups = json.load(f)
+
+        self.actual_results = {}
+        if actual_results_file and os.path.exists(actual_results_file):
+            with open(actual_results_file, "r", encoding="utf-8") as f:
+                try:
+                    results_list = json.load(f)
+                    for match in results_list:
+                        team_a = match["team_a"]
+                        team_b = match["team_b"]
+                        score_a = match["score_a"]
+                        score_b = match["score_b"]
+                        key = tuple(sorted([team_a, team_b]))
+                        self.actual_results[key] = {
+                            team_a: score_a,
+                            team_b: score_b
+                        }
+                except json.JSONDecodeError:
+                    pass
 
     def simulate_match(self, team_a: str, team_b: str):
         """두 팀의 1경기를 시뮬레이션하고 결과를 반환합니다."""
@@ -42,7 +61,12 @@ class WorldCupSimulation:
             matchups = list(itertools.combinations(teams, 2))
             
             for team_a, team_b in matchups:
-                score_a, score_b = self.simulate_match(team_a, team_b)
+                key = tuple(sorted([team_a, team_b]))
+                if key in self.actual_results:
+                    score_a = self.actual_results[key][team_a]
+                    score_b = self.actual_results[key][team_b]
+                else:
+                    score_a, score_b = self.simulate_match(team_a, team_b)
                 
                 # A팀 기록
                 stats[team_a]["gf"] += score_a
