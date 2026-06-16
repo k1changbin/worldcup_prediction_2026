@@ -165,29 +165,31 @@ class WorldCupSimulation:
         rating_a = self.elo_system.get_rating(team_a)
         rating_b = self.elo_system.get_rating(team_b)
 
-        # 1. 개최국 홈 우위 적용 (+70 ELO)
+        # 1. 개최국 홈 우위 적용 (+40 ELO)
         if home_advantage:
             is_host_a = team_a in HOST_COUNTRIES
             is_host_b = team_b in HOST_COUNTRIES
             if is_host_a and not is_host_b:
-                rating_a += 70
+                rating_a += 40
             elif is_host_b and not is_host_a:
-                rating_b += 70
+                rating_b += 40
 
-        # 2. 휴식일 체력 격차 보정 적용 (+15 ELO)
+        # 2. 휴식일 체력 격차 보정 적용 (하루당 +5, 최대 +30 ELO)
+        rest_bonus = min(abs(rest_days_diff) * 5, 30)
         if rest_days_diff >= 1:
-            rating_a += 15
+            rating_a += rest_bonus
         elif rest_days_diff <= -1:
-            rating_b += 15
+            rating_b += rest_bonus
 
         win_prob_a = self.elo_system.expected_score(rating_a, rating_b)
         lambda_a, lambda_b = win_prob_to_lambda(win_prob_a)
         
-        # 3. 부상 보정 배율 적용
+        # 3. 부상 보정 배율 적용 (get_injury_multipliers: attack_multiplier <= 1.0, defense_multiplier >= 1.0)
         att_mult_a, def_mult_a = self.get_injury_multipliers(team_a)
         att_mult_b, def_mult_b = self.get_injury_multipliers(team_b)
         
-        # 4. 이동 피로도(시차/이동 거리) 및 로테이션 보정 적용
+        # 4. 이동 피로도 및 로테이션 보정 적용
+        # A팀의 공격진이 다치면 A팀의 득점이 줄고(att_mult_a <= 1.0), B팀의 수비진이 다치면 A팀의 득점이 늘어납니다(def_mult_b >= 1.0).
         final_lambda_a = lambda_a * att_mult_a * def_mult_b * (1.0 - travel_fatigue_a)
         final_lambda_b = lambda_b * att_mult_b * def_mult_a * (1.0 - travel_fatigue_b)
         
