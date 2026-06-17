@@ -25,34 +25,81 @@ def draw_bar(pct, width=20):
     return "█" * filled + "░" * (width - filled)
 
 def get_injury_multipliers(team, injuries_dict):
-    from src.simulation import SQUAD_DEPTH_INDEX
-    
-    team_injuries = injuries_dict.get(team, [])
-    if not team_injuries:
+    squads_path = "data/squads.json"
+    squads = {}
+    if os.path.exists(squads_path):
+        with open(squads_path, "r", encoding="utf-8") as f:
+            try:
+                squads = json.load(f)
+            except json.JSONDecodeError:
+                pass
+                
+    raw_injuries = injuries_dict.get(team, [])
+    team_injuries = []
+    if isinstance(raw_injuries, list):
+        for item in raw_injuries:
+            if isinstance(item, dict):
+                team_injuries.append(item.get("name"))
+            else:
+                team_injuries.append(str(item))
+    else:
+        team_injuries = [str(raw_injuries)]
+    team_injuries = [n for n in team_injuries if n]
+
+    if not team_injuries or team not in squads:
         return 1.0, 1.0, []
-        
-    depth = SQUAD_DEPTH_INDEX.get(team, 1.0)
+
+    players = squads[team]
+    total_value = sum(p["value_eur"] for p in players)
+    if total_value == 0:
+        return 1.0, 1.0, []
+
+    # HHI
+    hhi = sum((p["value_eur"] / total_value) ** 2 for p in players)
+    min_hhi = 0.0385
+    max_hhi = 0.3000
+    norm_hhi = max(0.0, min(1.0, (hhi - min_hhi) / (max_hhi - min_hhi)))
+    depth_factor = 0.2 + 0.8 * norm_hhi
+
+    attack_total = 0.0
+    defense_total = 0.0
+    for p in players:
+        pos = p["position"]
+        val = p["value_eur"]
+        if pos in ["Goalkeeper", "Defender"]:
+            defense_total += val
+        else:
+            attack_total += val
+
     attack_reduction = 0.0
     defense_reduction = 0.0
-    
     details = []
-    for injury in team_injuries:
-        name = injury.get("name", "Unknown Player")
-        tier = injury.get("tier", "A")
-        pos = injury.get("position", "attack")
+
+    for player_name in team_injuries:
+        matched_player = None
+        for p in players:
+            if p["name"].strip().lower() == player_name.strip().lower():
+                matched_player = p
+                break
         
-        # S급: 15%, A급: 8%, B급: 4%
-        base = 0.15 if tier == "S" else (0.08 if tier == "A" else 0.04)
-        reduction = base * depth
-        
-        pos_str = "공격" if pos == "attack" else "수비"
-        details.append(f"{name} ({tier}급 {pos_str}결장, 누수율: {reduction*100:.1f}%)")
-        
-        if pos == "attack":
-            attack_reduction += reduction
-        elif pos == "defense":
-            defense_reduction += reduction
+        if matched_player:
+            pos = matched_player["position"]
+            val = matched_player["value_eur"]
+            pos_str = "수비" if pos in ["Goalkeeper", "Defender"] else "공격"
             
+            if pos in ["Goalkeeper", "Defender"]:
+                if defense_total > 0:
+                    share = val / defense_total
+                    reduction = share * depth_factor
+                    defense_reduction += reduction
+                    details.append(f"{matched_player['name']} ({pos_str}, 가치: €{val/1000000:.1f}M, 포지션 비중: {share*100:.1f}%, 누수율: {reduction*100:.1f}%)")
+            else:
+                if attack_total > 0:
+                    share = val / attack_total
+                    reduction = share * depth_factor
+                    attack_reduction += reduction
+                    details.append(f"{matched_player['name']} ({pos_str}, 가치: €{val/1000000:.1f}M, 포지션 비중: {share*100:.1f}%, 누수율: {reduction*100:.1f}%)")
+
     attack_multiplier = max(0.5, 1.0 - attack_reduction)
     defense_multiplier = min(2.0, 1.0 + defense_reduction)
     return attack_multiplier, defense_multiplier, details
@@ -131,7 +178,7 @@ def predict_match():
     rating_b = elo.get_rating(team_b)
     
     # 1. 개최국 홈 이점 적용 (+40 ELO)
-    from src.simulation import HOST_COUNTRIES, SQUAD_DEPTH_INDEX
+    from src.simulation import HOST_COUNTRIES
     is_host_a = team_a in HOST_COUNTRIES
     is_host_b = team_b in HOST_COUNTRIES
     home_adv_msg = ""
@@ -204,12 +251,31 @@ def predict_match():
     if details_a or details_b:
         print("-" * 55)
         print("[부상 정보 및 전력 누수 현황]")
+        squads_path = "data/squads.json"
+        squads = {}
+        if os.path.exists(squads_path):
+            with open(squads_path, "r", encoding="utf-8") as f:
+                try:
+                    squads = json.load(f)
+                except:
+                    pass
+        
         if details_a:
-            print(f" * {team_a} (뎁스 지수: {SQUAD_DEPTH_INDEX.get(team_a, 1.0):.2f}):")
+            players_a = squads.get(team_a, [])
+            total_val_a = sum(p["value_eur"] for p in players_a) / 1000000
+            hhi_a = sum((p["value_eur"] / (total_val_a * 1000000)) ** 2 for p in players_a) if total_val_a > 0 else 0
+            norm_hhi_a = max(0.0, min(1.0, (hhi_a - 0.0385) / (0.3 - 0.0385)))
+            dependency_a = 0.2 + 0.8 * norm_hhi_a
+            print(f" * {team_a} (스쿼드 가치: €{total_val_a:.1f}M, 에이스 의존도 계수: {dependency_a:.2f}):")
             for detail in details_a:
                 print(f"   - {detail}")
         if details_b:
-            print(f" * {team_b} (뎁스 지수: {SQUAD_DEPTH_INDEX.get(team_b, 1.0):.2f}):")
+            players_b = squads.get(team_b, [])
+            total_val_b = sum(p["value_eur"] for p in players_b) / 1000000
+            hhi_b = sum((p["value_eur"] / (total_val_b * 1000000)) ** 2 for p in players_b) if total_val_b > 0 else 0
+            norm_hhi_b = max(0.0, min(1.0, (hhi_b - 0.0385) / (0.3 - 0.0385)))
+            dependency_b = 0.2 + 0.8 * norm_hhi_b
+            print(f" * {team_b} (스쿼드 가치: €{total_val_b:.1f}M, 에이스 의존도 계수: {dependency_b:.2f}):")
             for detail in details_b:
                 print(f"   - {detail}")
                 
