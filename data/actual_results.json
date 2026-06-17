@@ -142,5 +142,41 @@
     "date": "2026-06-15",
     "stage": "group",
     "winner": null
+  },
+  {
+    "team_a": "Norway",
+    "team_b": "Iraq",
+    "score_a": 4,
+    "score_b": 1,
+    "date": "2026-06-16",
+    "stage": "group",
+    "winner": "Norway"
+  },
+  {
+    "team_a": "France",
+    "team_b": "Senegal",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-16",
+    "stage": "group",
+    "winner": "France"
+  },
+  {
+    "team_a": "Austria",
+    "team_b": "Jordan",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-16",
+    "stage": "group",
+    "winner": "Austria"
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Algeria",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-06-16",
+    "stage": "group",
+    "winner": "Argentina"
   }
 ]
