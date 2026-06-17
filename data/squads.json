@@ -1,0 +1,7586 @@
+{
+  "Czechia": [
+    {
+      "name": "Tomáš Souček",
+      "position": "Midfielder",
+      "caps": 90,
+      "value_eur": 44105212
+    },
+    {
+      "name": "Vladimír Darida",
+      "position": "Midfielder",
+      "caps": 79,
+      "value_eur": 22052606
+    },
+    {
+      "name": "Vladimír Coufal",
+      "position": "Defender",
+      "caps": 62,
+      "value_eur": 14701737
+    },
+    {
+      "name": "Patrik Schick",
+      "position": "Forward",
+      "caps": 53,
+      "value_eur": 11026303
+    },
+    {
+      "name": "Adam Hložek",
+      "position": "Forward",
+      "caps": 43,
+      "value_eur": 8821042
+    },
+    {
+      "name": "Tomáš Holeš",
+      "position": "Defender",
+      "caps": 41,
+      "value_eur": 7350868
+    },
+    {
+      "name": "Lukáš Provod",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 6300744
+    },
+    {
+      "name": "Michal Sadílek",
+      "position": "Midfielder",
+      "caps": 35,
+      "value_eur": 5513151
+    },
+    {
+      "name": "Jan Kuchta",
+      "position": "Forward",
+      "caps": 31,
+      "value_eur": 4900579
+    },
+    {
+      "name": "Ladislav Krejčí",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 4410521
+    },
+    {
+      "name": "David Zima",
+      "position": "Defender",
+      "caps": 25,
+      "value_eur": 4009564
+    },
+    {
+      "name": "Jaroslav Zelený",
+      "position": "Defender",
+      "caps": 23,
+      "value_eur": 3675434
+    },
+    {
+      "name": "Mojmír Chytil",
+      "position": "Forward",
+      "caps": 22,
+      "value_eur": 3392708
+    },
+    {
+      "name": "Tomáš Chorý",
+      "position": "Forward",
+      "caps": 22,
+      "value_eur": 3150372
+    },
+    {
+      "name": "Pavel Šulc",
+      "position": "Forward",
+      "caps": 21,
+      "value_eur": 2940347
+    },
+    {
+      "name": "Matěj Kovář",
+      "position": "Goalkeeper",
+      "caps": 20,
+      "value_eur": 2756575
+    },
+    {
+      "name": "David Jurásek",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 2594424
+    },
+    {
+      "name": "Lukáš Červ",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 2450289
+    },
+    {
+      "name": "David Douděra",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 2321326
+    },
+    {
+      "name": "Robin Hranáč",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 2205260
+    },
+    {
+      "name": "Jindřich Staněk",
+      "position": "Goalkeeper",
+      "caps": 14,
+      "value_eur": 2100248
+    },
+    {
+      "name": "Štěpán Chaloupek",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 2004782
+    },
+    {
+      "name": "Alexandr Sojka",
+      "position": "Midfielder",
+      "caps": 2,
+      "value_eur": 1917617
+    },
+    {
+      "name": "Denis Višinský",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 1837717
+    },
+    {
+      "name": "Lukáš Horníček",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 1764208
+    },
+    {
+      "name": "Hugo Sochůrek",
+      "position": "Midfielder",
+      "caps": 1,
+      "value_eur": 1696354
+    }
+  ],
+  "Mexico": [
+    {
+      "name": "Guillermo Ochoa",
+      "position": "Goalkeeper",
+      "caps": 152,
+      "value_eur": 354138910
+    },
+    {
+      "name": "Raúl Jiménez",
+      "position": "Forward",
+      "caps": 124,
+      "value_eur": 177069455
+    },
+    {
+      "name": "Jesús Gallardo",
+      "position": "Defender",
+      "caps": 121,
+      "value_eur": 118046303
+    },
+    {
+      "name": "Edson Álvarez",
+      "position": "Defender",
+      "caps": 98,
+      "value_eur": 88534727
+    },
+    {
+      "name": "Orbelín Pineda",
+      "position": "Midfielder",
+      "caps": 92,
+      "value_eur": 70827782
+    },
+    {
+      "name": "César Montes",
+      "position": "Defender",
+      "caps": 67,
+      "value_eur": 59023151
+    },
+    {
+      "name": "Roberto Alvarado",
+      "position": "Forward",
+      "caps": 67,
+      "value_eur": 50591272
+    },
+    {
+      "name": "Luis Romo",
+      "position": "Midfielder",
+      "caps": 63,
+      "value_eur": 44267363
+    },
+    {
+      "name": "Jorge Sánchez",
+      "position": "Defender",
+      "caps": 59,
+      "value_eur": 39348767
+    },
+    {
+      "name": "Alexis Vega",
+      "position": "Forward",
+      "caps": 52,
+      "value_eur": 35413891
+    },
+    {
+      "name": "Santiago Giménez",
+      "position": "Forward",
+      "caps": 47,
+      "value_eur": 32194446
+    },
+    {
+      "name": "Johan Vásquez",
+      "position": "Defender",
+      "caps": 46,
+      "value_eur": 29511575
+    },
+    {
+      "name": "Luis Chávez",
+      "position": "Midfielder",
+      "caps": 45,
+      "value_eur": 27241454
+    },
+    {
+      "name": "Israel Reyes",
+      "position": "Defender",
+      "caps": 34,
+      "value_eur": 25295636
+    },
+    {
+      "name": "César Huerta",
+      "position": "Forward",
+      "caps": 26,
+      "value_eur": 23609260
+    },
+    {
+      "name": "Érik Lira",
+      "position": "Midfielder",
+      "caps": 25,
+      "value_eur": 22133681
+    },
+    {
+      "name": "Julián Quiñones",
+      "position": "Forward",
+      "caps": 22,
+      "value_eur": 20831700
+    },
+    {
+      "name": "Raúl Rangel",
+      "position": "Goalkeeper",
+      "caps": 14,
+      "value_eur": 19674383
+    },
+    {
+      "name": "Guillermo Martínez",
+      "position": "Forward",
+      "caps": 12,
+      "value_eur": 18638890
+    },
+    {
+      "name": "Mateo Chávez",
+      "position": "Defender",
+      "caps": 10,
+      "value_eur": 17706945
+    },
+    {
+      "name": "Gilberto Mora",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 16863757
+    },
+    {
+      "name": "Carlos Acevedo",
+      "position": "Goalkeeper",
+      "caps": 7,
+      "value_eur": 16097223
+    },
+    {
+      "name": "Armando González",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 15397343
+    },
+    {
+      "name": "Brian Gutiérrez",
+      "position": "Midfielder",
+      "caps": 7,
+      "value_eur": 14755787
+    },
+    {
+      "name": "Obed Vargas",
+      "position": "Midfielder",
+      "caps": 6,
+      "value_eur": 14165556
+    },
+    {
+      "name": "Álvaro Fidalgo",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 13620727
+    }
+  ],
+  "South Africa": [
+    {
+      "name": "Ronwen Williams",
+      "position": "Goalkeeper",
+      "caps": 62,
+      "value_eur": 67143699
+    },
+    {
+      "name": "Themba Zwane",
+      "position": "Midfielder",
+      "caps": 54,
+      "value_eur": 33571849
+    },
+    {
+      "name": "Teboho Mokoena",
+      "position": "Midfielder",
+      "caps": 51,
+      "value_eur": 22381233
+    },
+    {
+      "name": "Aubrey Modiba",
+      "position": "Defender",
+      "caps": 44,
+      "value_eur": 16785924
+    },
+    {
+      "name": "Khuliso Mudau",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 13428739
+    },
+    {
+      "name": "Sphephelo Sithole",
+      "position": "Midfielder",
+      "caps": 28,
+      "value_eur": 11190616
+    },
+    {
+      "name": "Lyle Foster",
+      "position": "Forward",
+      "caps": 27,
+      "value_eur": 9591957
+    },
+    {
+      "name": "Oswin Appollis",
+      "position": "Forward",
+      "caps": 26,
+      "value_eur": 8392962
+    },
+    {
+      "name": "Evidence Makgopa",
+      "position": "Forward",
+      "caps": 26,
+      "value_eur": 7460411
+    },
+    {
+      "name": "Nkosinathi Sibisi",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 6714369
+    },
+    {
+      "name": "Thalente Mbatha",
+      "position": "Midfielder",
+      "caps": 15,
+      "value_eur": 6103972
+    },
+    {
+      "name": "Iqraam Rayners",
+      "position": "Forward",
+      "caps": 14,
+      "value_eur": 5595308
+    },
+    {
+      "name": "Relebohile Mofokeng",
+      "position": "Forward",
+      "caps": 13,
+      "value_eur": 5164899
+    },
+    {
+      "name": "Tshepang Moremi",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 4795978
+    },
+    {
+      "name": "Thapelo Maseko",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 4476246
+    },
+    {
+      "name": "Mbekezeli Mbokazi",
+      "position": "Defender",
+      "caps": 10,
+      "value_eur": 4196481
+    },
+    {
+      "name": "Ime Okon",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 3949629
+    },
+    {
+      "name": "Samukele Kabini",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 3730205
+    },
+    {
+      "name": "Khulumani Ndamane",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 3533878
+    },
+    {
+      "name": "Ricardo Goss",
+      "position": "Goalkeeper",
+      "caps": 5,
+      "value_eur": 3357184
+    },
+    {
+      "name": "Jayden Adams",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 3197319
+    },
+    {
+      "name": "Sipho Chaine",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 3051986
+    },
+    {
+      "name": "Thabang Matuludi",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 2919291
+    },
+    {
+      "name": "Kamogelo Sebelebele",
+      "position": "Forward",
+      "caps": 3,
+      "value_eur": 2797654
+    },
+    {
+      "name": "Olwethu Makhanya",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 2685747
+    },
+    {
+      "name": "Bradley Cross",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 2582449
+    }
+  ],
+  "South Korea": [
+    {
+      "name": "Kim Min-jae",
+      "position": "Defender",
+      "caps": 79,
+      "value_eur": 60000000
+    },
+    {
+      "name": "Son Heung-min",
+      "position": "Forward",
+      "caps": 144,
+      "value_eur": 50000000
+    },
+    {
+      "name": "Hwang Hee-chan",
+      "position": "Forward",
+      "caps": 79,
+      "value_eur": 25000000
+    },
+    {
+      "name": "Lee Kang-in",
+      "position": "Midfielder",
+      "caps": 47,
+      "value_eur": 25000000
+    },
+    {
+      "name": "Lee Jae-sung",
+      "position": "Midfielder",
+      "caps": 105,
+      "value_eur": 203207247
+    },
+    {
+      "name": "Kim Seung-gyu",
+      "position": "Goalkeeper",
+      "caps": 87,
+      "value_eur": 101603623
+    },
+    {
+      "name": "Hwang In-beom",
+      "position": "Midfielder",
+      "caps": 73,
+      "value_eur": 67735749
+    },
+    {
+      "name": "Jo Hyeon-woo",
+      "position": "Goalkeeper",
+      "caps": 48,
+      "value_eur": 50801811
+    },
+    {
+      "name": "Cho Gue-sung",
+      "position": "Forward",
+      "caps": 44,
+      "value_eur": 40641449
+    },
+    {
+      "name": "Kim Moon-hwan",
+      "position": "Defender",
+      "caps": 35,
+      "value_eur": 33867874
+    },
+    {
+      "name": "Seol Young-woo",
+      "position": "Defender",
+      "caps": 34,
+      "value_eur": 29029606
+    },
+    {
+      "name": "Paik Seung-ho",
+      "position": "Midfielder",
+      "caps": 27,
+      "value_eur": 25400905
+    },
+    {
+      "name": "Oh Hyeon-gyu",
+      "position": "Forward",
+      "caps": 27,
+      "value_eur": 22578583
+    },
+    {
+      "name": "Kim Jin-gyu",
+      "position": "Midfielder",
+      "caps": 22,
+      "value_eur": 20320724
+    },
+    {
+      "name": "Lee Dong-gyeong",
+      "position": "Midfielder",
+      "caps": 18,
+      "value_eur": 18473386
+    },
+    {
+      "name": "Lee Tae-seok",
+      "position": "Defender",
+      "caps": 15,
+      "value_eur": 16933937
+    },
+    {
+      "name": "Park Jin-seob",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 15631326
+    },
+    {
+      "name": "Bae Jun-ho",
+      "position": "Midfielder",
+      "caps": 13,
+      "value_eur": 14514803
+    },
+    {
+      "name": "Yang Hyun-jun",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 13547149
+    },
+    {
+      "name": "Eom Ji-sung",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 12700452
+    },
+    {
+      "name": "Lee Han-beom",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 11953367
+    },
+    {
+      "name": "Kim Tae-hyeon",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 11289291
+    },
+    {
+      "name": "Jens Castrop",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 10695118
+    },
+    {
+      "name": "Lee Gi-hyuk",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 10160362
+    },
+    {
+      "name": "Song Bum-keun",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 9676535
+    },
+    {
+      "name": "Cho Yu-min",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 9236693
+    }
+  ],
+  "Bosnia and Herzegovina": [
+    {
+      "name": "Edin Džeko",
+      "position": "Forward",
+      "caps": 148,
+      "value_eur": 88936863
+    },
+    {
+      "name": "Sead Kolašinac",
+      "position": "Defender",
+      "caps": 65,
+      "value_eur": 44468431
+    },
+    {
+      "name": "Ermedin Demirović",
+      "position": "Forward",
+      "caps": 40,
+      "value_eur": 29645621
+    },
+    {
+      "name": "Amir Hadžiahmetović",
+      "position": "Midfielder",
+      "caps": 36,
+      "value_eur": 22234215
+    },
+    {
+      "name": "Dennis Hadžikadunić",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 17787372
+    },
+    {
+      "name": "Benjamin Tahirović",
+      "position": "Midfielder",
+      "caps": 28,
+      "value_eur": 14822810
+    },
+    {
+      "name": "Amar Dedić",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 12705266
+    },
+    {
+      "name": "Nikola Vasilj",
+      "position": "Goalkeeper",
+      "caps": 26,
+      "value_eur": 11117107
+    },
+    {
+      "name": "Armin Gigović",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 9881873
+    },
+    {
+      "name": "Dženis Burnić",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 8893686
+    },
+    {
+      "name": "Ivan Bašić",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 8085169
+    },
+    {
+      "name": "Nikola Katić",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 7411405
+    },
+    {
+      "name": "Esmir Bajraktarević",
+      "position": "Forward",
+      "caps": 16,
+      "value_eur": 6841297
+    },
+    {
+      "name": "Tarik Muharemović",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 6352633
+    },
+    {
+      "name": "Samed Baždar",
+      "position": "Forward",
+      "caps": 13,
+      "value_eur": 5929124
+    },
+    {
+      "name": "Amar Memić",
+      "position": "Midfielder",
+      "caps": 13,
+      "value_eur": 5558553
+    },
+    {
+      "name": "Nihad Mujakić",
+      "position": "Defender",
+      "caps": 12,
+      "value_eur": 5231580
+    },
+    {
+      "name": "Ivan Šunjić",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 4940936
+    },
+    {
+      "name": "Kerim Alajbegović",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 4680887
+    },
+    {
+      "name": "Haris Tabaković",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 4446843
+    },
+    {
+      "name": "Nidal Čelik",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 4235088
+    },
+    {
+      "name": "Stjepan Radeljić",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 4042584
+    },
+    {
+      "name": "Martin Zlomislić",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 3866820
+    },
+    {
+      "name": "Jovo Lukić",
+      "position": "Forward",
+      "caps": 3,
+      "value_eur": 3705702
+    },
+    {
+      "name": "Ermin Mahmić",
+      "position": "Midfielder",
+      "caps": 2,
+      "value_eur": 3557474
+    },
+    {
+      "name": "Osman Hadžikić",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 3420648
+    }
+  ],
+  "Canada": [
+    {
+      "name": "Jonathan David",
+      "position": "Forward",
+      "caps": 77,
+      "value_eur": 50000000
+    },
+    {
+      "name": "Alphonso Davies",
+      "position": "Defender",
+      "caps": 58,
+      "value_eur": 50000000
+    },
+    {
+      "name": "Cyle Larin",
+      "position": "Forward",
+      "caps": 90,
+      "value_eur": 164196733
+    },
+    {
+      "name": "Jonathan Osorio",
+      "position": "Midfielder",
+      "caps": 90,
+      "value_eur": 82098366
+    },
+    {
+      "name": "Richie Laryea",
+      "position": "Defender",
+      "caps": 75,
+      "value_eur": 54732244
+    },
+    {
+      "name": "Tajon Buchanan",
+      "position": "Forward",
+      "caps": 60,
+      "value_eur": 41049183
+    },
+    {
+      "name": "Alistair Johnston",
+      "position": "Defender",
+      "caps": 58,
+      "value_eur": 32839346
+    },
+    {
+      "name": "Stephen Eustáquio",
+      "position": "Midfielder",
+      "caps": 56,
+      "value_eur": 27366122
+    },
+    {
+      "name": "Derek Cornelius",
+      "position": "Defender",
+      "caps": 44,
+      "value_eur": 23456676
+    },
+    {
+      "name": "Liam Millar",
+      "position": "Midfielder",
+      "caps": 41,
+      "value_eur": 20524591
+    },
+    {
+      "name": "Ismaël Koné",
+      "position": "Midfielder",
+      "caps": 40,
+      "value_eur": 18244081
+    },
+    {
+      "name": "Maxime Crépeau",
+      "position": "Goalkeeper",
+      "caps": 32,
+      "value_eur": 16419673
+    },
+    {
+      "name": "Jacob Shaffelburg",
+      "position": "Midfielder",
+      "caps": 31,
+      "value_eur": 14926975
+    },
+    {
+      "name": "Tani Oluwaseyi",
+      "position": "Forward",
+      "caps": 24,
+      "value_eur": 13683061
+    },
+    {
+      "name": "Ali Ahmed",
+      "position": "Forward",
+      "caps": 24,
+      "value_eur": 12630517
+    },
+    {
+      "name": "Mathieu Choinière",
+      "position": "Midfielder",
+      "caps": 23,
+      "value_eur": 11728338
+    },
+    {
+      "name": "Dayne St. Clair",
+      "position": "Goalkeeper",
+      "caps": 20,
+      "value_eur": 10946448
+    },
+    {
+      "name": "Moïse Bombito",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 10262295
+    },
+    {
+      "name": "Niko Sigur",
+      "position": "Defender",
+      "caps": 19,
+      "value_eur": 9658631
+    },
+    {
+      "name": "Joel Waterman",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 9122040
+    },
+    {
+      "name": "Nathan Saliba",
+      "position": "Midfielder",
+      "caps": 15,
+      "value_eur": 8641933
+    },
+    {
+      "name": "Marcelo Flores",
+      "position": "Forward",
+      "caps": 14,
+      "value_eur": 8209836
+    },
+    {
+      "name": "Luc de Fougerolles",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 7818892
+    },
+    {
+      "name": "Promise David",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 7463487
+    },
+    {
+      "name": "Alfie Jones",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 7138988
+    },
+    {
+      "name": "Owen Goodman",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 6841530
+    }
+  ],
+  "Qatar": [
+    {
+      "name": "Hassan Al-Haydos",
+      "position": "Forward",
+      "caps": 186,
+      "value_eur": 53860247
+    },
+    {
+      "name": "Akram Afif",
+      "position": "Forward",
+      "caps": 125,
+      "value_eur": 26930123
+    },
+    {
+      "name": "Karim Boudiaf",
+      "position": "Midfielder",
+      "caps": 118,
+      "value_eur": 17953415
+    },
+    {
+      "name": "Abdulaziz Hatem",
+      "position": "Midfielder",
+      "caps": 117,
+      "value_eur": 13465061
+    },
+    {
+      "name": "Boualem Khoukhi",
+      "position": "Defender",
+      "caps": 116,
+      "value_eur": 10772049
+    },
+    {
+      "name": "Almoez Ali",
+      "position": "Forward",
+      "caps": 115,
+      "value_eur": 8976707
+    },
+    {
+      "name": "Pedro Miguel",
+      "position": "Defender",
+      "caps": 105,
+      "value_eur": 7694321
+    },
+    {
+      "name": "Ahmed Alaaeldin",
+      "position": "Forward",
+      "caps": 68,
+      "value_eur": 6732530
+    },
+    {
+      "name": "Homam Ahmed",
+      "position": "Defender",
+      "caps": 68,
+      "value_eur": 5984471
+    },
+    {
+      "name": "Mohammed Muntari",
+      "position": "Forward",
+      "caps": 67,
+      "value_eur": 5386024
+    },
+    {
+      "name": "Meshaal Barsham",
+      "position": "Goalkeeper",
+      "caps": 52,
+      "value_eur": 4896386
+    },
+    {
+      "name": "Assim Madibo",
+      "position": "Midfielder",
+      "caps": 51,
+      "value_eur": 4488353
+    },
+    {
+      "name": "Ahmed Fathy",
+      "position": "Midfielder",
+      "caps": 48,
+      "value_eur": 4143095
+    },
+    {
+      "name": "Yusuf Abdurisag",
+      "position": "Forward",
+      "caps": 39,
+      "value_eur": 3847160
+    },
+    {
+      "name": "Jassem Gaber",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 3590683
+    },
+    {
+      "name": "Lucas Mendes",
+      "position": "Defender",
+      "caps": 25,
+      "value_eur": 3366265
+    },
+    {
+      "name": "Sultan Al-Brake",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 3168249
+    },
+    {
+      "name": "Edmilson Junior",
+      "position": "Forward",
+      "caps": 16,
+      "value_eur": 2992235
+    },
+    {
+      "name": "Ahmed Al-Ganehi",
+      "position": "Midfielder",
+      "caps": 13,
+      "value_eur": 2834749
+    },
+    {
+      "name": "Mohamed Manai",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 2693012
+    },
+    {
+      "name": "Salah Zakaria",
+      "position": "Goalkeeper",
+      "caps": 8,
+      "value_eur": 2564773
+    },
+    {
+      "name": "Al-Hashmi Al-Hussain",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 2448193
+    },
+    {
+      "name": "Ayoub Al-Oui",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 2341749
+    },
+    {
+      "name": "Mahmud Abunada",
+      "position": "Goalkeeper",
+      "caps": 5,
+      "value_eur": 2244176
+    },
+    {
+      "name": "Issa Laye",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 2154409
+    },
+    {
+      "name": "Tahsin Jamshid",
+      "position": "Forward",
+      "caps": 3,
+      "value_eur": 2071547
+    }
+  ],
+  "Switzerland": [
+    {
+      "name": "Granit Xhaka",
+      "position": "Midfielder",
+      "caps": 146,
+      "value_eur": 291872728
+    },
+    {
+      "name": "Ricardo Rodriguez",
+      "position": "Defender",
+      "caps": 138,
+      "value_eur": 145936364
+    },
+    {
+      "name": "Remo Freuler",
+      "position": "Midfielder",
+      "caps": 88,
+      "value_eur": 97290909
+    },
+    {
+      "name": "Breel Embolo",
+      "position": "Forward",
+      "caps": 86,
+      "value_eur": 72968182
+    },
+    {
+      "name": "Manuel Akanji",
+      "position": "Defender",
+      "caps": 81,
+      "value_eur": 58374545
+    },
+    {
+      "name": "Nico Elvedi",
+      "position": "Defender",
+      "caps": 67,
+      "value_eur": 48645454
+    },
+    {
+      "name": "Denis Zakaria",
+      "position": "Midfielder",
+      "caps": 65,
+      "value_eur": 41696104
+    },
+    {
+      "name": "Rubén Vargas",
+      "position": "Forward",
+      "caps": 61,
+      "value_eur": 36484091
+    },
+    {
+      "name": "Silvan Widmer",
+      "position": "Defender",
+      "caps": 60,
+      "value_eur": 32430303
+    },
+    {
+      "name": "Djibril Sow",
+      "position": "Midfielder",
+      "caps": 52,
+      "value_eur": 29187272
+    },
+    {
+      "name": "Michel Aebischer",
+      "position": "Midfielder",
+      "caps": 40,
+      "value_eur": 26533884
+    },
+    {
+      "name": "Dan Ndoye",
+      "position": "Forward",
+      "caps": 31,
+      "value_eur": 24322727
+    },
+    {
+      "name": "Zeki Amdouni",
+      "position": "Forward",
+      "caps": 29,
+      "value_eur": 22451748
+    },
+    {
+      "name": "Fabian Rieder",
+      "position": "Midfielder",
+      "caps": 28,
+      "value_eur": 20848052
+    },
+    {
+      "name": "Noah Okafor",
+      "position": "Forward",
+      "caps": 25,
+      "value_eur": 19458181
+    },
+    {
+      "name": "Christian Fassnacht",
+      "position": "Forward",
+      "caps": 23,
+      "value_eur": 18242045
+    },
+    {
+      "name": "Eray Cömert",
+      "position": "Defender",
+      "caps": 22,
+      "value_eur": 17168984
+    },
+    {
+      "name": "Gregor Kobel",
+      "position": "Goalkeeper",
+      "caps": 21,
+      "value_eur": 16215151
+    },
+    {
+      "name": "Cedric Itten",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 15361722
+    },
+    {
+      "name": "Yvon Mvogo",
+      "position": "Goalkeeper",
+      "caps": 13,
+      "value_eur": 14593636
+    },
+    {
+      "name": "Johan Manzambi",
+      "position": "Midfielder",
+      "caps": 12,
+      "value_eur": 13898701
+    },
+    {
+      "name": "Miro Muheim",
+      "position": "Defender",
+      "caps": 10,
+      "value_eur": 13266942
+    },
+    {
+      "name": "Ardon Jashari",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 12690118
+    },
+    {
+      "name": "Aurèle Amenda",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 12161363
+    },
+    {
+      "name": "Luca Jaquez",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 11674909
+    },
+    {
+      "name": "Marvin Keller",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 11225874
+    }
+  ],
+  "Brazil": [
+    {
+      "name": "Alisson",
+      "position": "Goalkeeper",
+      "caps": 78,
+      "value_eur": 28000000
+    },
+    {
+      "name": "Gabriel Magalhães",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 70000000
+    },
+    {
+      "name": "Vinícius Júnior",
+      "position": "Forward",
+      "caps": 49,
+      "value_eur": 150000000
+    },
+    {
+      "name": "Bruno Guimarães",
+      "position": "Midfielder",
+      "caps": 43,
+      "value_eur": 85000000
+    },
+    {
+      "name": "Neymar",
+      "position": "Forward",
+      "caps": 128,
+      "value_eur": 413729955
+    },
+    {
+      "name": "Marquinhos",
+      "position": "Defender",
+      "caps": 105,
+      "value_eur": 206864977
+    },
+    {
+      "name": "Casemiro",
+      "position": "Midfielder",
+      "caps": 86,
+      "value_eur": 137909985
+    },
+    {
+      "name": "Danilo Luiz",
+      "position": "Defender",
+      "caps": 70,
+      "value_eur": 103432488
+    },
+    {
+      "name": "Lucas Paquetá",
+      "position": "Midfielder",
+      "caps": 63,
+      "value_eur": 82745991
+    },
+    {
+      "name": "Alex Sandro",
+      "position": "Defender",
+      "caps": 45,
+      "value_eur": 68954992
+    },
+    {
+      "name": "Raphinha",
+      "position": "Forward",
+      "caps": 39,
+      "value_eur": 59104279
+    },
+    {
+      "name": "Fabinho",
+      "position": "Midfielder",
+      "caps": 33,
+      "value_eur": 51716244
+    },
+    {
+      "name": "Ederson Moraes",
+      "position": "Goalkeeper",
+      "caps": 32,
+      "value_eur": 45969995
+    },
+    {
+      "name": "Matheus Cunha",
+      "position": "Forward",
+      "caps": 23,
+      "value_eur": 41372995
+    },
+    {
+      "name": "Gabriel Martinelli",
+      "position": "Forward",
+      "caps": 23,
+      "value_eur": 37611814
+    },
+    {
+      "name": "Endrick",
+      "position": "Forward",
+      "caps": 17,
+      "value_eur": 34477496
+    },
+    {
+      "name": "Luiz Henrique",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 31825381
+    },
+    {
+      "name": "Weverton",
+      "position": "Goalkeeper",
+      "caps": 11,
+      "value_eur": 29552139
+    },
+    {
+      "name": "Bremer",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 27581997
+    },
+    {
+      "name": "Douglas Santos",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 25858122
+    },
+    {
+      "name": "Roger Ibañez",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 24337056
+    },
+    {
+      "name": "Léo Pereira",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 22984997
+    },
+    {
+      "name": "Danilo Santos",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 21775260
+    },
+    {
+      "name": "Igor Thiago",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 20686497
+    },
+    {
+      "name": "Wesley",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 19701426
+    },
+    {
+      "name": "Rayan",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 18805907
+    }
+  ],
+  "Haiti": [
+    {
+      "name": "Johny Placide",
+      "position": "Goalkeeper",
+      "caps": 82,
+      "value_eur": 72332548
+    },
+    {
+      "name": "Duckens Nazon",
+      "position": "Forward",
+      "caps": 82,
+      "value_eur": 36166274
+    },
+    {
+      "name": "Ricardo Adé",
+      "position": "Defender",
+      "caps": 59,
+      "value_eur": 24110849
+    },
+    {
+      "name": "Carlens Arcus",
+      "position": "Defender",
+      "caps": 56,
+      "value_eur": 18083137
+    },
+    {
+      "name": "Derrick Etienne Jr.",
+      "position": "Forward",
+      "caps": 51,
+      "value_eur": 14466509
+    },
+    {
+      "name": "Frantzdy Pierrot",
+      "position": "Forward",
+      "caps": 51,
+      "value_eur": 12055424
+    },
+    {
+      "name": "Louicius Deedson",
+      "position": "Forward",
+      "caps": 32,
+      "value_eur": 10333221
+    },
+    {
+      "name": "Danley Jean Jacques",
+      "position": "Midfielder",
+      "caps": 31,
+      "value_eur": 9041568
+    },
+    {
+      "name": "Carl Sainté",
+      "position": "Midfielder",
+      "caps": 26,
+      "value_eur": 8036949
+    },
+    {
+      "name": "Martin Expérience",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 7233254
+    },
+    {
+      "name": "Jean-Kévin Duverne",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 6575686
+    },
+    {
+      "name": "Alexandre Pierre",
+      "position": "Goalkeeper",
+      "caps": 16,
+      "value_eur": 6027712
+    },
+    {
+      "name": "Duke Lacroix",
+      "position": "Defender",
+      "caps": 16,
+      "value_eur": 5564042
+    },
+    {
+      "name": "Leverton Pierre",
+      "position": "Defender",
+      "caps": 16,
+      "value_eur": 5166610
+    },
+    {
+      "name": "Ruben Providence",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 4822169
+    },
+    {
+      "name": "Jean-Ricner Bellegarde",
+      "position": "Midfielder",
+      "caps": 10,
+      "value_eur": 4520784
+    },
+    {
+      "name": "Wilguens Paugain",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 4254855
+    },
+    {
+      "name": "Hannes Delcroix",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 4018474
+    },
+    {
+      "name": "Josué Casimir",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 3806976
+    },
+    {
+      "name": "Josué Duverger",
+      "position": "Goalkeeper",
+      "caps": 7,
+      "value_eur": 3616627
+    },
+    {
+      "name": "Wilson Isidor",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 3444407
+    },
+    {
+      "name": "Yassin Fortuné",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 3287843
+    },
+    {
+      "name": "Lenny Joseph",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 3144893
+    },
+    {
+      "name": "Dominique Simon",
+      "position": "Midfielder",
+      "caps": 2,
+      "value_eur": 3013856
+    },
+    {
+      "name": "Keeto Thermoncy",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 2893301
+    },
+    {
+      "name": "Woodensky Pierre",
+      "position": "Midfielder",
+      "caps": 1,
+      "value_eur": 2782021
+    }
+  ],
+  "Morocco": [
+    {
+      "name": "Achraf Hakimi",
+      "position": "Defender",
+      "caps": 96,
+      "value_eur": 194581819
+    },
+    {
+      "name": "Yassine Bounou",
+      "position": "Goalkeeper",
+      "caps": 90,
+      "value_eur": 97290909
+    },
+    {
+      "name": "Sofyan Amrabat",
+      "position": "Midfielder",
+      "caps": 75,
+      "value_eur": 64860606
+    },
+    {
+      "name": "Ayoub El Kaabi",
+      "position": "Forward",
+      "caps": 71,
+      "value_eur": 48645454
+    },
+    {
+      "name": "Munir Mohamedi",
+      "position": "Goalkeeper",
+      "caps": 52,
+      "value_eur": 38916363
+    },
+    {
+      "name": "Azzedine Ounahi",
+      "position": "Midfielder",
+      "caps": 49,
+      "value_eur": 32430303
+    },
+    {
+      "name": "Noussair Mazraoui",
+      "position": "Defender",
+      "caps": 45,
+      "value_eur": 27797402
+    },
+    {
+      "name": "Soufiane Rahimi",
+      "position": "Forward",
+      "caps": 37,
+      "value_eur": 24322727
+    },
+    {
+      "name": "Bilal El Khannouss",
+      "position": "Midfielder",
+      "caps": 37,
+      "value_eur": 21620202
+    },
+    {
+      "name": "Ismael Saibari",
+      "position": "Midfielder",
+      "caps": 30,
+      "value_eur": 19458181
+    },
+    {
+      "name": "Brahim Díaz",
+      "position": "Forward",
+      "caps": 26,
+      "value_eur": 17689256
+    },
+    {
+      "name": "Youssef Belammari",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 16215151
+    },
+    {
+      "name": "Neil El Aynaoui",
+      "position": "Midfielder",
+      "caps": 16,
+      "value_eur": 14967832
+    },
+    {
+      "name": "Anass Salah-Eddine",
+      "position": "Defender",
+      "caps": 9,
+      "value_eur": 13898701
+    },
+    {
+      "name": "Nayef Aguerd",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 12972121
+    },
+    {
+      "name": "Chadi Riad",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 12161363
+    },
+    {
+      "name": "Chemsdine Talbi",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 11445989
+    },
+    {
+      "name": "Issa Diop",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 10810101
+    },
+    {
+      "name": "Samir El Mourabet",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 10241148
+    },
+    {
+      "name": "Gessime Yassine",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 9729090
+    },
+    {
+      "name": "Ayyoub Bouaddi",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 9265800
+    },
+    {
+      "name": "Zakaria El Ouahdi",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 8844628
+    },
+    {
+      "name": "Ahmed Reda Tagnaouti",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 8460079
+    },
+    {
+      "name": "Redouane Halhal",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 8107575
+    },
+    {
+      "name": "Abde Ezzalzouli",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 7783272
+    },
+    {
+      "name": "Ayoube Amaimouni",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 7483916
+    }
+  ],
+  "Scotland": [
+    {
+      "name": "Andy Robertson",
+      "position": "Defender",
+      "caps": 94,
+      "value_eur": 256848001
+    },
+    {
+      "name": "John McGinn",
+      "position": "Midfielder",
+      "caps": 86,
+      "value_eur": 128424000
+    },
+    {
+      "name": "Craig Gordon",
+      "position": "Goalkeeper",
+      "caps": 84,
+      "value_eur": 85616000
+    },
+    {
+      "name": "Scott McTominay",
+      "position": "Midfielder",
+      "caps": 70,
+      "value_eur": 64212000
+    },
+    {
+      "name": "Grant Hanley",
+      "position": "Defender",
+      "caps": 68,
+      "value_eur": 51369600
+    },
+    {
+      "name": "Ryan Christie",
+      "position": "Midfielder",
+      "caps": 68,
+      "value_eur": 42808000
+    },
+    {
+      "name": "Kenny McLean",
+      "position": "Midfielder",
+      "caps": 58,
+      "value_eur": 36692571
+    },
+    {
+      "name": "Kieran Tierney",
+      "position": "Defender",
+      "caps": 56,
+      "value_eur": 32106000
+    },
+    {
+      "name": "Lyndon Dykes",
+      "position": "Forward",
+      "caps": 51,
+      "value_eur": 28538666
+    },
+    {
+      "name": "Scott McKenna",
+      "position": "Defender",
+      "caps": 50,
+      "value_eur": 25684800
+    },
+    {
+      "name": "Ché Adams",
+      "position": "Forward",
+      "caps": 47,
+      "value_eur": 23349818
+    },
+    {
+      "name": "Jack Hendry",
+      "position": "Defender",
+      "caps": 38,
+      "value_eur": 21404000
+    },
+    {
+      "name": "Anthony Ralston",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 19757538
+    },
+    {
+      "name": "Nathan Patterson",
+      "position": "Defender",
+      "caps": 26,
+      "value_eur": 18346285
+    },
+    {
+      "name": "John Souttar",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 17123200
+    },
+    {
+      "name": "Lewis Ferguson",
+      "position": "Midfielder",
+      "caps": 24,
+      "value_eur": 16053000
+    },
+    {
+      "name": "Angus Gunn",
+      "position": "Goalkeeper",
+      "caps": 22,
+      "value_eur": 15108705
+    },
+    {
+      "name": "Aaron Hickey",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 14269333
+    },
+    {
+      "name": "Lawrence Shankland",
+      "position": "Forward",
+      "caps": 20,
+      "value_eur": 13518315
+    },
+    {
+      "name": "Ben Gannon-Doak",
+      "position": "Forward",
+      "caps": 14,
+      "value_eur": 12842400
+    },
+    {
+      "name": "George Hirst",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 12230857
+    },
+    {
+      "name": "Dominic Hyam",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 11674909
+    },
+    {
+      "name": "Liam Kelly",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 11167304
+    },
+    {
+      "name": "Ross Stewart",
+      "position": "Forward",
+      "caps": 3,
+      "value_eur": 10702000
+    },
+    {
+      "name": "Findlay Curtis",
+      "position": "Forward",
+      "caps": 3,
+      "value_eur": 10273920
+    },
+    {
+      "name": "Billy Gilmour",
+      "position": "Midfielder",
+      "caps": 2,
+      "value_eur": 9878769
+    }
+  ],
+  "Australia": [
+    {
+      "name": "Mathew Ryan",
+      "position": "Goalkeeper",
+      "caps": 104,
+      "value_eur": 190690182
+    },
+    {
+      "name": "Aziz Behich",
+      "position": "Defender",
+      "caps": 84,
+      "value_eur": 95345091
+    },
+    {
+      "name": "Jackson Irvine",
+      "position": "Midfielder",
+      "caps": 82,
+      "value_eur": 63563394
+    },
+    {
+      "name": "Mathew Leckie",
+      "position": "Forward",
+      "caps": 80,
+      "value_eur": 47672545
+    },
+    {
+      "name": "Miloš Degenek",
+      "position": "Defender",
+      "caps": 57,
+      "value_eur": 38138036
+    },
+    {
+      "name": "Awer Mabil",
+      "position": "Forward",
+      "caps": 38,
+      "value_eur": 31781697
+    },
+    {
+      "name": "Harry Souttar",
+      "position": "Defender",
+      "caps": 38,
+      "value_eur": 27241454
+    },
+    {
+      "name": "Ajdin Hrustic",
+      "position": "Forward",
+      "caps": 37,
+      "value_eur": 23836272
+    },
+    {
+      "name": "Connor Metcalfe",
+      "position": "Midfielder",
+      "caps": 36,
+      "value_eur": 21187798
+    },
+    {
+      "name": "Aiden O'Neill",
+      "position": "Midfielder",
+      "caps": 31,
+      "value_eur": 19069018
+    },
+    {
+      "name": "Jordan Bos",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 17335471
+    },
+    {
+      "name": "Cameron Burgess",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 15890848
+    },
+    {
+      "name": "Nestory Irankunda",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 14668475
+    },
+    {
+      "name": "Jason Geria",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 13620727
+    },
+    {
+      "name": "Alessandro Circati",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 12712678
+    },
+    {
+      "name": "Mohamed Touré",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 11918136
+    },
+    {
+      "name": "Nishan Velupillay",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 11217069
+    },
+    {
+      "name": "Kai Trewin",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 10593899
+    },
+    {
+      "name": "Paul Okon-Engstler",
+      "position": "Midfielder",
+      "caps": 6,
+      "value_eur": 10036325
+    },
+    {
+      "name": "Jacob Italiano",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 9534509
+    },
+    {
+      "name": "Cammy Devlin",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 9080484
+    },
+    {
+      "name": "Paul Izzo",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 8667735
+    },
+    {
+      "name": "Lucas Herrington",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 8290877
+    },
+    {
+      "name": "Patrick Beach",
+      "position": "Goalkeeper",
+      "caps": 2,
+      "value_eur": 7945424
+    },
+    {
+      "name": "Cristian Volpato",
+      "position": "Forward",
+      "caps": 1,
+      "value_eur": 7627607
+    },
+    {
+      "name": "Tete Yengi",
+      "position": "Forward",
+      "caps": 1,
+      "value_eur": 7334237
+    }
+  ],
+  "Paraguay": [
+    {
+      "name": "Gustavo Gómez",
+      "position": "Defender",
+      "caps": 89,
+      "value_eur": 220526061
+    },
+    {
+      "name": "Miguel Almirón",
+      "position": "Midfielder",
+      "caps": 76,
+      "value_eur": 110263030
+    },
+    {
+      "name": "Júnior Alonso",
+      "position": "Defender",
+      "caps": 71,
+      "value_eur": 73508687
+    },
+    {
+      "name": "Fabián Balbuena",
+      "position": "Defender",
+      "caps": 48,
+      "value_eur": 55131515
+    },
+    {
+      "name": "Antonio Sanabria",
+      "position": "Forward",
+      "caps": 48,
+      "value_eur": 44105212
+    },
+    {
+      "name": "Omar Alderete",
+      "position": "Defender",
+      "caps": 36,
+      "value_eur": 36754343
+    },
+    {
+      "name": "Andrés Cubas",
+      "position": "Midfielder",
+      "caps": 33,
+      "value_eur": 31503723
+    },
+    {
+      "name": "Kaku",
+      "position": "Forward",
+      "caps": 33,
+      "value_eur": 27565757
+    },
+    {
+      "name": "Julio Enciso",
+      "position": "Forward",
+      "caps": 32,
+      "value_eur": 24502895
+    },
+    {
+      "name": "Gatito Fernández",
+      "position": "Goalkeeper",
+      "caps": 31,
+      "value_eur": 22052606
+    },
+    {
+      "name": "Ramón Sosa",
+      "position": "Midfielder",
+      "caps": 29,
+      "value_eur": 20047823
+    },
+    {
+      "name": "Diego Gómez",
+      "position": "Midfielder",
+      "caps": 24,
+      "value_eur": 18377171
+    },
+    {
+      "name": "Gabriel Ávalos",
+      "position": "Forward",
+      "caps": 23,
+      "value_eur": 16963543
+    },
+    {
+      "name": "Damián Bobadilla",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 15751861
+    },
+    {
+      "name": "Juan José Cáceres",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 14701737
+    },
+    {
+      "name": "Braian Ojeda",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 13782878
+    },
+    {
+      "name": "Álex Arce",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 12972121
+    },
+    {
+      "name": "Matías Galarza",
+      "position": "Midfielder",
+      "caps": 15,
+      "value_eur": 12251447
+    },
+    {
+      "name": "Gustavo Velázquez",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 11606634
+    },
+    {
+      "name": "Orlando Gill",
+      "position": "Goalkeeper",
+      "caps": 6,
+      "value_eur": 11026303
+    },
+    {
+      "name": "Isidro Pitta",
+      "position": "Forward",
+      "caps": 5,
+      "value_eur": 10501241
+    },
+    {
+      "name": "Maurício",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 10023911
+    },
+    {
+      "name": "José Canale",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 9588089
+    },
+    {
+      "name": "Gustavo Caballero",
+      "position": "Midfielder",
+      "caps": 2,
+      "value_eur": 9188585
+    },
+    {
+      "name": "Alexandro Maidana",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 8821042
+    },
+    {
+      "name": "Gastón Olveira",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 8481771
+    }
+  ],
+  "Türkiye": [
+    {
+      "name": "Hakan Çalhanoğlu",
+      "position": "Midfielder",
+      "caps": 105,
+      "value_eur": 229606546
+    },
+    {
+      "name": "Kaan Ayhan",
+      "position": "Midfielder",
+      "caps": 73,
+      "value_eur": 114803273
+    },
+    {
+      "name": "Merih Demiral",
+      "position": "Defender",
+      "caps": 62,
+      "value_eur": 76535515
+    },
+    {
+      "name": "Zeki Çelik",
+      "position": "Defender",
+      "caps": 61,
+      "value_eur": 57401636
+    },
+    {
+      "name": "Çağlar Söyüncü",
+      "position": "Defender",
+      "caps": 60,
+      "value_eur": 45921309
+    },
+    {
+      "name": "Kerem Aktürkoğlu",
+      "position": "Forward",
+      "caps": 52,
+      "value_eur": 38267757
+    },
+    {
+      "name": "Orkun Kökçü",
+      "position": "Midfielder",
+      "caps": 50,
+      "value_eur": 32800935
+    },
+    {
+      "name": "İrfan Can Kahveci",
+      "position": "Forward",
+      "caps": 47,
+      "value_eur": 28700818
+    },
+    {
+      "name": "Mert Müldür",
+      "position": "Defender",
+      "caps": 45,
+      "value_eur": 25511838
+    },
+    {
+      "name": "Uğurcan Çakır",
+      "position": "Goalkeeper",
+      "caps": 39,
+      "value_eur": 22960654
+    },
+    {
+      "name": "Mert Günok",
+      "position": "Goalkeeper",
+      "caps": 37,
+      "value_eur": 20873322
+    },
+    {
+      "name": "Barış Alper Yılmaz",
+      "position": "Forward",
+      "caps": 35,
+      "value_eur": 19133878
+    },
+    {
+      "name": "İsmail Yüksek",
+      "position": "Midfielder",
+      "caps": 32,
+      "value_eur": 17662042
+    },
+    {
+      "name": "Salih Özcan",
+      "position": "Midfielder",
+      "caps": 30,
+      "value_eur": 16400467
+    },
+    {
+      "name": "Ozan Kabak",
+      "position": "Defender",
+      "caps": 30,
+      "value_eur": 15307103
+    },
+    {
+      "name": "Ferdi Kadıoğlu",
+      "position": "Defender",
+      "caps": 30,
+      "value_eur": 14350409
+    },
+    {
+      "name": "Arda Güler",
+      "position": "Forward",
+      "caps": 29,
+      "value_eur": 13506267
+    },
+    {
+      "name": "Kenan Yıldız",
+      "position": "Forward",
+      "caps": 28,
+      "value_eur": 12755919
+    },
+    {
+      "name": "Abdülkerim Bardakcı",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 12084555
+    },
+    {
+      "name": "Eren Elmalı",
+      "position": "Defender",
+      "caps": 23,
+      "value_eur": 11480327
+    },
+    {
+      "name": "Yunus Akgün",
+      "position": "Forward",
+      "caps": 19,
+      "value_eur": 10933645
+    },
+    {
+      "name": "Samet Akaydin",
+      "position": "Defender",
+      "caps": 19,
+      "value_eur": 10436661
+    },
+    {
+      "name": "Altay Bayındır",
+      "position": "Goalkeeper",
+      "caps": 12,
+      "value_eur": 9982893
+    },
+    {
+      "name": "Oğuz Aydın",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 9566939
+    },
+    {
+      "name": "Deniz Gül",
+      "position": "Forward",
+      "caps": 8,
+      "value_eur": 9184261
+    },
+    {
+      "name": "Can Uzun",
+      "position": "Forward",
+      "caps": 6,
+      "value_eur": 8831021
+    }
+  ],
+  "USA": [
+    {
+      "name": "Weston McKennie",
+      "position": "Midfielder",
+      "caps": 66,
+      "value_eur": 25000000
+    },
+    {
+      "name": "Christian Pulisic",
+      "position": "Forward",
+      "caps": 86,
+      "value_eur": 35000000
+    },
+    {
+      "name": "Folarin Balogun",
+      "position": "Forward",
+      "caps": 27,
+      "value_eur": 30000000
+    },
+    {
+      "name": "Tim Ream",
+      "position": "Defender",
+      "caps": 82,
+      "value_eur": 203519194
+    },
+    {
+      "name": "Brenden Aaronson",
+      "position": "Forward",
+      "caps": 58,
+      "value_eur": 101759597
+    },
+    {
+      "name": "Matt Turner",
+      "position": "Goalkeeper",
+      "caps": 54,
+      "value_eur": 67839731
+    },
+    {
+      "name": "Tyler Adams",
+      "position": "Midfielder",
+      "caps": 54,
+      "value_eur": 50879798
+    },
+    {
+      "name": "Antonee Robinson",
+      "position": "Defender",
+      "caps": 54,
+      "value_eur": 40703838
+    },
+    {
+      "name": "Timothy Weah",
+      "position": "Forward",
+      "caps": 51,
+      "value_eur": 33919865
+    },
+    {
+      "name": "Cristian Roldan",
+      "position": "Midfielder",
+      "caps": 47,
+      "value_eur": 29074170
+    },
+    {
+      "name": "Miles Robinson",
+      "position": "Defender",
+      "caps": 40,
+      "value_eur": 25439899
+    },
+    {
+      "name": "Sergiño Dest",
+      "position": "Defender",
+      "caps": 39,
+      "value_eur": 22613243
+    },
+    {
+      "name": "Giovanni Reyna",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 20351919
+    },
+    {
+      "name": "Ricardo Pepi",
+      "position": "Forward",
+      "caps": 37,
+      "value_eur": 18501744
+    },
+    {
+      "name": "Chris Richards",
+      "position": "Defender",
+      "caps": 36,
+      "value_eur": 16959932
+    },
+    {
+      "name": "Malik Tillman",
+      "position": "Midfielder",
+      "caps": 30,
+      "value_eur": 15655322
+    },
+    {
+      "name": "Mark McKenzie",
+      "position": "Defender",
+      "caps": 29,
+      "value_eur": 14537085
+    },
+    {
+      "name": "Joe Scally",
+      "position": "Defender",
+      "caps": 26,
+      "value_eur": 13567946
+    },
+    {
+      "name": "Max Arfsten",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 12719949
+    },
+    {
+      "name": "Haji Wright",
+      "position": "Forward",
+      "caps": 20,
+      "value_eur": 11971717
+    },
+    {
+      "name": "Alex Freeman",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 11306621
+    },
+    {
+      "name": "Matt Freese",
+      "position": "Goalkeeper",
+      "caps": 15,
+      "value_eur": 10711536
+    },
+    {
+      "name": "Alejandro Zendejas",
+      "position": "Forward",
+      "caps": 14,
+      "value_eur": 10175959
+    },
+    {
+      "name": "Sebastian Berhalter",
+      "position": "Midfielder",
+      "caps": 13,
+      "value_eur": 9691390
+    },
+    {
+      "name": "Auston Trusty",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 9250872
+    },
+    {
+      "name": "Chris Brady",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 8848660
+    }
+  ],
+  "Curaçao": [
+    {
+      "name": "Leandro Bacuna",
+      "position": "Midfielder",
+      "caps": 72,
+      "value_eur": 49709168
+    },
+    {
+      "name": "Eloy Room",
+      "position": "Goalkeeper",
+      "caps": 71,
+      "value_eur": 24854584
+    },
+    {
+      "name": "Juriën Gaari",
+      "position": "Defender",
+      "caps": 60,
+      "value_eur": 16569722
+    },
+    {
+      "name": "Juninho Bacuna",
+      "position": "Midfielder",
+      "caps": 49,
+      "value_eur": 12427292
+    },
+    {
+      "name": "Kenji Gorré",
+      "position": "Forward",
+      "caps": 38,
+      "value_eur": 9941833
+    },
+    {
+      "name": "Brandley Kuwas",
+      "position": "Forward",
+      "caps": 35,
+      "value_eur": 8284861
+    },
+    {
+      "name": "Gervane Kastaneer",
+      "position": "Forward",
+      "caps": 29,
+      "value_eur": 7101309
+    },
+    {
+      "name": "Roshon van Eijma",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 6213646
+    },
+    {
+      "name": "Sherel Floranus",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 5523240
+    },
+    {
+      "name": "Godfried Roemeratoe",
+      "position": "Midfielder",
+      "caps": 28,
+      "value_eur": 4970916
+    },
+    {
+      "name": "Jeremy Antonisse",
+      "position": "Forward",
+      "caps": 27,
+      "value_eur": 4519015
+    },
+    {
+      "name": "Jearl Margaritha",
+      "position": "Forward",
+      "caps": 22,
+      "value_eur": 4142430
+    },
+    {
+      "name": "Livano Comenencia",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 3823782
+    },
+    {
+      "name": "Kevin Felida",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 3550654
+    },
+    {
+      "name": "Joshua Brenet",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 3313944
+    },
+    {
+      "name": "Jürgen Locadia",
+      "position": "Forward",
+      "caps": 13,
+      "value_eur": 3106823
+    },
+    {
+      "name": "Ar'jany Martha",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 2924068
+    },
+    {
+      "name": "Shurandy Sambo",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 2761620
+    },
+    {
+      "name": "Trevor Doornbusch",
+      "position": "Goalkeeper",
+      "caps": 8,
+      "value_eur": 2616272
+    },
+    {
+      "name": "Tyrese Noslin",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 2485458
+    },
+    {
+      "name": "Sontje Hansen",
+      "position": "Forward",
+      "caps": 6,
+      "value_eur": 2367103
+    },
+    {
+      "name": "Armando Obispo",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 2259507
+    },
+    {
+      "name": "Tahith Chong",
+      "position": "Midfielder",
+      "caps": 6,
+      "value_eur": 2161268
+    },
+    {
+      "name": "Riechedly Bazoer",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 2071215
+    },
+    {
+      "name": "Tyrick Bodak",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 1988366
+    },
+    {
+      "name": "Deveron Fonville",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 1911891
+    }
+  ],
+  "Ecuador": [
+    {
+      "name": "Enner Valencia",
+      "position": "Forward",
+      "caps": 105,
+      "value_eur": 389163638
+    },
+    {
+      "name": "Moisés Caicedo",
+      "position": "Midfielder",
+      "caps": 61,
+      "value_eur": 194581819
+    },
+    {
+      "name": "Alan Franco",
+      "position": "Midfielder",
+      "caps": 58,
+      "value_eur": 129721212
+    },
+    {
+      "name": "Ángelo Preciado",
+      "position": "Defender",
+      "caps": 55,
+      "value_eur": 97290909
+    },
+    {
+      "name": "Pervis Estupiñán",
+      "position": "Defender",
+      "caps": 54,
+      "value_eur": 77832727
+    },
+    {
+      "name": "Piero Hincapié",
+      "position": "Defender",
+      "caps": 52,
+      "value_eur": 64860606
+    },
+    {
+      "name": "Gonzalo Plata",
+      "position": "Forward",
+      "caps": 50,
+      "value_eur": 55594805
+    },
+    {
+      "name": "Félix Torres",
+      "position": "Defender",
+      "caps": 49,
+      "value_eur": 48645454
+    },
+    {
+      "name": "Hernán Galíndez",
+      "position": "Goalkeeper",
+      "caps": 35,
+      "value_eur": 43240404
+    },
+    {
+      "name": "Willian Pacho",
+      "position": "Defender",
+      "caps": 34,
+      "value_eur": 38916363
+    },
+    {
+      "name": "Kevin Rodríguez",
+      "position": "Forward",
+      "caps": 31,
+      "value_eur": 35378512
+    },
+    {
+      "name": "Kendry Páez",
+      "position": "Midfielder",
+      "caps": 26,
+      "value_eur": 32430303
+    },
+    {
+      "name": "John Yeboah",
+      "position": "Forward",
+      "caps": 23,
+      "value_eur": 29935664
+    },
+    {
+      "name": "Alan Minda",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 27797402
+    },
+    {
+      "name": "Jordy Caicedo",
+      "position": "Forward",
+      "caps": 20,
+      "value_eur": 25944242
+    },
+    {
+      "name": "Joel Ordóñez",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 24322727
+    },
+    {
+      "name": "Pedro Vite",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 22891978
+    },
+    {
+      "name": "Nilson Angulo",
+      "position": "Forward",
+      "caps": 14,
+      "value_eur": 21620202
+    },
+    {
+      "name": "Jordy Alcívar",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 20482296
+    },
+    {
+      "name": "Jackson Porozo",
+      "position": "Defender",
+      "caps": 10,
+      "value_eur": 19458181
+    },
+    {
+      "name": "Moisés Ramírez",
+      "position": "Goalkeeper",
+      "caps": 7,
+      "value_eur": 18531601
+    },
+    {
+      "name": "Yaimar Medina",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 17689256
+    },
+    {
+      "name": "Denil Castillo",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 16920158
+    },
+    {
+      "name": "Gonzalo Valle",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 16215151
+    },
+    {
+      "name": "Jeremy Arévalo",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 15566545
+    },
+    {
+      "name": "Anthony Valencia",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 14967832
+    }
+  ],
+  "Germany": [
+    {
+      "name": "Manuel Neuer",
+      "position": "Goalkeeper",
+      "caps": 124,
+      "value_eur": 4000000
+    },
+    {
+      "name": "Antonio Rüdiger",
+      "position": "Defender",
+      "caps": 82,
+      "value_eur": 25000000
+    },
+    {
+      "name": "Kai Havertz",
+      "position": "Forward",
+      "caps": 58,
+      "value_eur": 75000000
+    },
+    {
+      "name": "Jamal Musiala",
+      "position": "Midfielder",
+      "caps": 42,
+      "value_eur": 110000000
+    },
+    {
+      "name": "Florian Wirtz",
+      "position": "Midfielder",
+      "caps": 41,
+      "value_eur": 110000000
+    },
+    {
+      "name": "Joshua Kimmich",
+      "position": "Defender",
+      "caps": 110,
+      "value_eur": 207386998
+    },
+    {
+      "name": "Leroy Sané",
+      "position": "Midfielder",
+      "caps": 76,
+      "value_eur": 103693499
+    },
+    {
+      "name": "Leon Goretzka",
+      "position": "Midfielder",
+      "caps": 70,
+      "value_eur": 69128999
+    },
+    {
+      "name": "Jonathan Tah",
+      "position": "Defender",
+      "caps": 47,
+      "value_eur": 51846749
+    },
+    {
+      "name": "David Raum",
+      "position": "Defender",
+      "caps": 37,
+      "value_eur": 41477399
+    },
+    {
+      "name": "Nico Schlotterbeck",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 34564499
+    },
+    {
+      "name": "Pascal Groß",
+      "position": "Midfielder",
+      "caps": 18,
+      "value_eur": 29626714
+    },
+    {
+      "name": "Waldemar Anton",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 25923374
+    },
+    {
+      "name": "Oliver Baumann",
+      "position": "Goalkeeper",
+      "caps": 13,
+      "value_eur": 23042999
+    },
+    {
+      "name": "Aleksandar Pavlović",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 20738699
+    },
+    {
+      "name": "Nick Woltemade",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 18853363
+    },
+    {
+      "name": "Nadiem Amiri",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 17282249
+    },
+    {
+      "name": "Maximilian Beier",
+      "position": "Forward",
+      "caps": 9,
+      "value_eur": 15952846
+    },
+    {
+      "name": "Deniz Undav",
+      "position": "Forward",
+      "caps": 9,
+      "value_eur": 14813357
+    },
+    {
+      "name": "Angelo Stiller",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 13825799
+    },
+    {
+      "name": "Felix Nmecha",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 12961687
+    },
+    {
+      "name": "Jamie Leweling",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 12199235
+    },
+    {
+      "name": "Nathaniel Brown",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 11521499
+    },
+    {
+      "name": "Malick Thiaw",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 10915105
+    },
+    {
+      "name": "Alexander Nübel",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 10369349
+    },
+    {
+      "name": "Lennart Karl",
+      "position": "Midfielder",
+      "caps": 1,
+      "value_eur": 9875571
+    }
+  ],
+  "Ivory Coast": [
+    {
+      "name": "Franck Kessié",
+      "position": "Midfielder",
+      "caps": 102,
+      "value_eur": 124532364
+    },
+    {
+      "name": "Jean Michaël Seri",
+      "position": "Midfielder",
+      "caps": 65,
+      "value_eur": 62266182
+    },
+    {
+      "name": "Ibrahim Sangaré",
+      "position": "Midfielder",
+      "caps": 57,
+      "value_eur": 41510788
+    },
+    {
+      "name": "Nicolas Pépé",
+      "position": "Forward",
+      "caps": 56,
+      "value_eur": 31133091
+    },
+    {
+      "name": "Ghislain Konan",
+      "position": "Defender",
+      "caps": 54,
+      "value_eur": 24906472
+    },
+    {
+      "name": "Odilon Kossounou",
+      "position": "Defender",
+      "caps": 36,
+      "value_eur": 20755394
+    },
+    {
+      "name": "Yahia Fofana",
+      "position": "Goalkeeper",
+      "caps": 35,
+      "value_eur": 17790337
+    },
+    {
+      "name": "Wilfried Singo",
+      "position": "Defender",
+      "caps": 34,
+      "value_eur": 15566545
+    },
+    {
+      "name": "Seko Fofana",
+      "position": "Midfielder",
+      "caps": 33,
+      "value_eur": 13836929
+    },
+    {
+      "name": "Oumar Diakité",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 12453236
+    },
+    {
+      "name": "Simon Adingra",
+      "position": "Forward",
+      "caps": 29,
+      "value_eur": 11321124
+    },
+    {
+      "name": "Evan Ndicka",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 10377697
+    },
+    {
+      "name": "Evann Guessand",
+      "position": "Forward",
+      "caps": 21,
+      "value_eur": 9579412
+    },
+    {
+      "name": "Guéla Doué",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 8895168
+    },
+    {
+      "name": "Emmanuel Agbadou",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 8302157
+    },
+    {
+      "name": "Amad Diallo",
+      "position": "Forward",
+      "caps": 19,
+      "value_eur": 7783272
+    },
+    {
+      "name": "Ousmane Diomande",
+      "position": "Defender",
+      "caps": 15,
+      "value_eur": 7325433
+    },
+    {
+      "name": "Clément Akpa",
+      "position": "Defender",
+      "caps": 12,
+      "value_eur": 6918464
+    },
+    {
+      "name": "Yan Diomande",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 6554334
+    },
+    {
+      "name": "Christ Inao Oulaï",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 6226618
+    },
+    {
+      "name": "Bazoumana Touré",
+      "position": "Forward",
+      "caps": 6,
+      "value_eur": 5930112
+    },
+    {
+      "name": "Parfait Guiagon",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 5660562
+    },
+    {
+      "name": "Alban Lafont",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 5414450
+    },
+    {
+      "name": "Elye Wahi",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 5188848
+    },
+    {
+      "name": "Ange-Yoan Bonny",
+      "position": "Forward",
+      "caps": 1,
+      "value_eur": 4981294
+    },
+    {
+      "name": "Mohamed Koné",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 4789706
+    }
+  ],
+  "Japan": [
+    {
+      "name": "Yūto Nagatomo",
+      "position": "Defender",
+      "caps": 145,
+      "value_eur": 129721212
+    },
+    {
+      "name": "Junya Itō",
+      "position": "Midfielder",
+      "caps": 69,
+      "value_eur": 64860606
+    },
+    {
+      "name": "Ritsu Dōan",
+      "position": "Midfielder",
+      "caps": 65,
+      "value_eur": 43240404
+    },
+    {
+      "name": "Takefusa Kubo",
+      "position": "Midfielder",
+      "caps": 49,
+      "value_eur": 32430303
+    },
+    {
+      "name": "Daichi Kamada",
+      "position": "Midfielder",
+      "caps": 49,
+      "value_eur": 25944242
+    },
+    {
+      "name": "Takehiro Tomiyasu",
+      "position": "Defender",
+      "caps": 43,
+      "value_eur": 21620202
+    },
+    {
+      "name": "Kō Itakura",
+      "position": "Defender",
+      "caps": 40,
+      "value_eur": 18531601
+    },
+    {
+      "name": "Ayase Ueda",
+      "position": "Forward",
+      "caps": 39,
+      "value_eur": 16215151
+    },
+    {
+      "name": "Shōgo Taniguchi",
+      "position": "Defender",
+      "caps": 38,
+      "value_eur": 14413468
+    },
+    {
+      "name": "Ao Tanaka",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 12972121
+    },
+    {
+      "name": "Daizen Maeda",
+      "position": "Midfielder",
+      "caps": 27,
+      "value_eur": 11792837
+    },
+    {
+      "name": "Keito Nakamura",
+      "position": "Midfielder",
+      "caps": 25,
+      "value_eur": 10810101
+    },
+    {
+      "name": "Zion Suzuki",
+      "position": "Goalkeeper",
+      "caps": 24,
+      "value_eur": 9978554
+    },
+    {
+      "name": "Hiroki Itō",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 9265800
+    },
+    {
+      "name": "Yukinari Sugawara",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 8648080
+    },
+    {
+      "name": "Kōki Ogawa",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 8107575
+    },
+    {
+      "name": "Wataru Endo",
+      "position": "Forward",
+      "caps": 14,
+      "value_eur": 7630659
+    },
+    {
+      "name": "Ayumu Seko",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 7206734
+    },
+    {
+      "name": "Kaishū Sano",
+      "position": "Midfielder",
+      "caps": 13,
+      "value_eur": 6827432
+    },
+    {
+      "name": "Keisuke Ōsako",
+      "position": "Goalkeeper",
+      "caps": 11,
+      "value_eur": 6486060
+    },
+    {
+      "name": "Tsuyoshi Watanabe",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 6177200
+    },
+    {
+      "name": "Yuito Suzuki",
+      "position": "Midfielder",
+      "caps": 6,
+      "value_eur": 5896418
+    },
+    {
+      "name": "Junnosuke Suzuki",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 5640052
+    },
+    {
+      "name": "Keisuke Gotō",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 5405050
+    },
+    {
+      "name": "Tomoki Hayakawa",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 5188848
+    },
+    {
+      "name": "Kento Shiogai",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 4989277
+    }
+  ],
+  "Netherlands": [
+    {
+      "name": "Memphis Depay",
+      "position": "Forward",
+      "caps": 109,
+      "value_eur": 306142062
+    },
+    {
+      "name": "Virgil van Dijk",
+      "position": "Defender",
+      "caps": 92,
+      "value_eur": 153071031
+    },
+    {
+      "name": "Denzel Dumfries",
+      "position": "Defender",
+      "caps": 72,
+      "value_eur": 102047354
+    },
+    {
+      "name": "Frenkie de Jong",
+      "position": "Midfielder",
+      "caps": 66,
+      "value_eur": 76535515
+    },
+    {
+      "name": "Nathan Aké",
+      "position": "Defender",
+      "caps": 59,
+      "value_eur": 61228412
+    },
+    {
+      "name": "Donyell Malen",
+      "position": "Forward",
+      "caps": 53,
+      "value_eur": 51023677
+    },
+    {
+      "name": "Wout Weghorst",
+      "position": "Forward",
+      "caps": 52,
+      "value_eur": 43734580
+    },
+    {
+      "name": "Cody Gakpo",
+      "position": "Forward",
+      "caps": 50,
+      "value_eur": 38267757
+    },
+    {
+      "name": "Marten de Roon",
+      "position": "Midfielder",
+      "caps": 43,
+      "value_eur": 34015784
+    },
+    {
+      "name": "Tijjani Reijnders",
+      "position": "Midfielder",
+      "caps": 32,
+      "value_eur": 30614206
+    },
+    {
+      "name": "Bart Verbruggen",
+      "position": "Goalkeeper",
+      "caps": 29,
+      "value_eur": 27831096
+    },
+    {
+      "name": "Teun Koopmeiners",
+      "position": "Midfielder",
+      "caps": 28,
+      "value_eur": 25511838
+    },
+    {
+      "name": "Ryan Gravenberch",
+      "position": "Midfielder",
+      "caps": 27,
+      "value_eur": 23549389
+    },
+    {
+      "name": "Jurriën Timber",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 21867290
+    },
+    {
+      "name": "Micky van de Ven",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 20409470
+    },
+    {
+      "name": "Mats Wieffer",
+      "position": "Defender",
+      "caps": 15,
+      "value_eur": 19133878
+    },
+    {
+      "name": "Noa Lang",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 18008356
+    },
+    {
+      "name": "Jan Paul van Hecke",
+      "position": "Defender",
+      "caps": 12,
+      "value_eur": 17007892
+    },
+    {
+      "name": "Justin Kluivert",
+      "position": "Midfielder",
+      "caps": 12,
+      "value_eur": 16112740
+    },
+    {
+      "name": "Brian Brobbey",
+      "position": "Forward",
+      "caps": 12,
+      "value_eur": 15307103
+    },
+    {
+      "name": "Mark Flekken",
+      "position": "Goalkeeper",
+      "caps": 12,
+      "value_eur": 14578193
+    },
+    {
+      "name": "Quinten Timber",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 13915548
+    },
+    {
+      "name": "Jorrel Hato",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 13310524
+    },
+    {
+      "name": "Guus Til",
+      "position": "Midfielder",
+      "caps": 7,
+      "value_eur": 12755919
+    },
+    {
+      "name": "Crysencio Summerville",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 12245682
+    },
+    {
+      "name": "Robin Roefs",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 11774694
+    }
+  ],
+  "Sweden": [
+    {
+      "name": "Victor Lindelöf",
+      "position": "Defender",
+      "caps": 76,
+      "value_eur": 155665455
+    },
+    {
+      "name": "Alexander Isak",
+      "position": "Forward",
+      "caps": 58,
+      "value_eur": 77832727
+    },
+    {
+      "name": "Mattias Svanberg",
+      "position": "Midfielder",
+      "caps": 41,
+      "value_eur": 51888485
+    },
+    {
+      "name": "Ken Sema",
+      "position": "Midfielder",
+      "caps": 33,
+      "value_eur": 38916363
+    },
+    {
+      "name": "Viktor Gyökeres",
+      "position": "Forward",
+      "caps": 33,
+      "value_eur": 31133091
+    },
+    {
+      "name": "Anthony Elanga",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 25944242
+    },
+    {
+      "name": "Isak Hien",
+      "position": "Defender",
+      "caps": 29,
+      "value_eur": 22237922
+    },
+    {
+      "name": "Jesper Karlström",
+      "position": "Midfielder",
+      "caps": 25,
+      "value_eur": 19458181
+    },
+    {
+      "name": "Gabriel Gudmundsson",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 17296161
+    },
+    {
+      "name": "Yasin Ayari",
+      "position": "Midfielder",
+      "caps": 21,
+      "value_eur": 15566545
+    },
+    {
+      "name": "Kristoffer Nordfeldt",
+      "position": "Goalkeeper",
+      "caps": 21,
+      "value_eur": 14151405
+    },
+    {
+      "name": "Carl Starfelt",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 12972121
+    },
+    {
+      "name": "Daniel Svensson",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 11974265
+    },
+    {
+      "name": "Hjalmar Ekdal",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 11118961
+    },
+    {
+      "name": "Viktor Johansson",
+      "position": "Goalkeeper",
+      "caps": 12,
+      "value_eur": 10377697
+    },
+    {
+      "name": "Gustaf Lagerbielke",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 9729090
+    },
+    {
+      "name": "Benjamin Nygren",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 9156791
+    },
+    {
+      "name": "Alexander Bernhardsson",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 8648080
+    },
+    {
+      "name": "Lucas Bergvall",
+      "position": "Midfielder",
+      "caps": 10,
+      "value_eur": 8192918
+    },
+    {
+      "name": "Gustaf Nilsson",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 7783272
+    },
+    {
+      "name": "Besfort Zeneli",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 7412640
+    },
+    {
+      "name": "Jacob Widell Zetterström",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 7075702
+    },
+    {
+      "name": "Emil Holm",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 6768063
+    },
+    {
+      "name": "Eric Smith",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 6486060
+    },
+    {
+      "name": "Taha Ali",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 6226618
+    },
+    {
+      "name": "Elliot Stroud",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 5987132
+    }
+  ],
+  "Tunisia": [
+    {
+      "name": "Ellyes Skhiri",
+      "position": "Midfielder",
+      "caps": 83,
+      "value_eur": 82502691
+    },
+    {
+      "name": "Montassar Talbi",
+      "position": "Defender",
+      "caps": 64,
+      "value_eur": 41251345
+    },
+    {
+      "name": "Dylan Bronn",
+      "position": "Defender",
+      "caps": 52,
+      "value_eur": 27500897
+    },
+    {
+      "name": "Ali Abdi",
+      "position": "Defender",
+      "caps": 46,
+      "value_eur": 20625672
+    },
+    {
+      "name": "Hannibal Mejbri",
+      "position": "Midfielder",
+      "caps": 45,
+      "value_eur": 16500538
+    },
+    {
+      "name": "Anis Ben Slimane",
+      "position": "Midfielder",
+      "caps": 41,
+      "value_eur": 13750448
+    },
+    {
+      "name": "Aymen Dahmen",
+      "position": "Goalkeeper",
+      "caps": 37,
+      "value_eur": 11786098
+    },
+    {
+      "name": "Elias Achouri",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 10312836
+    },
+    {
+      "name": "Firas Chaouat",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 9166965
+    },
+    {
+      "name": "Yan Valery",
+      "position": "Defender",
+      "caps": 22,
+      "value_eur": 8250269
+    },
+    {
+      "name": "Hazem Mastouri",
+      "position": "Forward",
+      "caps": 19,
+      "value_eur": 7500244
+    },
+    {
+      "name": "Mortadha Ben Ouanes",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 6875224
+    },
+    {
+      "name": "Ismaël Gharbi",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 6346360
+    },
+    {
+      "name": "Elias Saad",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 5893049
+    },
+    {
+      "name": "Mohamed Amine Ben Hamida",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 5500179
+    },
+    {
+      "name": "Sebastian Tounekti",
+      "position": "Midfielder",
+      "caps": 12,
+      "value_eur": 5156418
+    },
+    {
+      "name": "Hadj Mahmoud",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 4853099
+    },
+    {
+      "name": "Omar Rekik",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 4583482
+    },
+    {
+      "name": "Moutaz Neffati",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 4342246
+    },
+    {
+      "name": "Khalil Ayari",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 4125134
+    },
+    {
+      "name": "Rayan Elloumi",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 3928699
+    },
+    {
+      "name": "Mouhib Chamakh",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 3750122
+    },
+    {
+      "name": "Rani Khedira",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 3587073
+    },
+    {
+      "name": "Adem Arous",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 3437612
+    },
+    {
+      "name": "Sabri Ben Hessen",
+      "position": "Goalkeeper",
+      "caps": 2,
+      "value_eur": 3300107
+    },
+    {
+      "name": "Raed Chikhaoui",
+      "position": "Defender",
+      "caps": 0,
+      "value_eur": 3173180
+    }
+  ],
+  "Belgium": [
+    {
+      "name": "Kevin De Bruyne",
+      "position": "Midfielder",
+      "caps": 119,
+      "value_eur": 50000000
+    },
+    {
+      "name": "Romelu Lukaku",
+      "position": "Forward",
+      "caps": 126,
+      "value_eur": 30000000
+    },
+    {
+      "name": "Axel Witsel",
+      "position": "Midfielder",
+      "caps": 138,
+      "value_eur": 332365969
+    },
+    {
+      "name": "Thibaut Courtois",
+      "position": "Goalkeeper",
+      "caps": 109,
+      "value_eur": 166182984
+    },
+    {
+      "name": "Youri Tielemans",
+      "position": "Midfielder",
+      "caps": 85,
+      "value_eur": 110788656
+    },
+    {
+      "name": "Thomas Meunier",
+      "position": "Defender",
+      "caps": 80,
+      "value_eur": 83091492
+    },
+    {
+      "name": "Timothy Castagne",
+      "position": "Defender",
+      "caps": 63,
+      "value_eur": 66473193
+    },
+    {
+      "name": "Leandro Trossard",
+      "position": "Forward",
+      "caps": 51,
+      "value_eur": 55394328
+    },
+    {
+      "name": "Jérémy Doku",
+      "position": "Forward",
+      "caps": 43,
+      "value_eur": 47480852
+    },
+    {
+      "name": "Hans Vanaken",
+      "position": "Midfielder",
+      "caps": 34,
+      "value_eur": 41545746
+    },
+    {
+      "name": "Arthur Theate",
+      "position": "Defender",
+      "caps": 33,
+      "value_eur": 36929552
+    },
+    {
+      "name": "Dodi Lukébakio",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 33236596
+    },
+    {
+      "name": "Charles De Ketelaere",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 30215088
+    },
+    {
+      "name": "Amadou Onana",
+      "position": "Midfielder",
+      "caps": 29,
+      "value_eur": 27697164
+    },
+    {
+      "name": "Zeno Debast",
+      "position": "Defender",
+      "caps": 26,
+      "value_eur": 25566613
+    },
+    {
+      "name": "Alexis Saelemaekers",
+      "position": "Midfielder",
+      "caps": 24,
+      "value_eur": 23740426
+    },
+    {
+      "name": "Maxim De Cuyper",
+      "position": "Defender",
+      "caps": 19,
+      "value_eur": 22157731
+    },
+    {
+      "name": "Nicolas Raskin",
+      "position": "Midfielder",
+      "caps": 13,
+      "value_eur": 20772873
+    },
+    {
+      "name": "Brandon Mechele",
+      "position": "Defender",
+      "caps": 9,
+      "value_eur": 19550939
+    },
+    {
+      "name": "Koni De Winter",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 18464776
+    },
+    {
+      "name": "Joaquin Seys",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 17492945
+    },
+    {
+      "name": "Nathan Ngoy",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 16618298
+    },
+    {
+      "name": "Diego Moreira",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 15826950
+    },
+    {
+      "name": "Senne Lammens",
+      "position": "Goalkeeper",
+      "caps": 2,
+      "value_eur": 15107544
+    },
+    {
+      "name": "Matias Fernandez-Pardo",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 14450694
+    },
+    {
+      "name": "Mike Penders",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 13848582
+    }
+  ],
+  "Egypt": [
+    {
+      "name": "Mohamed Salah",
+      "position": "Forward",
+      "caps": 116,
+      "value_eur": 55000000
+    },
+    {
+      "name": "Trézéguet",
+      "position": "Forward",
+      "caps": 96,
+      "value_eur": 27516024
+    },
+    {
+      "name": "Mohamed El Shenawy",
+      "position": "Goalkeeper",
+      "caps": 76,
+      "value_eur": 13758012
+    },
+    {
+      "name": "Hamdy Fathy",
+      "position": "Midfielder",
+      "caps": 63,
+      "value_eur": 9172008
+    },
+    {
+      "name": "Zizo",
+      "position": "Forward",
+      "caps": 63,
+      "value_eur": 6879006
+    },
+    {
+      "name": "Omar Marmoush",
+      "position": "Forward",
+      "caps": 50,
+      "value_eur": 5503204
+    },
+    {
+      "name": "Ramy Rabia",
+      "position": "Defender",
+      "caps": 44,
+      "value_eur": 4586004
+    },
+    {
+      "name": "Mohamed Hany",
+      "position": "Defender",
+      "caps": 42,
+      "value_eur": 3930860
+    },
+    {
+      "name": "Ahmed Fatouh",
+      "position": "Defender",
+      "caps": 39,
+      "value_eur": 3439503
+    },
+    {
+      "name": "Mohamed Abdelmonem",
+      "position": "Defender",
+      "caps": 36,
+      "value_eur": 3057336
+    },
+    {
+      "name": "Marwan Attia",
+      "position": "Midfielder",
+      "caps": 34,
+      "value_eur": 2751602
+    },
+    {
+      "name": "Emam Ashour",
+      "position": "Midfielder",
+      "caps": 29,
+      "value_eur": 2501456
+    },
+    {
+      "name": "Ibrahim Adel",
+      "position": "Forward",
+      "caps": 24,
+      "value_eur": 2293002
+    },
+    {
+      "name": "Mohanad Lasheen",
+      "position": "Midfielder",
+      "caps": 23,
+      "value_eur": 2116617
+    },
+    {
+      "name": "Yasser Ibrahim",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 1965430
+    },
+    {
+      "name": "Mahmoud Saber",
+      "position": "Midfielder",
+      "caps": 15,
+      "value_eur": 1834401
+    },
+    {
+      "name": "Hossam Abdelmaguid",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 1719751
+    },
+    {
+      "name": "Nabil Emad",
+      "position": "Midfielder",
+      "caps": 12,
+      "value_eur": 1618589
+    },
+    {
+      "name": "Karim Hafez",
+      "position": "Defender",
+      "caps": 9,
+      "value_eur": 1528668
+    },
+    {
+      "name": "Mostafa Shobeir",
+      "position": "Goalkeeper",
+      "caps": 9,
+      "value_eur": 1448211
+    },
+    {
+      "name": "Haissem Hassan",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 1375801
+    },
+    {
+      "name": "Tarek Alaa",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 1310286
+    },
+    {
+      "name": "Hamza Abdelkarim",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 1250728
+    },
+    {
+      "name": "Mostafa Ziko",
+      "position": "Midfielder",
+      "caps": 2,
+      "value_eur": 1196348
+    },
+    {
+      "name": "El Mahdy Soliman",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 1146501
+    },
+    {
+      "name": "Mohamed Alaa",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 1100640
+    }
+  ],
+  "Iran": [
+    {
+      "name": "Ehsan Hajsafi",
+      "position": "Defender",
+      "caps": 146,
+      "value_eur": 158259879
+    },
+    {
+      "name": "Mehdi Taremi",
+      "position": "Forward",
+      "caps": 106,
+      "value_eur": 79129939
+    },
+    {
+      "name": "Alireza Jahanbakhsh",
+      "position": "Midfielder",
+      "caps": 98,
+      "value_eur": 52753293
+    },
+    {
+      "name": "Alireza Beiranvand",
+      "position": "Goalkeeper",
+      "caps": 86,
+      "value_eur": 39564969
+    },
+    {
+      "name": "Saeid Ezatolahi",
+      "position": "Midfielder",
+      "caps": 83,
+      "value_eur": 31651975
+    },
+    {
+      "name": "Milad Mohammadi",
+      "position": "Defender",
+      "caps": 76,
+      "value_eur": 26376646
+    },
+    {
+      "name": "Ramin Rezaeian",
+      "position": "Defender",
+      "caps": 74,
+      "value_eur": 22608554
+    },
+    {
+      "name": "Saman Ghoddos",
+      "position": "Midfielder",
+      "caps": 68,
+      "value_eur": 19782484
+    },
+    {
+      "name": "Hossein Kanaanizadegan",
+      "position": "Defender",
+      "caps": 65,
+      "value_eur": 17584431
+    },
+    {
+      "name": "Shojae Khalilzadeh",
+      "position": "Defender",
+      "caps": 58,
+      "value_eur": 15825987
+    },
+    {
+      "name": "Mehdi Torabi",
+      "position": "Midfielder",
+      "caps": 52,
+      "value_eur": 14387261
+    },
+    {
+      "name": "Rouzbeh Cheshmi",
+      "position": "Midfielder",
+      "caps": 40,
+      "value_eur": 13188323
+    },
+    {
+      "name": "Mohammad Mohebi",
+      "position": "Midfielder",
+      "caps": 36,
+      "value_eur": 12173836
+    },
+    {
+      "name": "Mehdi Ghayedi",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 11304277
+    },
+    {
+      "name": "Shahriyar Moghanlou",
+      "position": "Forward",
+      "caps": 21,
+      "value_eur": 10550658
+    },
+    {
+      "name": "Saleh Hardani",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 9891242
+    },
+    {
+      "name": "Amirhossein Hosseinzadeh",
+      "position": "Forward",
+      "caps": 18,
+      "value_eur": 9309404
+    },
+    {
+      "name": "Ali Nemati",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 8792215
+    },
+    {
+      "name": "Mohammad Ghorbani",
+      "position": "Midfielder",
+      "caps": 16,
+      "value_eur": 8329467
+    },
+    {
+      "name": "Payam Niazmand",
+      "position": "Goalkeeper",
+      "caps": 15,
+      "value_eur": 7912993
+    },
+    {
+      "name": "Ali Alipour",
+      "position": "Forward",
+      "caps": 14,
+      "value_eur": 7536184
+    },
+    {
+      "name": "Aria Yousefi",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 7193630
+    },
+    {
+      "name": "Hossein Hosseini",
+      "position": "Goalkeeper",
+      "caps": 13,
+      "value_eur": 6880864
+    },
+    {
+      "name": "Amirmohammad Razzaghinia",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 6594161
+    },
+    {
+      "name": "Dennis Eckert",
+      "position": "Forward",
+      "caps": 0,
+      "value_eur": 6330395
+    },
+    {
+      "name": "Danial Eiri",
+      "position": "Defender",
+      "caps": 0,
+      "value_eur": 6086918
+    }
+  ],
+  "New Zealand": [
+    {
+      "name": "Chris Wood",
+      "position": "Forward",
+      "caps": 90,
+      "value_eur": 81049813
+    },
+    {
+      "name": "Kosta Barbarouses",
+      "position": "Forward",
+      "caps": 76,
+      "value_eur": 40524906
+    },
+    {
+      "name": "Michael Boxall",
+      "position": "Defender",
+      "caps": 63,
+      "value_eur": 27016604
+    },
+    {
+      "name": "Tommy Smith",
+      "position": "Defender",
+      "caps": 56,
+      "value_eur": 20262453
+    },
+    {
+      "name": "Tim Payne",
+      "position": "Defender",
+      "caps": 51,
+      "value_eur": 16209962
+    },
+    {
+      "name": "Elijah Just",
+      "position": "Midfielder",
+      "caps": 44,
+      "value_eur": 13508302
+    },
+    {
+      "name": "Marko Stamenić",
+      "position": "Midfielder",
+      "caps": 39,
+      "value_eur": 11578544
+    },
+    {
+      "name": "Liberato Cacace",
+      "position": "Defender",
+      "caps": 37,
+      "value_eur": 10131226
+    },
+    {
+      "name": "Joe Bell",
+      "position": "Midfielder",
+      "caps": 32,
+      "value_eur": 9005534
+    },
+    {
+      "name": "Callum McCowatt",
+      "position": "Midfielder",
+      "caps": 32,
+      "value_eur": 8104981
+    },
+    {
+      "name": "Ben Waine",
+      "position": "Forward",
+      "caps": 31,
+      "value_eur": 7368164
+    },
+    {
+      "name": "Sarpreet Singh",
+      "position": "Midfielder",
+      "caps": 28,
+      "value_eur": 6754151
+    },
+    {
+      "name": "Alex Rufer",
+      "position": "Midfielder",
+      "caps": 26,
+      "value_eur": 6234601
+    },
+    {
+      "name": "Tyler Bindon",
+      "position": "Defender",
+      "caps": 25,
+      "value_eur": 5789272
+    },
+    {
+      "name": "Nando Pijnaker",
+      "position": "Defender",
+      "caps": 25,
+      "value_eur": 5403320
+    },
+    {
+      "name": "Ryan Thomas",
+      "position": "Midfielder",
+      "caps": 25,
+      "value_eur": 5065613
+    },
+    {
+      "name": "Max Crocombe",
+      "position": "Goalkeeper",
+      "caps": 24,
+      "value_eur": 4767636
+    },
+    {
+      "name": "Ben Old",
+      "position": "Midfielder",
+      "caps": 24,
+      "value_eur": 4502767
+    },
+    {
+      "name": "Francis de Vries",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 4265779
+    },
+    {
+      "name": "Finn Surman",
+      "position": "Defender",
+      "caps": 19,
+      "value_eur": 4052490
+    },
+    {
+      "name": "Matthew Garbett",
+      "position": "Forward",
+      "caps": 18,
+      "value_eur": 3859514
+    },
+    {
+      "name": "Jesse Randall",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 3684082
+    },
+    {
+      "name": "Callan Elliot",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 3523904
+    },
+    {
+      "name": "Alex Paulsen",
+      "position": "Goalkeeper",
+      "caps": 8,
+      "value_eur": 3377075
+    },
+    {
+      "name": "Michael Woud",
+      "position": "Goalkeeper",
+      "caps": 6,
+      "value_eur": 3241992
+    },
+    {
+      "name": "Lachlan Bayliss",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 3117300
+    }
+  ],
+  "Cape Verde": [
+    {
+      "name": "Ryan Mendes",
+      "position": "Forward",
+      "caps": 98,
+      "value_eur": 86861324
+    },
+    {
+      "name": "Vozinha",
+      "position": "Goalkeeper",
+      "caps": 90,
+      "value_eur": 43430662
+    },
+    {
+      "name": "Stopira",
+      "position": "Defender",
+      "caps": 61,
+      "value_eur": 28953774
+    },
+    {
+      "name": "Garry Rodrigues",
+      "position": "Midfielder",
+      "caps": 61,
+      "value_eur": 21715331
+    },
+    {
+      "name": "Jamiro Monteiro",
+      "position": "Midfielder",
+      "caps": 55,
+      "value_eur": 17372264
+    },
+    {
+      "name": "Pico",
+      "position": "Defender",
+      "caps": 45,
+      "value_eur": 14476887
+    },
+    {
+      "name": "João Paulo",
+      "position": "Midfielder",
+      "caps": 41,
+      "value_eur": 12408760
+    },
+    {
+      "name": "Willy Semedo",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 10857665
+    },
+    {
+      "name": "Deroy Duarte",
+      "position": "Midfielder",
+      "caps": 33,
+      "value_eur": 9651258
+    },
+    {
+      "name": "Diney",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 8686132
+    },
+    {
+      "name": "Kevin Pina",
+      "position": "Midfielder",
+      "caps": 31,
+      "value_eur": 7896484
+    },
+    {
+      "name": "Jovane Cabral",
+      "position": "Midfielder",
+      "caps": 29,
+      "value_eur": 7238443
+    },
+    {
+      "name": "Logan Costa",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 6681640
+    },
+    {
+      "name": "Dailon Livramento",
+      "position": "Forward",
+      "caps": 22,
+      "value_eur": 6204380
+    },
+    {
+      "name": "Gilson Benchimol",
+      "position": "Forward",
+      "caps": 21,
+      "value_eur": 5790754
+    },
+    {
+      "name": "Hélio Varela",
+      "position": "Midfielder",
+      "caps": 21,
+      "value_eur": 5428832
+    },
+    {
+      "name": "Laros Duarte",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 5109489
+    },
+    {
+      "name": "Steven Moreira",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 4825629
+    },
+    {
+      "name": "Telmo Arcanjo",
+      "position": "Midfielder",
+      "caps": 16,
+      "value_eur": 4571648
+    },
+    {
+      "name": "Wagner Pina",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 4343066
+    },
+    {
+      "name": "Márcio Rosa",
+      "position": "Goalkeeper",
+      "caps": 11,
+      "value_eur": 4136253
+    },
+    {
+      "name": "Sidny Lopes Cabral",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 3948242
+    },
+    {
+      "name": "Yannick Semedo",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 3776579
+    },
+    {
+      "name": "Nuno da Costa",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 3619221
+    },
+    {
+      "name": "Kelvin Pires",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 3474452
+    },
+    {
+      "name": "CJ dos Santos",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 3340820
+    }
+  ],
+  "Saudi Arabia": [
+    {
+      "name": "Salem Al-Dawsari",
+      "position": "Forward",
+      "caps": 111,
+      "value_eur": 85200892
+    },
+    {
+      "name": "Mohamed Kanno",
+      "position": "Midfielder",
+      "caps": 79,
+      "value_eur": 42600446
+    },
+    {
+      "name": "Firas Al-Buraikan",
+      "position": "Forward",
+      "caps": 72,
+      "value_eur": 28400297
+    },
+    {
+      "name": "Mohammed Al-Owais",
+      "position": "Goalkeeper",
+      "caps": 65,
+      "value_eur": 21300223
+    },
+    {
+      "name": "Saleh Al-Shehri",
+      "position": "Forward",
+      "caps": 59,
+      "value_eur": 17040178
+    },
+    {
+      "name": "Saud Abdulhamid",
+      "position": "Defender",
+      "caps": 55,
+      "value_eur": 14200148
+    },
+    {
+      "name": "Hassan Al-Tambakti",
+      "position": "Defender",
+      "caps": 54,
+      "value_eur": 12171556
+    },
+    {
+      "name": "Abdullah Al-Hamdan",
+      "position": "Forward",
+      "caps": 52,
+      "value_eur": 10650111
+    },
+    {
+      "name": "Nasser Al-Dawsari",
+      "position": "Midfielder",
+      "caps": 47,
+      "value_eur": 9466765
+    },
+    {
+      "name": "Abdulelah Al-Amri",
+      "position": "Defender",
+      "caps": 44,
+      "value_eur": 8520089
+    },
+    {
+      "name": "Abdullah Al-Khaibari",
+      "position": "Midfielder",
+      "caps": 42,
+      "value_eur": 7745535
+    },
+    {
+      "name": "Musab Al-Juwayr",
+      "position": "Midfielder",
+      "caps": 37,
+      "value_eur": 7100074
+    },
+    {
+      "name": "Nawaf Boushal",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 6553914
+    },
+    {
+      "name": "Ayman Yahya",
+      "position": "Forward",
+      "caps": 26,
+      "value_eur": 6085778
+    },
+    {
+      "name": "Nawaf Al-Aqidi",
+      "position": "Goalkeeper",
+      "caps": 24,
+      "value_eur": 5680059
+    },
+    {
+      "name": "Ali Lajami",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 5325055
+    },
+    {
+      "name": "Ali Majrashi",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 5011817
+    },
+    {
+      "name": "Hassan Kadesh",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 4733382
+    },
+    {
+      "name": "Moteb Al-Harbi",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 4484257
+    },
+    {
+      "name": "Ziyad Al-Johani",
+      "position": "Midfielder",
+      "caps": 12,
+      "value_eur": 4260044
+    },
+    {
+      "name": "Ahmed Al-Kassar",
+      "position": "Goalkeeper",
+      "caps": 9,
+      "value_eur": 4057185
+    },
+    {
+      "name": "Jehad Thakri",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 3872767
+    },
+    {
+      "name": "Mohammed Abu Al-Shamat",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 3704386
+    },
+    {
+      "name": "Khalid Al-Ghannam",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 3550037
+    },
+    {
+      "name": "Sultan Mandash",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 3408035
+    },
+    {
+      "name": "Alaa Al-Hejji",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 3276957
+    }
+  ],
+  "Spain": [
+    {
+      "name": "Gavi",
+      "position": "Midfielder",
+      "caps": 30,
+      "value_eur": 90000000
+    },
+    {
+      "name": "Rodri",
+      "position": "Midfielder",
+      "caps": 62,
+      "value_eur": 120000000
+    },
+    {
+      "name": "Nico Williams",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 60000000
+    },
+    {
+      "name": "Lamine Yamal",
+      "position": "Forward",
+      "caps": 25,
+      "value_eur": 90000000
+    },
+    {
+      "name": "Pedri",
+      "position": "Midfielder",
+      "caps": 41,
+      "value_eur": 80000000
+    },
+    {
+      "name": "Unai Simón",
+      "position": "Goalkeeper",
+      "caps": 58,
+      "value_eur": 337415354
+    },
+    {
+      "name": "Ferran Torres",
+      "position": "Forward",
+      "caps": 57,
+      "value_eur": 168707677
+    },
+    {
+      "name": "Mikel Oyarzabal",
+      "position": "Forward",
+      "caps": 53,
+      "value_eur": 112471784
+    },
+    {
+      "name": "Dani Olmo",
+      "position": "Forward",
+      "caps": 50,
+      "value_eur": 84353838
+    },
+    {
+      "name": "Aymeric Laporte",
+      "position": "Defender",
+      "caps": 46,
+      "value_eur": 67483070
+    },
+    {
+      "name": "Mikel Merino",
+      "position": "Midfielder",
+      "caps": 43,
+      "value_eur": 56235892
+    },
+    {
+      "name": "Fabián Ruiz",
+      "position": "Midfielder",
+      "caps": 42,
+      "value_eur": 48202193
+    },
+    {
+      "name": "Martín Zubimendi",
+      "position": "Midfielder",
+      "caps": 26,
+      "value_eur": 42176919
+    },
+    {
+      "name": "Marcos Llorente",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 37490594
+    },
+    {
+      "name": "Marc Cucurella",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 33741535
+    },
+    {
+      "name": "Yéremy Pino",
+      "position": "Forward",
+      "caps": 23,
+      "value_eur": 30674123
+    },
+    {
+      "name": "Eric García",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 28117946
+    },
+    {
+      "name": "Pedro Porro",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 25955027
+    },
+    {
+      "name": "Álex Baena",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 24101096
+    },
+    {
+      "name": "Álex Grimaldo",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 22494356
+    },
+    {
+      "name": "David Raya",
+      "position": "Goalkeeper",
+      "caps": 13,
+      "value_eur": 21088459
+    },
+    {
+      "name": "Pau Cubarsí",
+      "position": "Defender",
+      "caps": 12,
+      "value_eur": 19847962
+    },
+    {
+      "name": "Borja Iglesias",
+      "position": "Forward",
+      "caps": 8,
+      "value_eur": 18745297
+    },
+    {
+      "name": "Marc Pubill",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 17758702
+    },
+    {
+      "name": "Joan Garcia",
+      "position": "Goalkeeper",
+      "caps": 2,
+      "value_eur": 16870767
+    },
+    {
+      "name": "Víctor Muñoz",
+      "position": "Forward",
+      "caps": 2,
+      "value_eur": 16067397
+    }
+  ],
+  "Uruguay": [
+    {
+      "name": "Ronald Araújo",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 70000000
+    },
+    {
+      "name": "Federico Valverde",
+      "position": "Midfielder",
+      "caps": 73,
+      "value_eur": 120000000
+    },
+    {
+      "name": "Darwin Núñez",
+      "position": "Forward",
+      "caps": 38,
+      "value_eur": 70000000
+    },
+    {
+      "name": "Fernando Muslera",
+      "position": "Goalkeeper",
+      "caps": 134,
+      "value_eur": 251721108
+    },
+    {
+      "name": "José María Giménez",
+      "position": "Defender",
+      "caps": 99,
+      "value_eur": 125860554
+    },
+    {
+      "name": "Rodrigo Bentancur",
+      "position": "Midfielder",
+      "caps": 74,
+      "value_eur": 83907036
+    },
+    {
+      "name": "Giorgian de Arrascaeta",
+      "position": "Midfielder",
+      "caps": 60,
+      "value_eur": 62930277
+    },
+    {
+      "name": "Matías Viña",
+      "position": "Defender",
+      "caps": 43,
+      "value_eur": 50344221
+    },
+    {
+      "name": "Facundo Pellistri",
+      "position": "Forward",
+      "caps": 39,
+      "value_eur": 41953518
+    },
+    {
+      "name": "Manuel Ugarte",
+      "position": "Midfielder",
+      "caps": 36,
+      "value_eur": 35960158
+    },
+    {
+      "name": "Sergio Rochet",
+      "position": "Goalkeeper",
+      "caps": 35,
+      "value_eur": 31465138
+    },
+    {
+      "name": "Mathías Olivera",
+      "position": "Defender",
+      "caps": 35,
+      "value_eur": 27969012
+    },
+    {
+      "name": "Nicolás de la Cruz",
+      "position": "Midfielder",
+      "caps": 34,
+      "value_eur": 25172110
+    },
+    {
+      "name": "Brian Rodríguez",
+      "position": "Forward",
+      "caps": 32,
+      "value_eur": 22883737
+    },
+    {
+      "name": "Guillermo Varela",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 20976759
+    },
+    {
+      "name": "Maximiliano Araújo",
+      "position": "Midfielder",
+      "caps": 28,
+      "value_eur": 19363162
+    },
+    {
+      "name": "Sebastián Cáceres",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 17980079
+    },
+    {
+      "name": "Joaquín Piquerez",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 16781407
+    },
+    {
+      "name": "Agustín Canobbio",
+      "position": "Midfielder",
+      "caps": 15,
+      "value_eur": 15732569
+    },
+    {
+      "name": "Federico Viñas",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 14807124
+    },
+    {
+      "name": "Emiliano Martínez",
+      "position": "Midfielder",
+      "caps": 10,
+      "value_eur": 13984506
+    },
+    {
+      "name": "Rodrigo Aguirre",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 13248479
+    },
+    {
+      "name": "Santiago Mele",
+      "position": "Goalkeeper",
+      "caps": 8,
+      "value_eur": 12586055
+    },
+    {
+      "name": "Santiago Bueno",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 11986719
+    },
+    {
+      "name": "Rodrigo Zalazar",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 11441868
+    },
+    {
+      "name": "Juan Manuel Sanabria",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 10944396
+    }
+  ],
+  "France": [
+    {
+      "name": "Ousmane Dembélé",
+      "position": "Forward",
+      "caps": 59,
+      "value_eur": 60000000
+    },
+    {
+      "name": "Aurélien Tchouaméni",
+      "position": "Midfielder",
+      "caps": 46,
+      "value_eur": 90000000
+    },
+    {
+      "name": "Kylian Mbappé",
+      "position": "Forward",
+      "caps": 98,
+      "value_eur": 180000000
+    },
+    {
+      "name": "William Saliba",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 80000000
+    },
+    {
+      "name": "N'Golo Kanté",
+      "position": "Midfielder",
+      "caps": 69,
+      "value_eur": 707161219
+    },
+    {
+      "name": "Adrien Rabiot",
+      "position": "Midfielder",
+      "caps": 59,
+      "value_eur": 353580609
+    },
+    {
+      "name": "Lucas Digne",
+      "position": "Defender",
+      "caps": 58,
+      "value_eur": 235720406
+    },
+    {
+      "name": "Jules Koundé",
+      "position": "Defender",
+      "caps": 48,
+      "value_eur": 176790304
+    },
+    {
+      "name": "Théo Hernandez",
+      "position": "Defender",
+      "caps": 44,
+      "value_eur": 141432243
+    },
+    {
+      "name": "Lucas Hernandez",
+      "position": "Defender",
+      "caps": 42,
+      "value_eur": 117860203
+    },
+    {
+      "name": "Mike Maignan",
+      "position": "Goalkeeper",
+      "caps": 40,
+      "value_eur": 101023031
+    },
+    {
+      "name": "Dayot Upamecano",
+      "position": "Defender",
+      "caps": 38,
+      "value_eur": 88395152
+    },
+    {
+      "name": "Marcus Thuram",
+      "position": "Forward",
+      "caps": 34,
+      "value_eur": 78573468
+    },
+    {
+      "name": "Ibrahima Konaté",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 70716121
+    },
+    {
+      "name": "Bradley Barcola",
+      "position": "Forward",
+      "caps": 20,
+      "value_eur": 64287383
+    },
+    {
+      "name": "Michael Olise",
+      "position": "Forward",
+      "caps": 17,
+      "value_eur": 58930101
+    },
+    {
+      "name": "Manu Koné",
+      "position": "Midfielder",
+      "caps": 14,
+      "value_eur": 54397016
+    },
+    {
+      "name": "Malo Gusto",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 50511515
+    },
+    {
+      "name": "Warren Zaïre-Emery",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 47144081
+    },
+    {
+      "name": "Maghnes Akliouche",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 44197576
+    },
+    {
+      "name": "Désiré Doué",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 41597718
+    },
+    {
+      "name": "Rayan Cherki",
+      "position": "Midfielder",
+      "caps": 7,
+      "value_eur": 39286734
+    },
+    {
+      "name": "Brice Samba",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 37219011
+    },
+    {
+      "name": "Jean-Philippe Mateta",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 35358060
+    },
+    {
+      "name": "Maxence Lacroix",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 33674343
+    },
+    {
+      "name": "Robin Risser",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 32143691
+    }
+  ],
+  "Iraq": [
+    {
+      "name": "Jalal Hassan",
+      "position": "Goalkeeper",
+      "caps": 102,
+      "value_eur": 83955568
+    },
+    {
+      "name": "Aymen Hussein",
+      "position": "Forward",
+      "caps": 95,
+      "value_eur": 41977784
+    },
+    {
+      "name": "Ibrahim Bayesh",
+      "position": "Midfielder",
+      "caps": 76,
+      "value_eur": 27985189
+    },
+    {
+      "name": "Mohanad Ali",
+      "position": "Forward",
+      "caps": 72,
+      "value_eur": 20988892
+    },
+    {
+      "name": "Rebin Sulaka",
+      "position": "Defender",
+      "caps": 56,
+      "value_eur": 16791113
+    },
+    {
+      "name": "Amir Al-Ammari",
+      "position": "Midfielder",
+      "caps": 51,
+      "value_eur": 13992594
+    },
+    {
+      "name": "Ali Jasim",
+      "position": "Forward",
+      "caps": 36,
+      "value_eur": 11993652
+    },
+    {
+      "name": "Manaf Younis",
+      "position": "Defender",
+      "caps": 34,
+      "value_eur": 10494446
+    },
+    {
+      "name": "Merchas Doski",
+      "position": "Defender",
+      "caps": 31,
+      "value_eur": 9328396
+    },
+    {
+      "name": "Zaid Tahseen",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 8395556
+    },
+    {
+      "name": "Frans Putros",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 7632324
+    },
+    {
+      "name": "Hussein Ali",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 6996297
+    },
+    {
+      "name": "Youssef Amyn",
+      "position": "Midfielder",
+      "caps": 27,
+      "value_eur": 6458120
+    },
+    {
+      "name": "Zidane Iqbal",
+      "position": "Midfielder",
+      "caps": 25,
+      "value_eur": 5996826
+    },
+    {
+      "name": "Fahad Talib",
+      "position": "Goalkeeper",
+      "caps": 21,
+      "value_eur": 5597037
+    },
+    {
+      "name": "Ali Al-Hamadi",
+      "position": "Forward",
+      "caps": 20,
+      "value_eur": 5247223
+    },
+    {
+      "name": "Mustafa Saadoon",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 4938562
+    },
+    {
+      "name": "Ahmed Basil",
+      "position": "Goalkeeper",
+      "caps": 16,
+      "value_eur": 4664198
+    },
+    {
+      "name": "Akam Hashim",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 4418714
+    },
+    {
+      "name": "Marko Farji",
+      "position": "Forward",
+      "caps": 12,
+      "value_eur": 4197778
+    },
+    {
+      "name": "Kevin Yakob",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 3997884
+    },
+    {
+      "name": "Ali Yousif",
+      "position": "Forward",
+      "caps": 7,
+      "value_eur": 3816162
+    },
+    {
+      "name": "Ahmed Yahya",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 3650242
+    },
+    {
+      "name": "Aimar Sher",
+      "position": "Midfielder",
+      "caps": 7,
+      "value_eur": 3498148
+    },
+    {
+      "name": "Zaid Ismail",
+      "position": "Midfielder",
+      "caps": 6,
+      "value_eur": 3358222
+    },
+    {
+      "name": "Ahmed Qasem",
+      "position": "Forward",
+      "caps": 3,
+      "value_eur": 3229060
+    }
+  ],
+  "Norway": [
+    {
+      "name": "Erling Haaland",
+      "position": "Forward",
+      "caps": 50,
+      "value_eur": 180000000
+    },
+    {
+      "name": "Alexander Sørloth",
+      "position": "Forward",
+      "caps": 72,
+      "value_eur": 183440165
+    },
+    {
+      "name": "Ørjan Nyland",
+      "position": "Goalkeeper",
+      "caps": 71,
+      "value_eur": 91720082
+    },
+    {
+      "name": "Martin Ødegaard",
+      "position": "Midfielder",
+      "caps": 68,
+      "value_eur": 61146721
+    },
+    {
+      "name": "Sander Berge",
+      "position": "Midfielder",
+      "caps": 66,
+      "value_eur": 45860041
+    },
+    {
+      "name": "Kristoffer Ajer",
+      "position": "Defender",
+      "caps": 52,
+      "value_eur": 36688033
+    },
+    {
+      "name": "Patrick Berg",
+      "position": "Midfielder",
+      "caps": 43,
+      "value_eur": 30573360
+    },
+    {
+      "name": "Julian Ryerson",
+      "position": "Defender",
+      "caps": 43,
+      "value_eur": 26205737
+    },
+    {
+      "name": "Leo Østigård",
+      "position": "Defender",
+      "caps": 38,
+      "value_eur": 22930020
+    },
+    {
+      "name": "Kristian Thorstvedt",
+      "position": "Midfielder",
+      "caps": 37,
+      "value_eur": 20382240
+    },
+    {
+      "name": "Marcus Holmgren Pedersen",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 18344016
+    },
+    {
+      "name": "Morten Thorsby",
+      "position": "Midfielder",
+      "caps": 31,
+      "value_eur": 16676378
+    },
+    {
+      "name": "Jørgen Strand Larsen",
+      "position": "Forward",
+      "caps": 28,
+      "value_eur": 15286680
+    },
+    {
+      "name": "Antonio Nusa",
+      "position": "Midfielder",
+      "caps": 24,
+      "value_eur": 14110781
+    },
+    {
+      "name": "David Møller Wolfe",
+      "position": "Defender",
+      "caps": 22,
+      "value_eur": 13102868
+    },
+    {
+      "name": "Fredrik Aursnes",
+      "position": "Midfielder",
+      "caps": 22,
+      "value_eur": 12229344
+    },
+    {
+      "name": "Fredrik André Bjørkan",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 11465010
+    },
+    {
+      "name": "Oscar Bobb",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 10790597
+    },
+    {
+      "name": "Torbjørn Heggem",
+      "position": "Defender",
+      "caps": 15,
+      "value_eur": 10191120
+    },
+    {
+      "name": "Jens Petter Hauge",
+      "position": "Midfielder",
+      "caps": 15,
+      "value_eur": 9654745
+    },
+    {
+      "name": "Andreas Schjelderup",
+      "position": "Midfielder",
+      "caps": 12,
+      "value_eur": 9172008
+    },
+    {
+      "name": "Thelo Aasgaard",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 8735245
+    },
+    {
+      "name": "Egil Selvik",
+      "position": "Goalkeeper",
+      "caps": 7,
+      "value_eur": 8338189
+    },
+    {
+      "name": "Sondre Langås",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 7975659
+    },
+    {
+      "name": "Henrik Falchener",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 7643340
+    },
+    {
+      "name": "Sander Tangvik",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 7337606
+    }
+  ],
+  "Senegal": [
+    {
+      "name": "Idrissa Gueye",
+      "position": "Midfielder",
+      "caps": 131,
+      "value_eur": 190690182
+    },
+    {
+      "name": "Sadio Mané",
+      "position": "Forward",
+      "caps": 128,
+      "value_eur": 95345091
+    },
+    {
+      "name": "Kalidou Koulibaly",
+      "position": "Defender",
+      "caps": 103,
+      "value_eur": 63563394
+    },
+    {
+      "name": "Ismaïla Sarr",
+      "position": "Forward",
+      "caps": 83,
+      "value_eur": 47672545
+    },
+    {
+      "name": "Krépin Diatta",
+      "position": "Defender",
+      "caps": 61,
+      "value_eur": 38138036
+    },
+    {
+      "name": "Édouard Mendy",
+      "position": "Goalkeeper",
+      "caps": 57,
+      "value_eur": 31781697
+    },
+    {
+      "name": "Pape Gueye",
+      "position": "Midfielder",
+      "caps": 41,
+      "value_eur": 27241454
+    },
+    {
+      "name": "Iliman Ndiaye",
+      "position": "Forward",
+      "caps": 40,
+      "value_eur": 23836272
+    },
+    {
+      "name": "Pape Matar Sarr",
+      "position": "Midfielder",
+      "caps": 40,
+      "value_eur": 21187798
+    },
+    {
+      "name": "Lamine Camara",
+      "position": "Midfielder",
+      "caps": 33,
+      "value_eur": 19069018
+    },
+    {
+      "name": "Nicolas Jackson",
+      "position": "Forward",
+      "caps": 33,
+      "value_eur": 17335471
+    },
+    {
+      "name": "Moussa Niakhaté",
+      "position": "Defender",
+      "caps": 31,
+      "value_eur": 15890848
+    },
+    {
+      "name": "Pathé Ciss",
+      "position": "Midfielder",
+      "caps": 30,
+      "value_eur": 14668475
+    },
+    {
+      "name": "Ismail Jakobs",
+      "position": "Defender",
+      "caps": 30,
+      "value_eur": 13620727
+    },
+    {
+      "name": "Bamba Dieng",
+      "position": "Forward",
+      "caps": 23,
+      "value_eur": 12712678
+    },
+    {
+      "name": "Abdoulaye Seck",
+      "position": "Defender",
+      "caps": 22,
+      "value_eur": 11918136
+    },
+    {
+      "name": "Habib Diarra",
+      "position": "Midfielder",
+      "caps": 21,
+      "value_eur": 11217069
+    },
+    {
+      "name": "El Hadji Malick Diouf",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 10593899
+    },
+    {
+      "name": "Cherif Ndiaye",
+      "position": "Forward",
+      "caps": 19,
+      "value_eur": 10036325
+    },
+    {
+      "name": "Ibrahim Mbaye",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 9534509
+    },
+    {
+      "name": "Mamadou Sarr",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 9080484
+    },
+    {
+      "name": "Antoine Mendy",
+      "position": "Defender",
+      "caps": 7,
+      "value_eur": 8667735
+    },
+    {
+      "name": "Assane Diao",
+      "position": "Forward",
+      "caps": 5,
+      "value_eur": 8290877
+    },
+    {
+      "name": "Mory Diaw",
+      "position": "Goalkeeper",
+      "caps": 5,
+      "value_eur": 7945424
+    },
+    {
+      "name": "Yehvann Diouf",
+      "position": "Goalkeeper",
+      "caps": 2,
+      "value_eur": 7627607
+    },
+    {
+      "name": "Bara Sapoko Ndiaye",
+      "position": "Midfielder",
+      "caps": 1,
+      "value_eur": 7334237
+    }
+  ],
+  "Algeria": [
+    {
+      "name": "Aïssa Mandi",
+      "position": "Defender",
+      "caps": 120,
+      "value_eur": 166043152
+    },
+    {
+      "name": "Riyad Mahrez",
+      "position": "Forward",
+      "caps": 117,
+      "value_eur": 83021576
+    },
+    {
+      "name": "Ramy Bensebaini",
+      "position": "Defender",
+      "caps": 82,
+      "value_eur": 55347717
+    },
+    {
+      "name": "Nabil Bentaleb",
+      "position": "Midfielder",
+      "caps": 62,
+      "value_eur": 41510788
+    },
+    {
+      "name": "Ramiz Zerrouki",
+      "position": "Midfielder",
+      "caps": 54,
+      "value_eur": 33208630
+    },
+    {
+      "name": "Mohamed Amoura",
+      "position": "Forward",
+      "caps": 48,
+      "value_eur": 27673858
+    },
+    {
+      "name": "Hicham Boudaoui",
+      "position": "Midfielder",
+      "caps": 35,
+      "value_eur": 23720450
+    },
+    {
+      "name": "Farès Chaïbi",
+      "position": "Midfielder",
+      "caps": 32,
+      "value_eur": 20755394
+    },
+    {
+      "name": "Mohamed Amine Tougai",
+      "position": "Defender",
+      "caps": 31,
+      "value_eur": 18449239
+    },
+    {
+      "name": "Rayan Aït-Nouri",
+      "position": "Defender",
+      "caps": 31,
+      "value_eur": 16604315
+    },
+    {
+      "name": "Amine Gouiri",
+      "position": "Forward",
+      "caps": 24,
+      "value_eur": 15094832
+    },
+    {
+      "name": "Houssem Aouar",
+      "position": "Midfielder",
+      "caps": 23,
+      "value_eur": 13836929
+    },
+    {
+      "name": "Jaouen Hadjam",
+      "position": "Defender",
+      "caps": 19,
+      "value_eur": 12772550
+    },
+    {
+      "name": "Ibrahim Maza",
+      "position": "Midfielder",
+      "caps": 18,
+      "value_eur": 11860225
+    },
+    {
+      "name": "Anis Hadj Moussa",
+      "position": "Forward",
+      "caps": 16,
+      "value_eur": 11069543
+    },
+    {
+      "name": "Rafik Belghali",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 10377697
+    },
+    {
+      "name": "Zineddine Belaïd",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 9767244
+    },
+    {
+      "name": "Adil Boulbina",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 9224619
+    },
+    {
+      "name": "Achref Abada",
+      "position": "Defender",
+      "caps": 9,
+      "value_eur": 8739113
+    },
+    {
+      "name": "Luca Zidane",
+      "position": "Goalkeeper",
+      "caps": 7,
+      "value_eur": 8302157
+    },
+    {
+      "name": "Samir Chergui",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 7906816
+    },
+    {
+      "name": "Nadhir Benbouali",
+      "position": "Forward",
+      "caps": 5,
+      "value_eur": 7547416
+    },
+    {
+      "name": "Yacine Titraoui",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 7219267
+    },
+    {
+      "name": "Oussama Benbot",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 6918464
+    },
+    {
+      "name": "Melvin Mastil",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 6641726
+    },
+    {
+      "name": "Farès Ghedjemis",
+      "position": "Forward",
+      "caps": 1,
+      "value_eur": 6386275
+    }
+  ],
+  "Argentina": [
+    {
+      "name": "Julián Alvarez",
+      "position": "Forward",
+      "caps": 51,
+      "value_eur": 90000000
+    },
+    {
+      "name": "Lionel Messi",
+      "position": "Forward",
+      "caps": 199,
+      "value_eur": 30000000
+    },
+    {
+      "name": "Cristian Romero",
+      "position": "Defender",
+      "caps": 51,
+      "value_eur": 60000000
+    },
+    {
+      "name": "Alexis Mac Allister",
+      "position": "Midfielder",
+      "caps": 46,
+      "value_eur": 75000000
+    },
+    {
+      "name": "Lautaro Martínez",
+      "position": "Forward",
+      "caps": 77,
+      "value_eur": 110000000
+    },
+    {
+      "name": "Emiliano Martínez",
+      "position": "Goalkeeper",
+      "caps": 59,
+      "value_eur": 28000000
+    },
+    {
+      "name": "Enzo Fernández",
+      "position": "Midfielder",
+      "caps": 42,
+      "value_eur": 75000000
+    },
+    {
+      "name": "Nicolás Otamendi",
+      "position": "Defender",
+      "caps": 132,
+      "value_eur": 330351185
+    },
+    {
+      "name": "Rodrigo De Paul",
+      "position": "Midfielder",
+      "caps": 87,
+      "value_eur": 165175592
+    },
+    {
+      "name": "Leandro Paredes",
+      "position": "Midfielder",
+      "caps": 77,
+      "value_eur": 110117061
+    },
+    {
+      "name": "Nicolás Tagliafico",
+      "position": "Defender",
+      "caps": 76,
+      "value_eur": 82587796
+    },
+    {
+      "name": "Giovani Lo Celso",
+      "position": "Midfielder",
+      "caps": 67,
+      "value_eur": 66070237
+    },
+    {
+      "name": "Nahuel Molina",
+      "position": "Defender",
+      "caps": 58,
+      "value_eur": 55058530
+    },
+    {
+      "name": "Nicolás González",
+      "position": "Midfielder",
+      "caps": 51,
+      "value_eur": 47193026
+    },
+    {
+      "name": "Exequiel Palacios",
+      "position": "Midfielder",
+      "caps": 40,
+      "value_eur": 41293898
+    },
+    {
+      "name": "Gonzalo Montiel",
+      "position": "Defender",
+      "caps": 39,
+      "value_eur": 36705687
+    },
+    {
+      "name": "Lisandro Martínez",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 33035118
+    },
+    {
+      "name": "Thiago Almada",
+      "position": "Forward",
+      "caps": 16,
+      "value_eur": 30031925
+    },
+    {
+      "name": "Giuliano Simeone",
+      "position": "Forward",
+      "caps": 13,
+      "value_eur": 27529265
+    },
+    {
+      "name": "Nico Paz",
+      "position": "Forward",
+      "caps": 9,
+      "value_eur": 25411629
+    },
+    {
+      "name": "Facundo Medina",
+      "position": "Defender",
+      "caps": 9,
+      "value_eur": 23596513
+    },
+    {
+      "name": "Gerónimo Rulli",
+      "position": "Goalkeeper",
+      "caps": 8,
+      "value_eur": 22023412
+    },
+    {
+      "name": "José Manuel López",
+      "position": "Forward",
+      "caps": 5,
+      "value_eur": 20646949
+    },
+    {
+      "name": "Juan Musso",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 19432422
+    },
+    {
+      "name": "Valentín Barco",
+      "position": "Midfielder",
+      "caps": 4,
+      "value_eur": 18352843
+    },
+    {
+      "name": "Leonardo Balerdi",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 17386904
+    }
+  ],
+  "Austria": [
+    {
+      "name": "Marko Arnautović",
+      "position": "Forward",
+      "caps": 133,
+      "value_eur": 260739637
+    },
+    {
+      "name": "David Alaba",
+      "position": "Defender",
+      "caps": 113,
+      "value_eur": 130369818
+    },
+    {
+      "name": "Marcel Sabitzer",
+      "position": "Midfielder",
+      "caps": 98,
+      "value_eur": 86913212
+    },
+    {
+      "name": "Michael Gregoritsch",
+      "position": "Forward",
+      "caps": 75,
+      "value_eur": 65184909
+    },
+    {
+      "name": "Florian Grillitsch",
+      "position": "Midfielder",
+      "caps": 58,
+      "value_eur": 52147927
+    },
+    {
+      "name": "Konrad Laimer",
+      "position": "Midfielder",
+      "caps": 57,
+      "value_eur": 43456606
+    },
+    {
+      "name": "Stefan Posch",
+      "position": "Defender",
+      "caps": 52,
+      "value_eur": 37248519
+    },
+    {
+      "name": "Xaver Schlager",
+      "position": "Midfielder",
+      "caps": 51,
+      "value_eur": 32592454
+    },
+    {
+      "name": "Nicolas Seiwald",
+      "position": "Midfielder",
+      "caps": 47,
+      "value_eur": 28971070
+    },
+    {
+      "name": "Philipp Lienhart",
+      "position": "Defender",
+      "caps": 41,
+      "value_eur": 26073963
+    },
+    {
+      "name": "Alessandro Schöpf",
+      "position": "Midfielder",
+      "caps": 35,
+      "value_eur": 23703603
+    },
+    {
+      "name": "Romano Schmid",
+      "position": "Midfielder",
+      "caps": 34,
+      "value_eur": 21728303
+    },
+    {
+      "name": "Kevin Danso",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 20056895
+    },
+    {
+      "name": "Phillipp Mwene",
+      "position": "Defender",
+      "caps": 30,
+      "value_eur": 18624259
+    },
+    {
+      "name": "Patrick Wimmer",
+      "position": "Forward",
+      "caps": 30,
+      "value_eur": 17382642
+    },
+    {
+      "name": "Alexander Schlager",
+      "position": "Goalkeeper",
+      "caps": 26,
+      "value_eur": 16296227
+    },
+    {
+      "name": "Saša Kalajdžić",
+      "position": "Forward",
+      "caps": 22,
+      "value_eur": 15337625
+    },
+    {
+      "name": "Alexander Prass",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 14485535
+    },
+    {
+      "name": "Patrick Pentz",
+      "position": "Goalkeeper",
+      "caps": 18,
+      "value_eur": 13723138
+    },
+    {
+      "name": "Marco Friedl",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 13036981
+    },
+    {
+      "name": "Christoph Baumgartner",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 12416173
+    },
+    {
+      "name": "Michael Svoboda",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 11851801
+    },
+    {
+      "name": "Carney Chukwuemeka",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 11336505
+    },
+    {
+      "name": "Paul Wanner",
+      "position": "Midfielder",
+      "caps": 3,
+      "value_eur": 10864151
+    },
+    {
+      "name": "David Affengruber",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 10429585
+    },
+    {
+      "name": "Florian Wiegele",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 10028447
+    }
+  ],
+  "Jordan": [
+    {
+      "name": "Musa Al-Taamari",
+      "position": "Forward",
+      "caps": 92,
+      "value_eur": 96616359
+    },
+    {
+      "name": "Ihsan Haddad",
+      "position": "Defender",
+      "caps": 92,
+      "value_eur": 48308179
+    },
+    {
+      "name": "Mahmoud Al-Mardi",
+      "position": "Forward",
+      "caps": 89,
+      "value_eur": 32205453
+    },
+    {
+      "name": "Yazan Al-Arab",
+      "position": "Defender",
+      "caps": 80,
+      "value_eur": 24154089
+    },
+    {
+      "name": "Yazeed Abulaila",
+      "position": "Goalkeeper",
+      "caps": 76,
+      "value_eur": 19323271
+    },
+    {
+      "name": "Rajaei Ayed",
+      "position": "Midfielder",
+      "caps": 72,
+      "value_eur": 16102726
+    },
+    {
+      "name": "Noor Al-Rawabdeh",
+      "position": "Midfielder",
+      "caps": 68,
+      "value_eur": 13802337
+    },
+    {
+      "name": "Ali Olwan",
+      "position": "Forward",
+      "caps": 66,
+      "value_eur": 12077044
+    },
+    {
+      "name": "Abdallah Nasib",
+      "position": "Defender",
+      "caps": 65,
+      "value_eur": 10735151
+    },
+    {
+      "name": "Ibrahim Sadeh",
+      "position": "Midfielder",
+      "caps": 57,
+      "value_eur": 9661635
+    },
+    {
+      "name": "Mohammad Abu Hashish",
+      "position": "Defender",
+      "caps": 56,
+      "value_eur": 8783305
+    },
+    {
+      "name": "Nizar Al-Rashdan",
+      "position": "Midfielder",
+      "caps": 47,
+      "value_eur": 8051363
+    },
+    {
+      "name": "Mohammad Abu Zrayq",
+      "position": "Forward",
+      "caps": 41,
+      "value_eur": 7432027
+    },
+    {
+      "name": "Mohannad Abu Taha",
+      "position": "Midfielder",
+      "caps": 29,
+      "value_eur": 6901168
+    },
+    {
+      "name": "Saed Al-Rosan",
+      "position": "Defender",
+      "caps": 21,
+      "value_eur": 6441090
+    },
+    {
+      "name": "Amer Jamous",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 6038522
+    },
+    {
+      "name": "Husam Abu Dahab",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 5683315
+    },
+    {
+      "name": "Mo Abualnadi",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 5367575
+    },
+    {
+      "name": "Mohammad Al-Dawoud",
+      "position": "Midfielder",
+      "caps": 13,
+      "value_eur": 5085071
+    },
+    {
+      "name": "Salim Obaid",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 4830817
+    },
+    {
+      "name": "Abdallah Al-Fakhouri",
+      "position": "Goalkeeper",
+      "caps": 11,
+      "value_eur": 4600779
+    },
+    {
+      "name": "Odeh Al-Fakhouri",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 4391652
+    },
+    {
+      "name": "Nour Bani Attiah",
+      "position": "Goalkeeper",
+      "caps": 5,
+      "value_eur": 4200711
+    },
+    {
+      "name": "Ali Azaizeh",
+      "position": "Forward",
+      "caps": 4,
+      "value_eur": 4025681
+    },
+    {
+      "name": "Ibrahim Sabra",
+      "position": "Midfielder",
+      "caps": 2,
+      "value_eur": 3864654
+    },
+    {
+      "name": "Anas Badawi",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 3716013
+    }
+  ],
+  "Colombia": [
+    {
+      "name": "David Ospina",
+      "position": "Goalkeeper",
+      "caps": 130,
+      "value_eur": 503318305
+    },
+    {
+      "name": "James Rodríguez",
+      "position": "Midfielder",
+      "caps": 126,
+      "value_eur": 251659152
+    },
+    {
+      "name": "Davinson Sánchez",
+      "position": "Defender",
+      "caps": 79,
+      "value_eur": 167772768
+    },
+    {
+      "name": "Luis Díaz",
+      "position": "Forward",
+      "caps": 74,
+      "value_eur": 125829576
+    },
+    {
+      "name": "Santiago Arias",
+      "position": "Defender",
+      "caps": 68,
+      "value_eur": 100663661
+    },
+    {
+      "name": "Jefferson Lerma",
+      "position": "Midfielder",
+      "caps": 65,
+      "value_eur": 83886384
+    },
+    {
+      "name": "Yerry Mina",
+      "position": "Defender",
+      "caps": 54,
+      "value_eur": 71902615
+    },
+    {
+      "name": "Juan Fernando Quintero",
+      "position": "Midfielder",
+      "caps": 49,
+      "value_eur": 62914788
+    },
+    {
+      "name": "Daniel Muñoz",
+      "position": "Defender",
+      "caps": 46,
+      "value_eur": 55924256
+    },
+    {
+      "name": "Johan Mojica",
+      "position": "Defender",
+      "caps": 45,
+      "value_eur": 50331830
+    },
+    {
+      "name": "Camilo Vargas",
+      "position": "Goalkeeper",
+      "caps": 42,
+      "value_eur": 45756209
+    },
+    {
+      "name": "Jhon Arias",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 41943192
+    },
+    {
+      "name": "Jhon Lucumí",
+      "position": "Defender",
+      "caps": 37,
+      "value_eur": 38716792
+    },
+    {
+      "name": "Richard Ríos",
+      "position": "Midfielder",
+      "caps": 32,
+      "value_eur": 35951307
+    },
+    {
+      "name": "Kevin Castaño",
+      "position": "Midfielder",
+      "caps": 25,
+      "value_eur": 33554553
+    },
+    {
+      "name": "Jorge Carrascal",
+      "position": "Midfielder",
+      "caps": 24,
+      "value_eur": 31457394
+    },
+    {
+      "name": "Jhon Córdoba",
+      "position": "Forward",
+      "caps": 21,
+      "value_eur": 29606959
+    },
+    {
+      "name": "Deiver Machado",
+      "position": "Defender",
+      "caps": 15,
+      "value_eur": 27962128
+    },
+    {
+      "name": "Álvaro Montero",
+      "position": "Goalkeeper",
+      "caps": 12,
+      "value_eur": 26490437
+    },
+    {
+      "name": "Luis Suárez",
+      "position": "Forward",
+      "caps": 12,
+      "value_eur": 25165915
+    },
+    {
+      "name": "Juan Portilla",
+      "position": "Midfielder",
+      "caps": 10,
+      "value_eur": 23967538
+    },
+    {
+      "name": "Jaminton Campaz",
+      "position": "Forward",
+      "caps": 10,
+      "value_eur": 22878104
+    },
+    {
+      "name": "Cucho Hernández",
+      "position": "Forward",
+      "caps": 9,
+      "value_eur": 21883404
+    },
+    {
+      "name": "Andrés Gómez",
+      "position": "Forward",
+      "caps": 8,
+      "value_eur": 20971596
+    },
+    {
+      "name": "Gustavo Puerta",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 20132732
+    },
+    {
+      "name": "Willer Ditta",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 19358396
+    }
+  ],
+  "DR Congo": [
+    {
+      "name": "Chancel Mbemba",
+      "position": "Defender",
+      "caps": 109,
+      "value_eur": 4047301
+    },
+    {
+      "name": "Cédric Bakambu",
+      "position": "Forward",
+      "caps": 70,
+      "value_eur": 2023650
+    },
+    {
+      "name": "Meschak Elia",
+      "position": "Forward",
+      "caps": 69,
+      "value_eur": 1349100
+    },
+    {
+      "name": "Samuel Moutoussamy",
+      "position": "Midfielder",
+      "caps": 58,
+      "value_eur": 1011825
+    },
+    {
+      "name": "Arthur Masuaku",
+      "position": "Defender",
+      "caps": 45,
+      "value_eur": 809460
+    },
+    {
+      "name": "Edo Kayembe",
+      "position": "Midfielder",
+      "caps": 43,
+      "value_eur": 674550
+    },
+    {
+      "name": "Théo Bongonda",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 578185
+    },
+    {
+      "name": "Yoane Wissa",
+      "position": "Forward",
+      "caps": 38,
+      "value_eur": 505912
+    },
+    {
+      "name": "Fiston Mayele",
+      "position": "Forward",
+      "caps": 37,
+      "value_eur": 449700
+    },
+    {
+      "name": "Charles Pickel",
+      "position": "Midfielder",
+      "caps": 34,
+      "value_eur": 404730
+    },
+    {
+      "name": "Gaël Kakuta",
+      "position": "Forward",
+      "caps": 31,
+      "value_eur": 367936
+    },
+    {
+      "name": "Lionel Mpasi",
+      "position": "Goalkeeper",
+      "caps": 29,
+      "value_eur": 337275
+    },
+    {
+      "name": "Gédéon Kalulu",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 311330
+    },
+    {
+      "name": "Joris Kayembe",
+      "position": "Defender",
+      "caps": 26,
+      "value_eur": 289092
+    },
+    {
+      "name": "Noah Sadiki",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 269820
+    },
+    {
+      "name": "Nathanaël Mbuku",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 252956
+    },
+    {
+      "name": "Rocky Bushiri",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 238076
+    },
+    {
+      "name": "Simon Banza",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 224850
+    },
+    {
+      "name": "Axel Tuanzebe",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 213015
+    },
+    {
+      "name": "Dylan Batubinsika",
+      "position": "Defender",
+      "caps": 14,
+      "value_eur": 202365
+    },
+    {
+      "name": "Ngal'ayel Mukau",
+      "position": "Midfielder",
+      "caps": 14,
+      "value_eur": 192728
+    },
+    {
+      "name": "Aaron Wan-Bissaka",
+      "position": "Defender",
+      "caps": 12,
+      "value_eur": 183968
+    },
+    {
+      "name": "Brian Cipenga",
+      "position": "Forward",
+      "caps": 8,
+      "value_eur": 175969
+    },
+    {
+      "name": "Steve Kapuadi",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 168637
+    },
+    {
+      "name": "Timothy Fayulu",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 161892
+    },
+    {
+      "name": "Matthieu Epolo",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 155665
+    }
+  ],
+  "Portugal": [
+    {
+      "name": "Rúben Dias",
+      "position": "Defender",
+      "caps": 76,
+      "value_eur": 80000000
+    },
+    {
+      "name": "Cristiano Ronaldo",
+      "position": "Forward",
+      "caps": 228,
+      "value_eur": 15000000
+    },
+    {
+      "name": "Bruno Fernandes",
+      "position": "Midfielder",
+      "caps": 89,
+      "value_eur": 70000000
+    },
+    {
+      "name": "Bernardo Silva",
+      "position": "Midfielder",
+      "caps": 109,
+      "value_eur": 70000000
+    },
+    {
+      "name": "Rafael Leão",
+      "position": "Forward",
+      "caps": 44,
+      "value_eur": 90000000
+    },
+    {
+      "name": "João Cancelo",
+      "position": "Defender",
+      "caps": 68,
+      "value_eur": 481434103
+    },
+    {
+      "name": "Rúben Neves",
+      "position": "Midfielder",
+      "caps": 67,
+      "value_eur": 240717051
+    },
+    {
+      "name": "João Félix",
+      "position": "Forward",
+      "caps": 54,
+      "value_eur": 160478034
+    },
+    {
+      "name": "Nélson Semedo",
+      "position": "Defender",
+      "caps": 50,
+      "value_eur": 120358525
+    },
+    {
+      "name": "Nuno Mendes",
+      "position": "Defender",
+      "caps": 44,
+      "value_eur": 96286820
+    },
+    {
+      "name": "Diogo Costa",
+      "position": "Goalkeeper",
+      "caps": 43,
+      "value_eur": 80239017
+    },
+    {
+      "name": "Vitinha",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 68776300
+    },
+    {
+      "name": "Diogo Dalot",
+      "position": "Defender",
+      "caps": 35,
+      "value_eur": 60179262
+    },
+    {
+      "name": "Gonçalo Guedes",
+      "position": "Forward",
+      "caps": 34,
+      "value_eur": 53492678
+    },
+    {
+      "name": "Gonçalo Ramos",
+      "position": "Forward",
+      "caps": 25,
+      "value_eur": 48143410
+    },
+    {
+      "name": "Pedro Neto",
+      "position": "Forward",
+      "caps": 25,
+      "value_eur": 43766736
+    },
+    {
+      "name": "Gonçalo Inácio",
+      "position": "Defender",
+      "caps": 22,
+      "value_eur": 40119508
+    },
+    {
+      "name": "João Neves",
+      "position": "Midfielder",
+      "caps": 22,
+      "value_eur": 37033392
+    },
+    {
+      "name": "Matheus Nunes",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 34388150
+    },
+    {
+      "name": "Francisco Trincão",
+      "position": "Forward",
+      "caps": 18,
+      "value_eur": 32095606
+    },
+    {
+      "name": "Francisco Conceição",
+      "position": "Forward",
+      "caps": 17,
+      "value_eur": 30089631
+    },
+    {
+      "name": "Renato Veiga",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 28319653
+    },
+    {
+      "name": "Samú Costa",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 26746339
+    },
+    {
+      "name": "Tomás Araújo",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 25338637
+    },
+    {
+      "name": "José Sá",
+      "position": "Goalkeeper",
+      "caps": 5,
+      "value_eur": 24071705
+    },
+    {
+      "name": "Rui Silva",
+      "position": "Goalkeeper",
+      "caps": 3,
+      "value_eur": 22925433
+    }
+  ],
+  "Uzbekistan": [
+    {
+      "name": "Eldor Shomurodov",
+      "position": "Forward",
+      "caps": 92,
+      "value_eur": 49294060
+    },
+    {
+      "name": "Otabek Shukurov",
+      "position": "Midfielder",
+      "caps": 84,
+      "value_eur": 24647030
+    },
+    {
+      "name": "Igor Sergeev",
+      "position": "Forward",
+      "caps": 83,
+      "value_eur": 16431353
+    },
+    {
+      "name": "Odiljon Hamrobekov",
+      "position": "Midfielder",
+      "caps": 72,
+      "value_eur": 12323515
+    },
+    {
+      "name": "Rustam Ashurmatov",
+      "position": "Defender",
+      "caps": 49,
+      "value_eur": 9858812
+    },
+    {
+      "name": "Farrukh Sayfiev",
+      "position": "Defender",
+      "caps": 46,
+      "value_eur": 8215676
+    },
+    {
+      "name": "Oston Urunov",
+      "position": "Midfielder",
+      "caps": 42,
+      "value_eur": 7042008
+    },
+    {
+      "name": "Utkir Yusupov",
+      "position": "Goalkeeper",
+      "caps": 40,
+      "value_eur": 6161757
+    },
+    {
+      "name": "Khojiakbar Alijonov",
+      "position": "Defender",
+      "caps": 40,
+      "value_eur": 5477117
+    },
+    {
+      "name": "Jamshid Iskanderov",
+      "position": "Midfielder",
+      "caps": 38,
+      "value_eur": 4929406
+    },
+    {
+      "name": "Dostonbek Khamdamov",
+      "position": "Midfielder",
+      "caps": 34,
+      "value_eur": 4481278
+    },
+    {
+      "name": "Abbosbek Fayzullaev",
+      "position": "Midfielder",
+      "caps": 32,
+      "value_eur": 4107838
+    },
+    {
+      "name": "Sherzod Nasrullaev",
+      "position": "Defender",
+      "caps": 31,
+      "value_eur": 3791850
+    },
+    {
+      "name": "Umar Eshmurodov",
+      "position": "Defender",
+      "caps": 29,
+      "value_eur": 3521004
+    },
+    {
+      "name": "Abdukodir Khusanov",
+      "position": "Defender",
+      "caps": 27,
+      "value_eur": 3286270
+    },
+    {
+      "name": "Akmal Mozgovoy",
+      "position": "Midfielder",
+      "caps": 25,
+      "value_eur": 3080878
+    },
+    {
+      "name": "Azizjon Ganiev",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 2899650
+    },
+    {
+      "name": "Abdulla Abdullaev",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 2738558
+    },
+    {
+      "name": "Azizbek Amonov",
+      "position": "Forward",
+      "caps": 12,
+      "value_eur": 2594424
+    },
+    {
+      "name": "Abduvohid Nematov",
+      "position": "Goalkeeper",
+      "caps": 8,
+      "value_eur": 2464703
+    },
+    {
+      "name": "Jaloliddin Masharipov",
+      "position": "Midfielder",
+      "caps": 5,
+      "value_eur": 2347336
+    },
+    {
+      "name": "Jakhongir Urozov",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 2240639
+    },
+    {
+      "name": "Botirali Ergashev",
+      "position": "Goalkeeper",
+      "caps": 2,
+      "value_eur": 2143220
+    },
+    {
+      "name": "Bekhruz Karimov",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 2053919
+    },
+    {
+      "name": "Sherzod Esanov",
+      "position": "Midfielder",
+      "caps": 1,
+      "value_eur": 1971762
+    },
+    {
+      "name": "Avazbek Ulmasaliev",
+      "position": "Defender",
+      "caps": 0,
+      "value_eur": 1895925
+    }
+  ],
+  "Croatia": [
+    {
+      "name": "Joško Gvardiol",
+      "position": "Defender",
+      "caps": 48,
+      "value_eur": 75000000
+    },
+    {
+      "name": "Luka Modrić",
+      "position": "Midfielder",
+      "caps": 198,
+      "value_eur": 60000000
+    },
+    {
+      "name": "Ivan Perišić",
+      "position": "Forward",
+      "caps": 154,
+      "value_eur": 107257543
+    },
+    {
+      "name": "Andrej Kramarić",
+      "position": "Forward",
+      "caps": 116,
+      "value_eur": 53628771
+    },
+    {
+      "name": "Mateo Kovačić",
+      "position": "Midfielder",
+      "caps": 113,
+      "value_eur": 35752514
+    },
+    {
+      "name": "Mario Pašalić",
+      "position": "Midfielder",
+      "caps": 85,
+      "value_eur": 26814385
+    },
+    {
+      "name": "Dominik Livaković",
+      "position": "Goalkeeper",
+      "caps": 75,
+      "value_eur": 21451508
+    },
+    {
+      "name": "Nikola Vlašić",
+      "position": "Midfielder",
+      "caps": 63,
+      "value_eur": 17876257
+    },
+    {
+      "name": "Duje Ćaleta-Car",
+      "position": "Defender",
+      "caps": 38,
+      "value_eur": 15322506
+    },
+    {
+      "name": "Ante Budimir",
+      "position": "Forward",
+      "caps": 38,
+      "value_eur": 13407192
+    },
+    {
+      "name": "Josip Šutalo",
+      "position": "Defender",
+      "caps": 33,
+      "value_eur": 11917504
+    },
+    {
+      "name": "Josip Stanišić",
+      "position": "Defender",
+      "caps": 31,
+      "value_eur": 10725754
+    },
+    {
+      "name": "Luka Sučić",
+      "position": "Midfielder",
+      "caps": 21,
+      "value_eur": 9750685
+    },
+    {
+      "name": "Marin Pongračić",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 8938128
+    },
+    {
+      "name": "Martin Baturina",
+      "position": "Midfielder",
+      "caps": 19,
+      "value_eur": 8250580
+    },
+    {
+      "name": "Petar Sučić",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 7661253
+    },
+    {
+      "name": "Kristijan Jakić",
+      "position": "Defender",
+      "caps": 17,
+      "value_eur": 7150502
+    },
+    {
+      "name": "Marco Pašalić",
+      "position": "Forward",
+      "caps": 15,
+      "value_eur": 6703596
+    },
+    {
+      "name": "Martin Erlić",
+      "position": "Defender",
+      "caps": 13,
+      "value_eur": 6309267
+    },
+    {
+      "name": "Petar Musa",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 5958752
+    },
+    {
+      "name": "Nikola Moro",
+      "position": "Midfielder",
+      "caps": 10,
+      "value_eur": 5645133
+    },
+    {
+      "name": "Igor Matanović",
+      "position": "Forward",
+      "caps": 9,
+      "value_eur": 5362877
+    },
+    {
+      "name": "Toni Fruk",
+      "position": "Midfielder",
+      "caps": 7,
+      "value_eur": 5107502
+    },
+    {
+      "name": "Luka Vušković",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 4875342
+    },
+    {
+      "name": "Dominik Kotarski",
+      "position": "Goalkeeper",
+      "caps": 4,
+      "value_eur": 4663371
+    },
+    {
+      "name": "Ivor Pandur",
+      "position": "Goalkeeper",
+      "caps": 0,
+      "value_eur": 4469064
+    }
+  ],
+  "England": [
+    {
+      "name": "Declan Rice",
+      "position": "Midfielder",
+      "caps": 73,
+      "value_eur": 120000000
+    },
+    {
+      "name": "John Stones",
+      "position": "Defender",
+      "caps": 89,
+      "value_eur": 38000000
+    },
+    {
+      "name": "Bukayo Saka",
+      "position": "Forward",
+      "caps": 49,
+      "value_eur": 140000000
+    },
+    {
+      "name": "Harry Kane",
+      "position": "Forward",
+      "caps": 114,
+      "value_eur": 100000000
+    },
+    {
+      "name": "Jude Bellingham",
+      "position": "Midfielder",
+      "caps": 48,
+      "value_eur": 180000000
+    },
+    {
+      "name": "Jordan Henderson",
+      "position": "Midfielder",
+      "caps": 90,
+      "value_eur": 176114355
+    },
+    {
+      "name": "Jordan Pickford",
+      "position": "Goalkeeper",
+      "caps": 84,
+      "value_eur": 88057177
+    },
+    {
+      "name": "Marcus Rashford",
+      "position": "Forward",
+      "caps": 72,
+      "value_eur": 58704785
+    },
+    {
+      "name": "Marc Guéhi",
+      "position": "Defender",
+      "caps": 29,
+      "value_eur": 44028588
+    },
+    {
+      "name": "Reece James",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 35222871
+    },
+    {
+      "name": "Ollie Watkins",
+      "position": "Forward",
+      "caps": 22,
+      "value_eur": 29352392
+    },
+    {
+      "name": "Ezri Konsa",
+      "position": "Defender",
+      "caps": 20,
+      "value_eur": 25159193
+    },
+    {
+      "name": "Anthony Gordon",
+      "position": "Forward",
+      "caps": 19,
+      "value_eur": 22014294
+    },
+    {
+      "name": "Eberechi Eze",
+      "position": "Midfielder",
+      "caps": 17,
+      "value_eur": 19568261
+    },
+    {
+      "name": "Morgan Rogers",
+      "position": "Midfielder",
+      "caps": 15,
+      "value_eur": 17611435
+    },
+    {
+      "name": "Kobbie Mainoo",
+      "position": "Midfielder",
+      "caps": 14,
+      "value_eur": 16010395
+    },
+    {
+      "name": "Noni Madueke",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 14676196
+    },
+    {
+      "name": "Elliot Anderson",
+      "position": "Midfielder",
+      "caps": 9,
+      "value_eur": 13547258
+    },
+    {
+      "name": "Dan Burn",
+      "position": "Defender",
+      "caps": 8,
+      "value_eur": 12579596
+    },
+    {
+      "name": "Ivan Toney",
+      "position": "Forward",
+      "caps": 8,
+      "value_eur": 11740957
+    },
+    {
+      "name": "Djed Spence",
+      "position": "Defender",
+      "caps": 6,
+      "value_eur": 11007147
+    },
+    {
+      "name": "Nico O'Reilly",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 10359667
+    },
+    {
+      "name": "Dean Henderson",
+      "position": "Goalkeeper",
+      "caps": 5,
+      "value_eur": 9784130
+    },
+    {
+      "name": "Jarell Quansah",
+      "position": "Defender",
+      "caps": 3,
+      "value_eur": 9269176
+    },
+    {
+      "name": "James Trafford",
+      "position": "Goalkeeper",
+      "caps": 2,
+      "value_eur": 8805717
+    },
+    {
+      "name": "Tino Livramento",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 8386397
+    }
+  ],
+  "Ghana": [
+    {
+      "name": "Jordan Ayew",
+      "position": "Forward",
+      "caps": 120,
+      "value_eur": 66936145
+    },
+    {
+      "name": "Thomas Partey",
+      "position": "Midfielder",
+      "caps": 57,
+      "value_eur": 33468072
+    },
+    {
+      "name": "Abdul Rahman Baba",
+      "position": "Defender",
+      "caps": 51,
+      "value_eur": 22312048
+    },
+    {
+      "name": "Gideon Mensah",
+      "position": "Defender",
+      "caps": 40,
+      "value_eur": 16734036
+    },
+    {
+      "name": "Antoine Semenyo",
+      "position": "Midfielder",
+      "caps": 34,
+      "value_eur": 13387229
+    },
+    {
+      "name": "Lawrence Ati-Zigi",
+      "position": "Goalkeeper",
+      "caps": 29,
+      "value_eur": 11156024
+    },
+    {
+      "name": "Abdul Fatawu",
+      "position": "Forward",
+      "caps": 28,
+      "value_eur": 9562306
+    },
+    {
+      "name": "Kamaldeen Sulemana",
+      "position": "Forward",
+      "caps": 28,
+      "value_eur": 8367018
+    },
+    {
+      "name": "Iñaki Williams",
+      "position": "Forward",
+      "caps": 26,
+      "value_eur": 7437349
+    },
+    {
+      "name": "Alidu Seidu",
+      "position": "Defender",
+      "caps": 24,
+      "value_eur": 6693614
+    },
+    {
+      "name": "Elisha Owusu",
+      "position": "Midfielder",
+      "caps": 20,
+      "value_eur": 6085104
+    },
+    {
+      "name": "Ernest Nuamah",
+      "position": "Forward",
+      "caps": 18,
+      "value_eur": 5578012
+    },
+    {
+      "name": "Caleb Yirenkyi",
+      "position": "Midfielder",
+      "caps": 11,
+      "value_eur": 5148934
+    },
+    {
+      "name": "Benjamin Asare",
+      "position": "Goalkeeper",
+      "caps": 11,
+      "value_eur": 4781153
+    },
+    {
+      "name": "Jerome Opoku",
+      "position": "Defender",
+      "caps": 11,
+      "value_eur": 4462409
+    },
+    {
+      "name": "Jonas Adjetey",
+      "position": "Defender",
+      "caps": 10,
+      "value_eur": 4183509
+    },
+    {
+      "name": "Christopher Bonsu Baah",
+      "position": "Forward",
+      "caps": 9,
+      "value_eur": 3937420
+    },
+    {
+      "name": "Kwasi Sibo",
+      "position": "Midfielder",
+      "caps": 8,
+      "value_eur": 3718674
+    },
+    {
+      "name": "Brandon Thomas-Asante",
+      "position": "Forward",
+      "caps": 8,
+      "value_eur": 3522955
+    },
+    {
+      "name": "Abdul Mumin",
+      "position": "Defender",
+      "caps": 5,
+      "value_eur": 3346807
+    },
+    {
+      "name": "Prince Kwabena Adu",
+      "position": "Forward",
+      "caps": 5,
+      "value_eur": 3187435
+    },
+    {
+      "name": "Kojo Peprah Oppong",
+      "position": "Defender",
+      "caps": 4,
+      "value_eur": 3042552
+    },
+    {
+      "name": "Marvin Senaya",
+      "position": "Defender",
+      "caps": 2,
+      "value_eur": 2910267
+    },
+    {
+      "name": "Joseph Anang",
+      "position": "Goalkeeper",
+      "caps": 1,
+      "value_eur": 2789006
+    },
+    {
+      "name": "Alexander Djiku",
+      "position": "Defender",
+      "caps": 1,
+      "value_eur": 2677445
+    },
+    {
+      "name": "Augustine Boakye",
+      "position": "Midfielder",
+      "caps": 0,
+      "value_eur": 2574467
+    }
+  ],
+  "Panama": [
+    {
+      "name": "Aníbal Godoy",
+      "position": "Midfielder",
+      "caps": 159,
+      "value_eur": 90804848
+    },
+    {
+      "name": "Alberto Quintero",
+      "position": "Midfielder",
+      "caps": 141,
+      "value_eur": 45402424
+    },
+    {
+      "name": "Eric Davis",
+      "position": "Defender",
+      "caps": 107,
+      "value_eur": 30268282
+    },
+    {
+      "name": "Yoel Bárcenas",
+      "position": "Midfielder",
+      "caps": 104,
+      "value_eur": 22701212
+    },
+    {
+      "name": "Fidel Escobar",
+      "position": "Defender",
+      "caps": 99,
+      "value_eur": 18160969
+    },
+    {
+      "name": "Michael Amir Murillo",
+      "position": "Defender",
+      "caps": 94,
+      "value_eur": 15134141
+    },
+    {
+      "name": "Adalberto Carrasquilla",
+      "position": "Midfielder",
+      "caps": 73,
+      "value_eur": 12972121
+    },
+    {
+      "name": "José Luis Rodríguez",
+      "position": "Midfielder",
+      "caps": 70,
+      "value_eur": 11350606
+    },
+    {
+      "name": "José Fajardo",
+      "position": "Forward",
+      "caps": 68,
+      "value_eur": 10089427
+    },
+    {
+      "name": "Cristian Martínez",
+      "position": "Midfielder",
+      "caps": 66,
+      "value_eur": 9080484
+    },
+    {
+      "name": "Ismael Díaz",
+      "position": "Midfielder",
+      "caps": 57,
+      "value_eur": 8254986
+    },
+    {
+      "name": "Luis Mejía",
+      "position": "Goalkeeper",
+      "caps": 56,
+      "value_eur": 7567070
+    },
+    {
+      "name": "César Yanis",
+      "position": "Midfielder",
+      "caps": 56,
+      "value_eur": 6984988
+    },
+    {
+      "name": "Cecilio Waterman",
+      "position": "Forward",
+      "caps": 55,
+      "value_eur": 6486060
+    },
+    {
+      "name": "Andrés Andrade",
+      "position": "Defender",
+      "caps": 50,
+      "value_eur": 6053656
+    },
+    {
+      "name": "Roderick Miller",
+      "position": "Defender",
+      "caps": 50,
+      "value_eur": 5675303
+    },
+    {
+      "name": "Orlando Mosquera",
+      "position": "Goalkeeper",
+      "caps": 48,
+      "value_eur": 5341461
+    },
+    {
+      "name": "César Blackman",
+      "position": "Defender",
+      "caps": 40,
+      "value_eur": 5044713
+    },
+    {
+      "name": "José Córdoba",
+      "position": "Defender",
+      "caps": 32,
+      "value_eur": 4779202
+    },
+    {
+      "name": "Carlos Harvey",
+      "position": "Defender",
+      "caps": 28,
+      "value_eur": 4540242
+    },
+    {
+      "name": "Jiovany Ramos",
+      "position": "Defender",
+      "caps": 23,
+      "value_eur": 4324040
+    },
+    {
+      "name": "Edgardo Fariña",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 4127493
+    },
+    {
+      "name": "Jorge Gutiérrez",
+      "position": "Defender",
+      "caps": 18,
+      "value_eur": 3948036
+    },
+    {
+      "name": "Tomás Rodríguez",
+      "position": "Forward",
+      "caps": 13,
+      "value_eur": 3783535
+    },
+    {
+      "name": "Azarias Londoño",
+      "position": "Forward",
+      "caps": 11,
+      "value_eur": 3632193
+    },
+    {
+      "name": "César Samudio",
+      "position": "Goalkeeper",
+      "caps": 5,
+      "value_eur": 3492494
+    }
+  ]
+}
