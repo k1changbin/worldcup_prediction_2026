@@ -25,7 +25,7 @@ def poisson_prob(lam: float, k: int) -> float:
     return (lam ** k * math.exp(-lam)) / math.factorial(k)
 
 
-def match_probabilities(lambda_a: float, lambda_b: float, max_goals: int = 6) -> dict:
+def match_probabilities(lambda_a: float, lambda_b: float, max_goals: int = 10) -> dict:
     """
     두 팀의 예상 득점으로 승/무/패 확률 계산
     max_goals: 고려할 최대 득점 수
