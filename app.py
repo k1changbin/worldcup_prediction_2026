@@ -622,7 +622,7 @@ with tab2:
                 df_g = pd.DataFrame(rows)
                 
                 with cols[col_idx]:
-                    st.subheader(group_name) # "📍" 이모티콘 제거
+                    st.subheader(group_name)
                     st.dataframe(
                         df_g.style.hide(axis="index"),
                         width="stretch",
@@ -1266,57 +1266,3 @@ with tab5:
             
             st.dataframe(formatted_df, width="stretch", height=600)
 
-    st.markdown("<hr style='border: 0.5px solid #334155; margin-top:30px; margin-bottom:30px;'>", unsafe_allow_html=True)
-    st.header("조별 리그 진행도 및 예상 순위")
-    st.markdown("실시간 부상 및 ELO 레이팅이 반영된 조별 리그의 최종 예상 순위와 성적을 계산합니다. (실제 완료된 경기는 실제 스코어가 반영됩니다.)")
-    
-    if st.button("조별 리그 진행도 계산 실행", key="run_group_sim_tab5"):
-        with st.spinner("조별 리그 순위표 연산 중..."):
-            # ELO 객체 초기화
-            elo_sys = EloSystem()
-            elo_sys.load_ratings(ELO_PATH)
-            
-            # 시뮬레이터 실행
-            sim = WorldCupSimulation(
-                elo_system=elo_sys,
-                groups_file=GROUPS_PATH,
-                actual_results_file=ACTUAL_RESULTS_PATH,
-                injuries_file=INJURIES_PATH,
-                squads_file=SQUADS_PATH
-            )
-            
-            standings = sim.simulate_group_stage()
-            
-            # 12개 조를 3열 Grid로 시각화 (한 줄에 3개 조씩)
-            groups_list = sorted(list(standings.keys()))
-            
-            for row_idx in range(4): # 4개 행 (행마다 3개 조)
-                cols = st.columns(3)
-                for col_idx in range(3):
-                    g_idx = row_idx * 3 + col_idx
-                    if g_idx < len(groups_list):
-                        group_name = groups_list[g_idx]
-                        teams_data = standings[group_name]
-                        
-                        # 데이터프레임용 데이터 구축
-                        rows = []
-                        for rank, (team, stats) in enumerate(teams_data, 1):
-                            rows.append({
-                                "순위": rank,
-                                "팀": f"{get_flag(team)} {team}",
-                                "승점": stats["pts"],
-                                "승": stats["w"],
-                                "무": stats["d"],
-                                "패": stats["l"],
-                                "득실": stats["gd"],
-                                "득": stats["gf"]
-                            })
-                        df_g = pd.DataFrame(rows)
-                        
-                        with cols[col_idx]:
-                            st.subheader(f"📍 {group_name}")
-                            st.dataframe(
-                                df_g.style.hide(axis="index"),
-                                width="stretch",
-                                height=180
-                            )
