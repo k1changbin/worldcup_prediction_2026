@@ -178,5 +178,41 @@
     "date": "2026-06-16",
     "stage": "group",
     "winner": "Argentina"
+  },
+  {
+    "team_a": "Ghana",
+    "team_b": "Panama",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-17",
+    "stage": "group",
+    "winner": "Ghana"
+  },
+  {
+    "team_a": "England",
+    "team_b": "Croatia",
+    "score_a": 4,
+    "score_b": 2,
+    "date": "2026-06-17",
+    "stage": "group",
+    "winner": "England"
+  },
+  {
+    "team_a": "DR Congo",
+    "team_b": "Portugal",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-06-17",
+    "stage": "group",
+    "winner": null
+  },
+  {
+    "team_a": "Colombia",
+    "team_b": "Uzbekistan",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-17",
+    "stage": "group",
+    "winner": "Colombia"
   }
 ]
