@@ -49,7 +49,6 @@ STAR_PLAYERS = {
         {"name": "Harry Kane", "position": "Forward", "value": 100000000},
         {"name": "Jude Bellingham", "position": "Midfielder", "value": 180000000},
         {"name": "Bukayo Saka", "position": "Forward", "value": 140000000},
-        {"name": "Phil Foden", "position": "Forward", "value": 150000000},
         {"name": "Declan Rice", "position": "Midfielder", "value": 120000000},
         {"name": "John Stones", "position": "Defender", "value": 38000000}
     ],

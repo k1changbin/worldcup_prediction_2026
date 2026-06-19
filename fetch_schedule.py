@@ -61,7 +61,7 @@ def fetch_schedule():
         with open(schedules_path, "w", encoding="utf-8") as file:
             json.dump(mapped_fixtures, file, ensure_ascii=False, indent=2)
             
-        print(f"[성공] 월드컵 일정 {len(mapped_fixtures)}개 경기 수집 완료 ➡️ {schedules_path}")
+        print(f"[성공] 월드컵 일정 {len(mapped_fixtures)}개 경기 수집 완료 -> {schedules_path}")
         return True
         
     except Exception as e:

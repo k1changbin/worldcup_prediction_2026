@@ -214,5 +214,32 @@
     "date": "2026-06-17",
     "stage": "group",
     "winner": "Colombia"
+  },
+  {
+    "team_a": "Switzerland",
+    "team_b": "Bosnia and Herzegovina",
+    "score_a": 4,
+    "score_b": 1,
+    "date": "2026-06-18",
+    "stage": "group",
+    "winner": "Switzerland"
+  },
+  {
+    "team_a": "Czechia",
+    "team_b": "South Africa",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-06-18",
+    "stage": "group",
+    "winner": null
+  },
+  {
+    "team_a": "Canada",
+    "team_b": "Qatar",
+    "score_a": 6,
+    "score_b": 0,
+    "date": "2026-06-18",
+    "stage": "group",
+    "winner": "Canada"
   }
 ]

@@ -1,6 +1,12 @@
 {
   "South Korea": [
-    "Cho Yu-min"
+    "Cho Yu-min",
+    {
+      "name": "Son Heung-min",
+      "type": "suspension",
+      "reason": "red_card",
+      "served_at_count": 2
+    }
   ],
   "Canada": [
     "Marcelo Flores"
@@ -59,5 +65,13 @@
   ],
   "Ghana": [
     "Alexander Djiku"
+  ],
+  "Czechia": [
+    {
+      "name": "Patrik Schick",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
   ]
 }

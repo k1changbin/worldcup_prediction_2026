@@ -104,6 +104,65 @@ def save_json(path, data):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
+def clean_served_suspensions(injuries_dict, actual_results_list):
+    updated = False
+    for team, players_list in list(injuries_dict.items()):
+        new_list = []
+        for p in players_list:
+            if isinstance(p, dict) and p.get("type") == "suspension":
+                # Count actual matches played by this team
+                N = 0
+                for match in actual_results_list:
+                    if match.get("team_a") == team or match.get("team_b") == team:
+                        N += 1
+                
+                served_at = p.get("served_at_count", 0)
+                if N >= served_at:
+                    # Suspension served! Mark updated to save
+                    updated = True
+                    continue # Skip adding it to new list (removes it)
+            new_list.append(p)
+        
+        if len(new_list) != len(players_list):
+            updated = True
+            injuries_dict[team] = new_list
+            if not new_list:
+                del injuries_dict[team]
+                
+    if updated:
+        save_json(INJURIES_PATH, injuries_dict)
+    return injuries_dict
+
+def get_absence_names(raw_list):
+    names = []
+    if isinstance(raw_list, list):
+        for item in raw_list:
+            if isinstance(item, dict):
+                names.append(item.get("name"))
+            else:
+                names.append(str(item))
+    return [n for n in names if n]
+
+def format_absence_list_to_str_list(raw_list):
+    res = []
+    if isinstance(raw_list, list):
+        for p in raw_list:
+            if isinstance(p, dict):
+                p_name = p.get("name")
+                p_type = p.get("type", "injury")
+                if p_type == "suspension":
+                    reason_map = {
+                        "red_card": "퇴장 징계",
+                        "yellow_cards": "경고 누적 징계"
+                    }
+                    reason_text = reason_map.get(p.get("reason"), "출장 정지")
+                    res.append(f"{p_name} ({reason_text})")
+                else:
+                    res.append(f"{p_name} (부상)")
+            else:
+                res.append(f"{p} (부상)")
+    return res
+
 # 데이터 로드
 elo_ratings = load_json(ELO_PATH)
 squads = load_json(SQUADS_PATH)
@@ -111,6 +170,9 @@ injuries_raw = load_json(INJURIES_PATH)
 schedule = load_json(SCHEDULE_PATH)
 actual_results = load_json(ACTUAL_RESULTS_PATH)
 groups_dict = load_json(GROUPS_PATH)
+
+# 자동 복귀 처리 실행
+injuries_raw = clean_served_suspensions(injuries_raw, actual_results)
 
 # 데이터 유효성 검증
 if not elo_ratings or not groups_dict:
@@ -248,26 +310,50 @@ def compute_schedule_states(schedule_list):
 
 match_states_cache = compute_schedule_states(schedule)
 
-# ----------------- 사이드바 (부상 관리 패널) -----------------
-st.sidebar.markdown("## 실시간 부상 선수 관리")
-st.sidebar.info("선수를 부상 명단에 추가하거나 제거하면, 전체 일정의 예측 승률 및 시뮬레이션 결과에 즉시 반영됩니다.")
+# ----------------- 사이드바 (부상/결장 관리 패널) -----------------
+st.sidebar.markdown("## 실시간 부상 및 징계 관리")
+st.sidebar.info("선수의 부상 또는 징계(출장정지) 상태를 등록하면 전체 예측 모델에 실시간으로 반영됩니다.")
 
-# 현재 부상 명단 출력
-st.sidebar.markdown("### 현재 결장(부상) 선수 목록")
+# Wikipedia 동기화 버튼
+import fetch_suspensions
+if st.sidebar.button("실시간 징계 정보 동기화 (Wikipedia)"):
+    with st.sidebar.spinner("Wikipedia에서 징계 기록 수집 중..."):
+        fetch_suspensions.main()
+    st.sidebar.success("동기화가 완료되었습니다.")
+    st.rerun()
+
+# 현재 부상 및 징계 명단 출력
+st.sidebar.markdown("### 현재 결장 선수 목록")
 active_injuries = load_json(INJURIES_PATH)
 
+# 자동 복귀 처리 재실행 (안전 장치)
+active_injuries = clean_served_suspensions(active_injuries, actual_results)
+
 if not active_injuries or all(len(v) == 0 for v in active_injuries.values()):
-    st.sidebar.text("등록된 부상 선수가 없습니다.")
+    st.sidebar.text("등록된 결장 선수가 없습니다.")
 else:
     for team, players_list in list(active_injuries.items()):
         if not players_list:
             continue
         st.sidebar.markdown(f"**{get_flag(team)} {team}**")
         for p in players_list:
-            st.sidebar.text(f"  • {p}")
+            if isinstance(p, dict):
+                p_name = p.get("name")
+                p_type = p.get("type", "injury")
+                if p_type == "suspension":
+                    reason_map = {
+                        "red_card": "퇴장 징계",
+                        "yellow_cards": "경고 누적 징계"
+                    }
+                    reason_text = reason_map.get(p.get("reason"), "출장 정지")
+                    st.sidebar.text(f"  • {p_name} ({reason_text}, {p.get('served_at_count')}회차 복귀)")
+                else:
+                    st.sidebar.text(f"  • {p_name} (부상)")
+            else:
+                st.sidebar.text(f"  • {p} (부상)")
 
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 새 부상 선수 등록")
+st.sidebar.markdown("### 새 결장 선수 등록")
 
 # 국가 선택
 all_teams = sorted(list(elo_ratings.keys()))
@@ -276,32 +362,58 @@ selected_team = st.sidebar.selectbox("국가 선택", all_teams, format_func=lam
 # 선수 선택
 if selected_team in squads:
     team_players = [p["name"] for p in squads[selected_team]]
-    # 현재 이미 부상 등록되어 있는 선수 제외
-    already_injured = active_injuries.get(selected_team, [])
-    available_players = [p for p in team_players if p not in already_injured]
+    # 현재 이미 결장 등록되어 있는 선수 제외
+    already_injured_names = get_absence_names(active_injuries.get(selected_team, []))
+    available_players = [p for p in team_players if p not in already_injured_names]
     
     if available_players:
         selected_player = st.sidebar.selectbox("선수 선택", available_players)
-        if st.sidebar.button("부상 명단에 추가"):
+        absence_reason = st.sidebar.selectbox("결장 사유", ["부상 (Injury)", "퇴장 (1경기 정지)", "경고 누적 (1경기 정지)", "추가 징계 (2경기 정지)"])
+        
+        if st.sidebar.button("결장 목록에 추가"):
             if selected_team not in active_injuries:
                 active_injuries[selected_team] = []
-            active_injuries[selected_team].append(selected_player)
+                
+            if "부상" in absence_reason:
+                active_injuries[selected_team].append({
+                    "name": selected_player,
+                    "type": "injury"
+                })
+            else:
+                # 징계 등록
+                N = 0
+                for match in actual_results:
+                    if match.get("team_a") == selected_team or match.get("team_b") == selected_team:
+                        N += 1
+                
+                suspension_length = 2 if "2경기" in absence_reason else 1
+                served_at = N + suspension_length
+                reason = "red_card" if "퇴장" in absence_reason else "yellow_cards"
+                
+                active_injuries[selected_team].append({
+                    "name": selected_player,
+                    "type": "suspension",
+                    "reason": reason,
+                    "served_at_count": served_at
+                })
+                
             save_json(INJURIES_PATH, active_injuries)
             st.rerun()
     else:
-        st.sidebar.warning("이 팀의 모든 선수가 부상자이거나 선택 가능한 선수가 없습니다.")
+        st.sidebar.warning("이 팀의 모든 선수가 결장 상태이거나 선택 가능한 선수가 없습니다.")
 else:
     st.sidebar.warning(f"{selected_team}의 스쿼드 데이터가 존재하지 않습니다.")
 
-# 부상 복귀 처리 (Multiselect)
+# 결장 복귀 처리 (Multiselect)
 st.sidebar.markdown("---")
-st.sidebar.markdown("### 부상 선수 복귀")
+st.sidebar.markdown("### 결장 선수 복귀")
 
-# 부상 등록된 선수들을 드롭다운 리스트용 문자열로 수집
+# 결장 등록된 선수들을 드롭다운 리스트용 문자열로 수집
 injured_options = []
 for team, players_list in active_injuries.items():
     for p in players_list:
-        injured_options.append(f"{get_flag(team)} {team} - {p}")
+        p_name = p.get("name") if isinstance(p, dict) else p
+        injured_options.append(f"{get_flag(team)} {team} - {p_name}")
 
 if injured_options:
     selected_to_recover = st.sidebar.multiselect("복귀할 선수 선택", injured_options)
@@ -309,15 +421,16 @@ if injured_options:
         for opt in selected_to_recover:
             # 매칭되는 팀과 선수 찾아 삭제
             for team, players_list in list(active_injuries.items()):
-                for p in players_list:
-                    if f"{get_flag(team)} {team} - {p}" == opt:
-                        active_injuries[team].remove(p)
-                        if not active_injuries[team]:
-                            del active_injuries[team]
+                for p in list(players_list):
+                    p_name = p.get("name") if isinstance(p, dict) else p
+                    if f"{get_flag(team)} {team} - {p_name}" == opt:
+                        players_list.remove(p)
+                if not active_injuries[team]:
+                    del active_injuries[team]
         save_json(INJURIES_PATH, active_injuries)
         st.rerun()
 else:
-    st.sidebar.text("복귀 처리할 부상 선수가 없습니다.")
+    st.sidebar.text("복귀 처리할 결장 선수가 없습니다.")
 
 
 # ----------------- 메인 대시보드 화면 구성 -----------------
@@ -394,7 +507,7 @@ with tab1:
 
     st.markdown(f"**총 {len(filtered_schedule)}개의 경기가 매칭되었습니다.**")
     if len(filtered_schedule) == 0 and date_filter != "전체 일자":
-        st.info("💡 선택하신 날짜에는 예정된 월드컵 경기가 없습니다. 달력에서 다른 날짜를 선택해 주세요.")
+        st.info("선택하신 날짜에는 예정된 월드컵 경기가 없습니다. 달력에서 다른 날짜를 선택해 주세요.")
     
     # 매치별 카드 리스트 렌더링
     for match in filtered_schedule:
@@ -431,7 +544,8 @@ with tab1:
                 # 부상자 출력
                 team_inj = active_injuries.get(home, [])
                 if team_inj:
-                    st.markdown(f"<div style='text-align: right; color: #f43f5e; font-size: 0.8em; margin-top: 2px;'>부상: {', '.join(team_inj)}</div>", unsafe_allow_html=True)
+                    formatted_inj = format_absence_list_to_str_list(team_inj)
+                    st.markdown(f"<div style='text-align: right; color: #f43f5e; font-size: 0.8em; margin-top: 2px;'>결장: {', '.join(formatted_inj)}</div>", unsafe_allow_html=True)
             
             with c3:
                 st.markdown(f"<div style='font-size: 1.35em; font-weight: bold; text-align: left; margin-bottom: 2px;'>{get_flag(away)} {away}</div>", unsafe_allow_html=True)
@@ -439,7 +553,8 @@ with tab1:
                 # 부상자 출력
                 team_inj = active_injuries.get(away, [])
                 if team_inj:
-                    st.markdown(f"<div style='text-align: left; color: #f43f5e; font-size: 0.8em; margin-top: 2px;'>부상: {', '.join(team_inj)}</div>", unsafe_allow_html=True)
+                    formatted_inj = format_absence_list_to_str_list(team_inj)
+                    st.markdown(f"<div style='text-align: left; color: #f43f5e; font-size: 0.8em; margin-top: 2px;'>결장: {', '.join(formatted_inj)}</div>", unsafe_allow_html=True)
 
             with c2:
                 if has_actual:
@@ -697,8 +812,8 @@ with tab3:
                 p_lose = prob["lose"] * 100
                 
                 # 부상 명단 가공
-                inj_a_str = ",".join(active_injuries.get(team_a, []))
-                inj_b_str = ",".join(active_injuries.get(team_b, []))
+                inj_a_str = ",".join(format_absence_list_to_str_list(active_injuries.get(team_a, [])))
+                inj_b_str = ",".join(format_absence_list_to_str_list(active_injuries.get(team_b, [])))
                 
                 # JS 파라미터 따옴표 이스케이프 처리
                 t_a_esc = team_a.replace("'", "\\'")
