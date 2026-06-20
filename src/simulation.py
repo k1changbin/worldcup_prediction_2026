@@ -112,7 +112,7 @@ def date_to_day_num(date_str: str) -> int:
 
 
 class WorldCupSimulation:
-    def __init__(self, elo_system: EloSystem, groups_file: str = "data/groups.json", actual_results_file: str = None, injuries_file: str = "data/injuries.json", squads_file: str = "data/squads.json"):
+    def __init__(self, elo_system: EloSystem, groups_file: str = "data/groups.json", actual_results_file: str = None, absences_file: str = "data/absences.json", squads_file: str = "data/squads.json"):
         self.elo_system = elo_system
         with open(groups_file, "r", encoding="utf-8") as f:
             self.groups = json.load(f)
@@ -126,8 +126,8 @@ class WorldCupSimulation:
                     pass
 
         self.injuries = {}
-        if injuries_file and os.path.exists(injuries_file):
-            with open(injuries_file, "r", encoding="utf-8") as f:
+        if absences_file and os.path.exists(absences_file):
+            with open(absences_file, "r", encoding="utf-8") as f:
                 try:
                     self.injuries = json.load(f)
                 except json.JSONDecodeError:
