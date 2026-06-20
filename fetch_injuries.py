@@ -142,7 +142,7 @@ def get_deterministic_squad_value(rating):
 
 def fetch_live_injuries_and_squads():
     squads_path = "data/squads.json"
-    injuries_path = "data/injuries.json"
+    injuries_path = "data/absences.json"
     elo_path = "data/elo_ratings.json"
 
     if not os.path.exists(elo_path):
