@@ -160,7 +160,13 @@ def main():
         elif "3 matches" in combined_text or "three matches" in combined_text or "3경기" in combined_text:
             suspension_length = 3
             
-        served_at_count = N + suspension_length
+        import re
+        matchday_nums = [int(x) for x in re.findall(r"matchday\s*(\d+)", combined_text)]
+        if matchday_nums:
+            served_at_count = max(matchday_nums)
+        else:
+            served_at_count = N + suspension_length
+            
         reason = "red_card" if "red" in combined_text or "퇴장" in combined_text else "yellow_cards"
         
         # injuries 데이터베이스에 징계 기록 추가

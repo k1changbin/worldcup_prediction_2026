@@ -60,21 +60,8 @@
   "Ghana": [
     "Alexander Djiku"
   ],
-  "Czechia": [
-    {
-      "name": "Patrik Schick",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    }
-  ],
+  "Czechia": [],
   "South Africa": [
-    {
-      "name": "Sphephelo Sithole",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    },
     {
       "name": "Themba Zwane",
       "type": "suspension",
@@ -83,14 +70,6 @@
     },
     {
       "name": "Teboho Mokoena",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    }
-  ],
-  "Mexico": [
-    {
-      "name": "César Montes",
       "type": "suspension",
       "reason": "yellow_cards",
       "served_at_count": 3
