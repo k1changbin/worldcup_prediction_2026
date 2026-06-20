@@ -22,11 +22,6 @@ def normalize_team_name(name, valid_teams):
         if valid.lower() == name.lower():
             return valid
             
-    # 3. 부분 일치 확인 (예: Curaçao 대응)
-    for valid in valid_teams:
-        if valid.lower() in name.lower() or name.lower() in valid.lower():
-            return valid
-            
     return None
 
 def fetch_live_world_cup_data():
