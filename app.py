@@ -30,7 +30,7 @@ CITY_REGIONS = {
 # 데이터 경로 정의
 ELO_PATH = "data/elo_ratings.json"
 SQUADS_PATH = "data/squads.json"
-INJURIES_PATH = "data/injuries.json"
+ABSENCES_PATH = "data/absences.json"
 SCHEDULE_PATH = "data/schedule.json"
 ACTUAL_RESULTS_PATH = "data/actual_results.json"
 GROUPS_PATH = "data/groups.json"
@@ -130,7 +130,7 @@ def clean_served_suspensions(injuries_dict, actual_results_list):
                 del injuries_dict[team]
                 
     if updated:
-        save_json(INJURIES_PATH, injuries_dict)
+        save_json(ABSENCES_PATH, injuries_dict)
     return injuries_dict
 
 def get_absence_names(raw_list):
@@ -166,7 +166,7 @@ def format_absence_list_to_str_list(raw_list):
 # 데이터 로드
 elo_ratings = load_json(ELO_PATH)
 squads = load_json(SQUADS_PATH)
-injuries_raw = load_json(INJURIES_PATH)
+injuries_raw = load_json(ABSENCES_PATH)
 schedule = load_json(SCHEDULE_PATH)
 actual_results = load_json(ACTUAL_RESULTS_PATH)
 groups_dict = load_json(GROUPS_PATH)
@@ -324,7 +324,7 @@ if st.sidebar.button("실시간 징계 정보 동기화 (Wikipedia)"):
 
 # 현재 부상 및 징계 명단 출력
 st.sidebar.markdown("### 현재 결장 선수 목록")
-active_injuries = load_json(INJURIES_PATH)
+active_injuries = load_json(ABSENCES_PATH)
 
 # 자동 복귀 처리 재실행 (안전 장치)
 active_injuries = clean_served_suspensions(active_injuries, actual_results)
@@ -397,7 +397,7 @@ if selected_team in squads:
                     "served_at_count": served_at
                 })
                 
-            save_json(INJURIES_PATH, active_injuries)
+            save_json(ABSENCES_PATH, active_injuries)
             st.rerun()
     else:
         st.sidebar.warning("이 팀의 모든 선수가 결장 상태이거나 선택 가능한 선수가 없습니다.")
@@ -427,7 +427,7 @@ if injured_options:
                         players_list.remove(p)
                 if not active_injuries[team]:
                     del active_injuries[team]
-        save_json(INJURIES_PATH, active_injuries)
+        save_json(ABSENCES_PATH, active_injuries)
         st.rerun()
 else:
     st.sidebar.text("복귀 처리할 결장 선수가 없습니다.")
@@ -762,7 +762,7 @@ with tab3:
                 elo_system=elo_sys,
                 groups_file=GROUPS_PATH,
                 actual_results_file=ACTUAL_RESULTS_PATH,
-                injuries_file=INJURIES_PATH,
+                absences_file=ABSENCES_PATH,
                 squads_file=SQUADS_PATH
             )
             
@@ -1314,7 +1314,7 @@ with tab5:
                 elo_system=elo_sys,
                 groups_file=GROUPS_PATH,
                 actual_results_file=ACTUAL_RESULTS_PATH,
-                injuries_file=INJURIES_PATH,
+                absences_file=ABSENCES_PATH,
                 squads_file=SQUADS_PATH
             )
             
