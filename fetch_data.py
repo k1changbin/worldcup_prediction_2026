@@ -182,13 +182,38 @@ def fetch_live_world_cup_data():
             "winner": winner
         })
                 
-    with open(actual_results_path, "w", encoding="utf-8") as f:
-        json.dump(actual_results, f, ensure_ascii=False, indent=2)
-        
-    print(f"경기 결과 갱신 완료: 총 {len(actual_results)}개의 종료된 경기 결과를 {actual_results_path}에 고정 저장했습니다.")
-    for res in actual_results:
-        winner_str = f" (승자: {res['winner']})" if res['winner'] else ""
-        print(f"   - [{res['stage'].upper()}] {res['team_a']} {res['score_a']} : {res['score_b']} {res['team_b']}{winner_str}")
+    # 기존 로컬 결과 로드 및 비교
+    local_results = []
+    if os.path.exists(actual_results_path):
+        try:
+            with open(actual_results_path, "r", encoding="utf-8") as f:
+                local_results = json.load(f)
+        except Exception:
+            local_results = []
+
+    is_same = False
+    if len(local_results) == len(actual_results):
+        is_same = True
+        for lr, ar in zip(local_results, actual_results):
+            if (lr.get("team_a") != ar.get("team_a") or
+                lr.get("team_b") != ar.get("team_b") or
+                lr.get("score_a") != ar.get("score_a") or
+                lr.get("score_b") != ar.get("score_b") or
+                lr.get("date") != ar.get("date") or
+                lr.get("stage") != ar.get("stage") or
+                lr.get("winner") != ar.get("winner")):
+                is_same = False
+                break
+
+    if is_same:
+        print("[경기 결과] 새로 추가된 경기가 없습니다.")
+    else:
+        with open(actual_results_path, "w", encoding="utf-8") as f:
+            json.dump(actual_results, f, ensure_ascii=False, indent=2)
+        print(f"경기 결과 갱신 완료: 총 {len(actual_results)}개의 종료된 경기 결과를 {actual_results_path}에 고정 저장했습니다.")
+        for res in actual_results:
+            winner_str = f" (승자: {res['winner']})" if res['winner'] else ""
+            print(f"   - [{res['stage'].upper()}] {res['team_a']} {res['score_a']} : {res['score_b']} {res['team_b']}{winner_str}")
         
     # 4. 실시간 징계(출장정지) 정보 위키피디아 동기화 실행 (예외 보장)
     try:
