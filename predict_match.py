@@ -204,7 +204,7 @@ def predict_match():
     lambda_a, lambda_b = win_prob_to_lambda(win_prob_a)
     
     # 부상자 로드
-    injuries_path = "data/injuries.json"
+    injuries_path = "data/absences.json"
     injuries = {}
     if os.path.exists(injuries_path):
         with open(injuries_path, "r", encoding="utf-8") as f:
