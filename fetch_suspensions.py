@@ -4,8 +4,8 @@ import json
 import os
 import sys
 
-URL = "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_disciplinary_record"
-INJURIES_PATH = "data/injuries.json"
+URL = "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup"
+ABSENCES_PATH = "data/absences.json"
 SQUADS_PATH = "data/squads.json"
 ACTUAL_RESULTS_PATH = "data/actual_results.json"
 
@@ -37,13 +37,13 @@ def main():
     # 데이터 로드
     squads = load_json(SQUADS_PATH)
     actual_results = load_json(ACTUAL_RESULTS_PATH)
-    injuries = load_json(INJURIES_PATH)
+    injuries = load_json(ABSENCES_PATH)
     
     html_content = None
     
-    # 1. Wikipedia에서 가져오기 시도
+    # 1. Wikipedia에서 가져오기 시도 (User-Agent 필수)
     try:
-        response = httpx.get(URL, timeout=10.0)
+        response = httpx.get(URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=10.0)
         if response.status_code == 200:
             html_content = response.text
             print("[징계 동기화] Wikipedia 공식 페이지 로드 성공.")
@@ -65,20 +65,29 @@ def main():
 
     # 3. HTML 파싱
     soup = BeautifulSoup(html_content, "html.parser")
-    tables = soup.find_all("table", class_="wikitable")
+    tables = soup.find_all("table")
     
     suspensions_table = None
+    table_type = None # "main_page" or "disciplinary_page"
+    
     for table in tables:
         # 헤더 행 검사
         headers = [th.text.strip().lower() for th in table.find_all("th")]
-        # Player와 Team(혹은 Country)이 헤더에 포함되어 있는지 확인
+        # Player와 Suspension이 헤더에 포함되어 있는지 확인
         has_player = any("player" in h for h in headers)
-        has_team = any("team" in h or "country" in h or "association" in h for h in headers)
         has_suspension = any("suspension" in h or "served" in h or "match" in h for h in headers)
+        has_offense = any("offense" in h or "booking" in h or "card" in h for h in headers)
         
-        if has_player and has_team and has_suspension:
-            suspensions_table = table
-            break
+        if has_player and has_suspension:
+            has_team = any("team" in h or "country" in h or "association" in h for h in headers)
+            if has_team:
+                suspensions_table = table
+                table_type = "disciplinary_page"
+                break
+            elif has_offense:
+                suspensions_table = table
+                table_type = "main_page"
+                break
 
     if not suspensions_table:
         print("[징계 동기화] Suspensions 테이블을 찾을 수 없습니다.")
@@ -93,10 +102,29 @@ def main():
         if len(tds) < 3:
             continue
             
-        player_raw = tds[0].text.strip()
-        team_raw = tds[1].text.strip()
-        offense_raw = tds[2].text.strip() if len(tds) > 2 else ""
-        suspension_raw = tds[3].text.strip() if len(tds) > 3 else ""
+        if table_type == "disciplinary_page":
+            player_raw = tds[0].text.strip()
+            team_raw = tds[1].text.strip()
+            offense_raw = tds[2].text.strip() if len(tds) > 2 else ""
+            suspension_raw = tds[3].text.strip() if len(tds) > 3 else ""
+        else: # "main_page"
+            player_raw = tds[0].text.strip()
+            
+            # flagicon 내부의 깃발 이미지 또는 링크 타이틀에서 국가 추출
+            flagicon = tds[0].find(class_="flagicon")
+            team_raw = ""
+            if flagicon:
+                a_tag = flagicon.find("a")
+                if a_tag and "title" in a_tag.attrs:
+                    team_raw = a_tag["title"]
+                    for suffix in ["national soccer team", "national football team", "national team"]:
+                        team_raw = team_raw.replace(suffix, "").strip()
+            
+            if not team_raw:
+                team_raw = tds[0].text.strip()
+                
+            offense_raw = tds[1].text.strip()
+            suspension_raw = tds[2].text.strip()
         
         # 국가(Team) 매핑
         matched_team = None
@@ -168,7 +196,7 @@ def main():
             print(f"[징계 동기화] {matched_team}의 {matched_player} 등록 완료 (출장정지 적용 실제경기수: {served_at_count}회차)")
 
     if added_count > 0:
-        save_json(INJURIES_PATH, injuries)
+        save_json(ABSENCES_PATH, injuries)
         print(f"[징계 동기화] 총 {added_count}명의 징계 선수가 데이터베이스에 동기화되었습니다.")
     else:
         print("[징계 동기화] 새로 추가된 징계 선수가 없습니다.")
