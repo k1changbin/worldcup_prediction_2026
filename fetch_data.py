@@ -189,6 +189,14 @@ def fetch_live_world_cup_data():
     for res in actual_results:
         winner_str = f" (승자: {res['winner']})" if res['winner'] else ""
         print(f"   - [{res['stage'].upper()}] {res['team_a']} {res['score_a']} : {res['score_b']} {res['team_b']}{winner_str}")
+        
+    # 4. 실시간 징계(출장정지) 정보 위키피디아 동기화 실행 (예외 보장)
+    try:
+        import fetch_suspensions
+        print("\n[ELO & 징계 통합] ELO/결과 갱신에 이어 실시간 징계 정보를 동기화합니다...")
+        fetch_suspensions.main()
+    except Exception as e:
+        print(f"\n[경고] 실시간 징계 정보를 동기화하는 중 오류가 발생했습니다 (ELO/결과는 정상 반영됨): {e}")
 
 if __name__ == "__main__":
     fetch_live_world_cup_data()
