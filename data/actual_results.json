@@ -225,6 +225,15 @@
     "winner": "Switzerland"
   },
   {
+    "team_a": "Mexico",
+    "team_b": "South Korea",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-18",
+    "stage": "group",
+    "winner": "Mexico"
+  },
+  {
     "team_a": "Czechia",
     "team_b": "South Africa",
     "score_a": 1,
@@ -241,5 +250,41 @@
     "date": "2026-06-18",
     "stage": "group",
     "winner": "Canada"
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Australia",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-06-19",
+    "stage": "group",
+    "winner": "USA"
+  },
+  {
+    "team_a": "Paraguay",
+    "team_b": "Türkiye",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-19",
+    "stage": "group",
+    "winner": "Paraguay"
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Scotland",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-19",
+    "stage": "group",
+    "winner": "Morocco"
+  },
+  {
+    "team_a": "Brazil",
+    "team_b": "Haiti",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-06-19",
+    "stage": "group",
+    "winner": "Brazil"
   }
 ]
