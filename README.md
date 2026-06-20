@@ -127,7 +127,7 @@ $$H_{\text{team}} = \sum_{i=1}^{26} \left( \frac{\text{Value}_i}{\text{Total Val
 * **공식**: `rest_bonus = min(abs(rest_days_diff) * 5, 30)`
 
 ### 4. 대륙 이동 피로도 보정 (Travel Fatigue)
-북미 대륙의 16개 개최 도시를 지리적 위치와 시차에 따라 **5개 권역(Region 1~5)**으로 분류하여 대학교/국가 간 이동에 따른 피로 누수를 반영합니다.
+북미 대륙의 16개 개최 도시를 지리적 위치와 시차에 따라 **5개 권역(Region 1~5)**으로 분류하여 개최 도시 간 이동에 따른 피로 누수를 반영합니다.
 * **Region 1 (서부)**: 밴쿠버, 시애틀, 샌프란시스코, LA
 * **Region 2 (멕시코/중서부)**: 과달라하라, 몬테레이, 멕시코시티
 * **Region 3 (중부)**: 댈러스, 휴스턴, 캔자스시티
@@ -139,7 +139,7 @@ $$H_{\text{team}} = \sum_{i=1}^{26} \left( \frac{\text{Value}_i}{\text{Total Val
 * 인접 권역 이동 (권역 차이 = 1, 2): 공격 람다 **-1.5%** 감쇄
 * 대륙 횡단 이동 (권역 차이 $\ge$ 3): 공격 람다 **-3.0%** 감쇄
 * **최종 예상 득점 ($\lambda$)**:
-  $$\lambda_{A(\text{최종})} = \lambda_A \times (\text{A팀 부상 공격보정}) \times (\text{B팀 부상 수비보정}) \times (1.0 - \text{A팀 이동 피로도})$$
+  $$\lambda_{A(\text{최종})} = \lambda_A \times (\text{A팀 결장 공격보정}) \times (\text{B팀 결장 수비보정}) \times (1.0 - \text{A팀 이동 피로도})$$
 
 ---
 
