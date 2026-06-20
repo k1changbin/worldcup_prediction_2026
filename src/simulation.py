@@ -2,6 +2,7 @@ import os
 import json
 import itertools
 import random
+import numpy as np
 from collections import defaultdict
 from functools import cmp_to_key
 from src.elo import EloSystem
@@ -534,11 +535,46 @@ class WorldCupSimulation:
             winner = team_a if score_a > score_b else team_b
             return winner, score_a, score_b, False
             
+        # 90분 무승부인 경우 연장전(Extra Time) 시뮬레이션 (30분 추가)
         rating_a = self.elo_system.get_rating(team_a)
         rating_b = self.elo_system.get_rating(team_b)
-        win_prob_a = self.elo_system.expected_score(rating_a, rating_b)
         
-        if random.random() < win_prob_a:
+        is_host_a = team_a in HOST_COUNTRIES
+        is_host_b = team_b in HOST_COUNTRIES
+        if is_host_a and not is_host_b:
+            rating_a += 40
+        elif is_host_b and not is_host_a:
+            rating_b += 40
+            
+        rest_bonus = min(abs(rest_days_diff) * 5, 30)
+        if rest_days_diff >= 1:
+            rating_a += rest_bonus
+        elif rest_days_diff <= -1:
+            rating_b += rest_bonus
+            
+        win_prob_a = self.elo_system.expected_score(rating_a, rating_b)
+        lambda_a, lambda_b = win_prob_to_lambda(win_prob_a)
+        
+        att_mult_a, def_mult_a = self.get_injury_multipliers(team_a)
+        att_mult_b, def_mult_b = self.get_injury_multipliers(team_b)
+        
+        final_lambda_a = lambda_a * att_mult_a * def_mult_b * (1.0 - travel_fatigue_a)
+        final_lambda_b = lambda_b * att_mult_b * def_mult_a * (1.0 - travel_fatigue_b)
+        
+        # 30분 연장전 골 수 산출 (90분 평균 대비 1/3 비율)
+        goals_a_et = np.random.poisson(final_lambda_a / 3.0)
+        goals_b_et = np.random.poisson(final_lambda_b / 3.0)
+        
+        score_a += goals_a_et
+        score_b += goals_b_et
+        
+        if score_a != score_b:
+            winner = team_a if score_a > score_b else team_b
+            return winner, score_a, score_b, False
+            
+        # 연장전도 무승부인 경우 승부차기 진행
+        win_prob_pk_a = self.elo_system.expected_score(rating_a, rating_b)
+        if random.random() < win_prob_pk_a:
             return team_a, score_a, score_b, True
         else:
             return team_b, score_a, score_b, True
