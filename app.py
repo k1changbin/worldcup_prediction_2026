@@ -859,7 +859,6 @@ with tab3:
             col8_html = "".join([gen_card_html(r16[i], "16강", 89 + i) for i in [4, 5, 6, 7]])
             col9_html = "".join([gen_card_html(r32[i], "32강", 73 + i) for i in [10, 11, 8, 9, 13, 15, 12, 14]])
             
-            import streamlit.components.v1 as components
             html_code = f"""
             <!DOCTYPE html>
             <html>
@@ -1144,7 +1143,7 @@ with tab3:
             </body>
             </html>
             """
-            components.html(html_code, height=600, scrolling=True)
+            st.iframe(html_code, height=600)
 
 
 # ----------------- 탭 4: 1대1 가상 매치 시뮬레이터 -----------------
