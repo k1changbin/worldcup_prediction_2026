@@ -1,7 +1,6 @@
 import sys
 import os
 import json
-from collections import defaultdict
 from src.elo import EloSystem
 from src.simulation import WorldCupSimulation
 
@@ -13,9 +12,9 @@ def run_monte_carlo(iterations=10000):
     if os.path.exists(actual_results_path):
         try:
             with open(actual_results_path, "r", encoding="utf-8") as f:
-                actual_results = json.load(f)
-                if actual_results:
-                    print(f"[실제 경기 결과 고정] ({len(actual_results)}경기)...")
+                ar = json.load(f)
+                if ar:
+                    print(f"[실제 경기 결과 고정] ({len(ar)}경기)...")
         except json.JSONDecodeError as e:
             print(f"[오류] 실제 경기 결과 로드 중 오류 발생: {e}")
             
@@ -39,7 +38,7 @@ def run_monte_carlo(iterations=10000):
             stats[team]["R32"] += 1
             
         # 3. 토너먼트 진행
-        knockout_results = sim.simulate_knockout_stage(advancing_teams)
+        knockout_results = sim.simulate_knockout_stage()
         
         # 4. 결과 집계
         for match in knockout_results["Round of 32"]:
@@ -58,7 +57,7 @@ def run_monte_carlo(iterations=10000):
         stats[champion]["Champion"] += 1
         
         # 진행 상황 출력 (10% 단위)
-        if (i + 1) % (iterations // 10) == 0:
+        if iterations >= 10 and (i + 1) % (iterations // 10) == 0:
             print(f"진행도: {(i + 1) / iterations * 100:.0f}% 완료")
             
     # 확률 계산 및 정렬 (우승 확률 -> 결승 -> 4강 -> 8강 -> 16강 -> 32강 순으로 정렬)
