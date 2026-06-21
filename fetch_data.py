@@ -138,6 +138,24 @@ def fetch_live_world_cup_data():
                     "score_b": score_b
                 })
                 
+    # 일정 데이터 로드하여 스테이지 확인
+    schedule_data = []
+    schedule_path = "data/schedule.json"
+    if os.path.exists(schedule_path):
+        with open(schedule_path, "r", encoding="utf-8") as f:
+            try:
+                schedule_data = json.load(f)
+            except json.JSONDecodeError:
+                pass
+                
+    def get_stage(team_a, team_b, date_str):
+        for s in schedule_data:
+            if s.get("date") == date_str:
+                if (s.get("homeTeam") in (team_a, team_b)) and (s.get("awayTeam") in (team_a, team_b)):
+                    return "knockout" if s.get("stage") != "group-stage" else "group"
+        # fallback
+        return "knockout" if (month == 6 and day >= 28) or (month >= 7) else "group"
+
     actual_results = []
     for idx, match in enumerate(parsed_matches):
         team_a = match["team_a"]
@@ -147,8 +165,8 @@ def fetch_live_world_cup_data():
         month = match["month"]
         day = match["day"]
         
-        is_knockout = (month == 6 and day >= 28) or (month >= 7)
-        stage = "knockout" if is_knockout else "group"
+        date_str = f"{match['year']}-{month:02d}-{day:02d}"
+        stage = get_stage(team_a, team_b, date_str)
         
         winner = None
         if score_a > score_b:
@@ -158,14 +176,18 @@ def fetch_live_world_cup_data():
         else:
             if stage == "knockout":
                 # 다음 경기들을 탐색하여 어느 팀이 진출했는지 판별
+                # 주의: 3/4위전은 결승전(보통 마지막) 이전에 있을 수 있음
+                found_next = False
                 for next_match in parsed_matches[idx + 1:]:
                     next_teams = {next_match["team_a"], next_match["team_b"]}
-                    if team_a in next_teams:
+                    if team_a in next_teams and not found_next:
                         winner = team_a
-                        break
-                    elif team_b in next_teams:
+                        found_next = True
+                    elif team_b in next_teams and not found_next:
                         winner = team_b
-                        break
+                        found_next = True
+                        
+                # 만약 결승전처럼 다음 경기가 없는 경우는 winner가 None으로 유지됨
                         
         actual_results.append({
             "team_a": team_a,
