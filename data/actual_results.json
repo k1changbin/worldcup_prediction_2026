@@ -297,6 +297,15 @@
     "winner": "Netherlands"
   },
   {
+    "team_a": "Japan",
+    "team_b": "Tunisia",
+    "score_a": 4,
+    "score_b": 0,
+    "date": "2026-06-20",
+    "stage": "group",
+    "winner": "Japan"
+  },
+  {
     "team_a": "Germany",
     "team_b": "Ivory Coast",
     "score_a": 2,
@@ -304,5 +313,14 @@
     "date": "2026-06-20",
     "stage": "group",
     "winner": "Germany"
+  },
+  {
+    "team_a": "Curaçao",
+    "team_b": "Ecuador",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-06-20",
+    "stage": "group",
+    "winner": null
   }
 ]
