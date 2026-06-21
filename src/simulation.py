@@ -1,6 +1,6 @@
 import os
 import json
-import itertools
+import math
 import random
 import numpy as np
 from collections import defaultdict
@@ -266,6 +266,31 @@ class WorldCupSimulation:
         score_a, score_b = simulate_match_score(final_lambda_a, final_lambda_b)
         return score_a, score_b
 
+    def _update_group_stats(self, team_a, team_b, score_a, score_b, stats, group_match_results):
+        group_match_results[(team_a, team_b)] = (score_a, score_b)
+        group_match_results[(team_b, team_a)] = (score_b, score_a)
+
+        stats[team_a]["gf"] += score_a
+        stats[team_a]["ga"] += score_b
+        stats[team_a]["gd"] += (score_a - score_b)
+        stats[team_b]["gf"] += score_b
+        stats[team_b]["ga"] += score_a
+        stats[team_b]["gd"] += (score_b - score_a)
+        
+        if score_a > score_b:
+            stats[team_a]["pts"] += 3
+            stats[team_a]["w"] += 1
+            stats[team_b]["l"] += 1
+        elif score_a < score_b:
+            stats[team_b]["pts"] += 3
+            stats[team_b]["w"] += 1
+            stats[team_a]["l"] += 1
+        else:
+            stats[team_a]["pts"] += 1
+            stats[team_b]["pts"] += 1
+            stats[team_a]["d"] += 1
+            stats[team_b]["d"] += 1
+
     def simulate_group_stage(self):
         """
         모든 조별 리그를 시뮬레이션합니다.
@@ -304,29 +329,7 @@ class WorldCupSimulation:
                     score_a, score_b = self.simulate_match(team_a, team_b, home_advantage=False)
                 
                 # 기록 업데이트
-                group_match_results[(team_a, team_b)] = (score_a, score_b)
-                group_match_results[(team_b, team_a)] = (score_b, score_a)
-
-                stats[team_a]["gf"] += score_a
-                stats[team_a]["ga"] += score_b
-                stats[team_a]["gd"] += (score_a - score_b)
-                stats[team_b]["gf"] += score_b
-                stats[team_b]["ga"] += score_a
-                stats[team_b]["gd"] += (score_b - score_a)
-                
-                if score_a > score_b:
-                    stats[team_a]["pts"] += 3
-                    stats[team_a]["w"] += 1
-                    stats[team_b]["l"] += 1
-                elif score_a < score_b:
-                    stats[team_b]["pts"] += 3
-                    stats[team_b]["w"] += 1
-                    stats[team_a]["l"] += 1
-                else:
-                    stats[team_a]["pts"] += 1
-                    stats[team_b]["pts"] += 1
-                    stats[team_a]["d"] += 1
-                    stats[team_b]["d"] += 1
+                self._update_group_stats(team_a, team_b, score_a, score_b, stats, group_match_results)
 
             # 2라운드 끝난 후 진출 확정팀 식별 (승점 6점 획득 팀)
             rotation_teams = set()
@@ -352,29 +355,7 @@ class WorldCupSimulation:
                     score_a, score_b = self.simulate_match(team_a, team_b, home_advantage=False, travel_fatigue_a=fatigue_a, travel_fatigue_b=fatigue_b)
                 
                 # 기록 업데이트
-                group_match_results[(team_a, team_b)] = (score_a, score_b)
-                group_match_results[(team_b, team_a)] = (score_b, score_a)
-
-                stats[team_a]["gf"] += score_a
-                stats[team_a]["ga"] += score_b
-                stats[team_a]["gd"] += (score_a - score_b)
-                stats[team_b]["gf"] += score_b
-                stats[team_b]["ga"] += score_a
-                stats[team_b]["gd"] += (score_b - score_a)
-                
-                if score_a > score_b:
-                    stats[team_a]["pts"] += 3
-                    stats[team_a]["w"] += 1
-                    stats[team_b]["l"] += 1
-                elif score_a < score_b:
-                    stats[team_b]["pts"] += 3
-                    stats[team_b]["w"] += 1
-                    stats[team_a]["l"] += 1
-                else:
-                    stats[team_a]["pts"] += 1
-                    stats[team_b]["pts"] += 1
-                    stats[team_a]["d"] += 1
-                    stats[team_b]["d"] += 1
+                self._update_group_stats(team_a, team_b, score_a, score_b, stats, group_match_results)
 
             # 커스텀 승자 정렬 (승점 -> 골득실 -> 다득점 -> 승자승 -> ELO -> 알파벳 순)
             def compare_teams(x, y):
@@ -628,7 +609,7 @@ class WorldCupSimulation:
             
         return round_results, winners
 
-    def simulate_knockout_stage(self, seeded_teams):
+    def simulate_knockout_stage(self):
         """32강부터 결승까지 토너먼트 진행 (휴식일 및 피로도 누적 시뮬레이션)"""
         if not self.last_standings:
             raise ValueError("조별 리그 standings 데이터가 존재하지 않습니다.")
@@ -782,7 +763,7 @@ if __name__ == "__main__":
     seeded_teams = sim.get_advancing_teams(standings)
     
     print("토너먼트 시뮬레이션 중...\n")
-    knockout_results = sim.simulate_knockout_stage(seeded_teams)
+    knockout_results = sim.simulate_knockout_stage()
     
     print("--- [결승전 결과] ---")
     final_match = knockout_results["Final"][0]
