@@ -1,13 +1,12 @@
 import streamlit as st
 import json
 import os
-import random
 import numpy as np
 import pandas as pd
 from collections import Counter, defaultdict
 
 from src.elo import EloSystem
-from src.poisson import win_prob_to_lambda, match_probabilities, simulate_match_score
+from src.poisson import win_prob_to_lambda, match_probabilities
 from src.simulation import WorldCupSimulation, HOST_COUNTRIES, GROUP_REGIONS
 
 # 페이지 기본 설정
