@@ -2,6 +2,7 @@ import json
 import os
 import sys
 from collections import Counter
+import math
 import numpy as np
 from src.elo import EloSystem
 from src.poisson import win_prob_to_lambda, match_probabilities, simulate_match_score
@@ -262,8 +263,9 @@ def predict_match():
         
         if details_a:
             players_a = squads.get(team_a, [])
-            total_val_a = sum(p["value_eur"] for p in players_a) / 1000000
-            hhi_a = sum((p["value_eur"] / (total_val_a * 1000000)) ** 2 for p in players_a) if total_val_a > 0 else 0
+            total_raw_val_a = sum(p["value_eur"] for p in players_a)
+            total_val_a = total_raw_val_a / 1000000
+            hhi_a = sum((p["value_eur"] / total_raw_val_a) ** 2 for p in players_a) if total_raw_val_a > 0 else 0
             norm_hhi_a = max(0.0, min(1.0, (hhi_a - 0.0385) / (0.3 - 0.0385)))
             dependency_a = 0.2 + 0.8 * norm_hhi_a
             print(f" * {team_a} (스쿼드 가치: €{total_val_a:.1f}M, 에이스 의존도 계수: {dependency_a:.2f}):")
@@ -271,8 +273,9 @@ def predict_match():
                 print(f"   - {detail}")
         if details_b:
             players_b = squads.get(team_b, [])
-            total_val_b = sum(p["value_eur"] for p in players_b) / 1000000
-            hhi_b = sum((p["value_eur"] / (total_val_b * 1000000)) ** 2 for p in players_b) if total_val_b > 0 else 0
+            total_raw_val_b = sum(p["value_eur"] for p in players_b)
+            total_val_b = total_raw_val_b / 1000000
+            hhi_b = sum((p["value_eur"] / total_raw_val_b) ** 2 for p in players_b) if total_raw_val_b > 0 else 0
             norm_hhi_b = max(0.0, min(1.0, (hhi_b - 0.0385) / (0.3 - 0.0385)))
             dependency_b = 0.2 + 0.8 * norm_hhi_b
             print(f" * {team_b} (스쿼드 가치: €{total_val_b:.1f}M, 에이스 의존도 계수: {dependency_b:.2f}):")
@@ -283,8 +286,12 @@ def predict_match():
     print(f"[평균 예상 득점] {team_a}: {final_lambda_a:.2f}골 | {team_b}: {final_lambda_b:.2f}골")
     
     # 보정 전 ELO 득점력이랑 차이가 나는 경우에만 출력
-    is_modified = (rating_a != elo.get_rating(team_a) or rating_b != elo.get_rating(team_b) or
-                   final_lambda_a != lambda_a or final_lambda_b != lambda_b)
+    is_modified = (
+        not math.isclose(rating_a, elo.get_rating(team_a)) or 
+        not math.isclose(rating_b, elo.get_rating(team_b)) or
+        not math.isclose(final_lambda_a, lambda_a) or 
+        not math.isclose(final_lambda_b, lambda_b)
+    )
     if is_modified:
         base_win_prob = elo.expected_score(elo.get_rating(team_a), elo.get_rating(team_b))
         base_lam_a, base_lam_b = win_prob_to_lambda(base_win_prob)
