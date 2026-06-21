@@ -2,21 +2,50 @@ import httpx
 from bs4 import BeautifulSoup
 import json
 import os
-import sys
+import re
+
+# 웹사이트 팀명과 프로젝트 데이터 팀명의 불일치 매핑 사전
+TEAM_NAME_MAP = {
+    "United States": "USA",
+    "Turkey": "Türkiye",
+    "Korea Republic": "South Korea",
+    "IR Iran": "Iran",
+    "Cote d'Ivoire": "Ivory Coast",
+    "Congo DR": "DR Congo",
+    "Cabo Verde": "Cape Verde",
+    "Curacao": "Curaçao",
+    "Turkiye": "Türkiye"
+}
+
+def normalize_team_name(name, valid_teams):
+    if not name:
+        return None
+    name = name.strip()
+    
+    if name in TEAM_NAME_MAP:
+        return TEAM_NAME_MAP[name]
+        
+    for valid in valid_teams:
+        if valid.lower() == name.lower():
+            return valid
+            
+    return None
 
 URL = "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup"
 ABSENCES_PATH = "data/absences.json"
 SQUADS_PATH = "data/squads.json"
 ACTUAL_RESULTS_PATH = "data/actual_results.json"
 
-def load_json(path):
+def load_json(path, default_val=None):
+    if default_val is None:
+        default_val = {}
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
             try:
                 return json.load(f)
             except json.JSONDecodeError:
-                return {}
-    return {}
+                return default_val
+    return default_val
 
 def save_json(path, data):
     with open(path, "w", encoding="utf-8") as f:
@@ -36,7 +65,7 @@ def main():
     
     # 데이터 로드
     squads = load_json(SQUADS_PATH)
-    actual_results = load_json(ACTUAL_RESULTS_PATH)
+    actual_results = load_json(ACTUAL_RESULTS_PATH, [])
     injuries = load_json(ABSENCES_PATH)
     
     html_content = None
@@ -127,11 +156,7 @@ def main():
             suspension_raw = tds[2].text.strip()
         
         # 국가(Team) 매핑
-        matched_team = None
-        for team_name in squads.keys():
-            if team_name.lower() in team_raw.lower() or team_raw.lower() in team_name.lower():
-                matched_team = team_name
-                break
+        matched_team = normalize_team_name(team_raw, squads.keys())
                 
         if not matched_team:
             continue
@@ -141,8 +166,8 @@ def main():
         team_players = squads[matched_team]
         for p in team_players:
             p_name = p["name"]
-            # 부분 일치 혹은 완전 일치 검사
-            if p_name.lower() in player_raw.lower() or player_raw.lower() in p_name.lower():
+            # 조금 더 엄격한 매칭: 이름이 완전히 일치하거나, p_name의 단어들이 player_raw에 모두 포함되는 경우
+            if p_name.lower() == player_raw.lower() or all(word.lower() in player_raw.lower() for word in p_name.split()):
                 matched_player = p_name
                 break
                 
@@ -160,7 +185,6 @@ def main():
         elif "3 matches" in combined_text or "three matches" in combined_text or "3경기" in combined_text:
             suspension_length = 3
             
-        import re
         matchday_nums = [int(x) for x in re.findall(r"matchday\s*(\d+)", combined_text)]
         if matchday_nums:
             served_at_count = max(matchday_nums)
