@@ -73,12 +73,6 @@
       "type": "suspension",
       "reason": "yellow_cards",
       "served_at_count": 3
-    },
-    {
-      "name": "Sphephelo Sithole",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 2
     }
   ],
   "Bosnia and Herzegovina": [
@@ -109,14 +103,6 @@
       "type": "suspension",
       "reason": "yellow_cards",
       "served_at_count": 3
-    }
-  ],
-  "Mexico": [
-    {
-      "name": "César Montes",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 2
     }
   ]
 }
