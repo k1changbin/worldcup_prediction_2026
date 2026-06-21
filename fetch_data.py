@@ -148,7 +148,7 @@ def fetch_live_world_cup_data():
             except json.JSONDecodeError:
                 pass
                 
-    def get_stage(team_a, team_b, date_str):
+    def get_stage(team_a, team_b, date_str, month, day):
         for s in schedule_data:
             if s.get("date") == date_str:
                 if (s.get("homeTeam") in (team_a, team_b)) and (s.get("awayTeam") in (team_a, team_b)):
@@ -166,7 +166,7 @@ def fetch_live_world_cup_data():
         day = match["day"]
         
         date_str = f"{match['year']}-{month:02d}-{day:02d}"
-        stage = get_stage(team_a, team_b, date_str)
+        stage = get_stage(team_a, team_b, date_str, month, day)
         
         winner = None
         if score_a > score_b:
