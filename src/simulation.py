@@ -1,51 +1,13 @@
 import os
 import json
-import math
 import random
 import numpy as np
-from collections import defaultdict
 from functools import cmp_to_key
 from src.elo import EloSystem
 from src.poisson import win_prob_to_lambda, simulate_match_score
 
 # 공동 개최국 정의
 HOST_COUNTRIES = {"USA", "Mexico", "Canada"}
-
-# 국가별 스쿼드 뎁스 지수 (기본값은 1.0)
-# 백업 선수의 수준과 에이스 의존도를 반영 (낮을수록 백업이 두터워 전력 누수가 적음)
-SQUAD_DEPTH_INDEX = {
-    # 0.2: 초강팀 (로드리/음바페 등이 결장해도 백업이 월드클래스)
-    "Spain": 0.2,
-    "France": 0.2,
-    "England": 0.2,
-    "Germany": 0.2,
-    "Portugal": 0.2,
-    "Brazil": 0.2,
-    "Argentina": 0.2,
-    # 0.4: 상급 뎁스 (준월드클래스 백업 보유)
-    "Netherlands": 0.4,
-    "Italy": 0.4,
-    "Belgium": 0.4,
-    "Croatia": 0.4,
-    "Uruguay": 0.4,
-    "Colombia": 0.4,
-    # 0.6: 중급 뎁스 (유럽 주요 리거 수준 백업 보유)
-    "Japan": 0.6,
-    "Mexico": 0.6,
-    "USA": 0.6,
-    "Morocco": 0.6,
-    "Switzerland": 0.6,
-    "Denmark": 0.6,
-    "Senegal": 0.6,
-    # 0.8: 하급 뎁스 (에이스 의존도 높음, 백업과의 기량 격차가 큼)
-    "South Korea": 0.8,
-    "Australia": 0.8,
-    "Canada": 0.8,
-    "Türkiye": 0.8,
-    "Sweden": 0.8,
-    "Austria": 0.8,
-    "Ecuador": 0.8,
-}
 
 # 2026 월드컵 개최지 5대 권역 분류
 # Region 1: West Coast
