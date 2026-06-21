@@ -366,8 +366,16 @@ def fetch_live_injuries_and_squads():
     with open(squads_path, "w", encoding="utf-8") as f:
         json.dump(final_squads, f, ensure_ascii=False, indent=2)
 
+    try:
+        with open(injuries_path, "r", encoding="utf-8") as f:
+            absences_data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        absences_data = {"injuries": {}, "suspensions": {}}
+        
+    absences_data["injuries"] = live_injuries
+
     with open(injuries_path, "w", encoding="utf-8") as f:
-        json.dump(live_injuries, f, ensure_ascii=False, indent=2)
+        json.dump(absences_data, f, ensure_ascii=False, indent=2)
 
     print(f"\n[성공] 데이터 업데이트 완료!")
     print(f"   - 스쿼드 데이터 저장 경로: {squads_path} (총 {len(final_squads)}개국, {total_players_count}명)")
