@@ -12,8 +12,8 @@ from src.simulation import WorldCupSimulation, HOST_COUNTRIES, GROUP_REGIONS
 
 # 페이지 기본 설정
 st.set_page_config(
-    page_title="2026 FIFA 월드컵 AI 예측 대시보드",
-    page_icon="cup",
+    page_title="World Cup 2026 AI Simulator",
+    page_icon="⚽",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
@@ -90,15 +90,16 @@ FLAG_MAP = {
 def get_flag(team_name):
     return FLAG_MAP.get(team_name, "")
 
-@st.cache_data
-def load_json(path):
+def load_json(path, default_val=None):
+    if default_val is None:
+        default_val = {}
     if os.path.exists(path):
         with open(path, "r", encoding="utf-8") as f:
             try:
                 return json.load(f)
             except json.JSONDecodeError:
-                return {}
-    return {}
+                return default_val
+    return default_val
 
 def save_json(path, data):
     with open(path, "w", encoding="utf-8") as f:
@@ -575,8 +576,8 @@ with tab1:
                     )
                 else:
                     # ELO 예측 확률 계산
-                    r_home = elo_ratings.get(home, 1700.0)
-                    r_away = elo_ratings.get(away, 1700.0)
+                    r_home = elo_ratings.get(home, 1500.0)
+                    r_away = elo_ratings.get(away, 1500.0)
                     
                     # 1. 홈 우위 적용
                     if home in HOST_COUNTRIES and away not in HOST_COUNTRIES:
@@ -613,7 +614,7 @@ with tab1:
                     p_draw = prob["draw"] * 100
                     p_lose = prob["lose"] * 100
 
-                    # 1,000,000회 시뮬레이션을 통해 최빈 예상 스코어 도출
+                    # 10,000회 시뮬레이션을 통해 최빈 예상 스코어 도출
                     sa_s = np.random.poisson(final_l_home, 10000)
                     sb_s = np.random.poisson(final_l_away, 10000)
                     sc_counts = Counter(zip(sa_s, sb_s))
@@ -645,12 +646,12 @@ with tab2:
     st.markdown("현재까지 완료된 실제 경기 결과를 바탕으로 집계된 조별 리그 순위표입니다.")
     
     # 실제 경기 결과 및 그룹 데이터 로드
-    groups = load_json(GROUPS_PATH)
-    actual_results = load_json(ACTUAL_RESULTS_PATH)
+    groups_dict = load_json(GROUPS_PATH)
+    actual_results = load_json(ACTUAL_RESULTS_PATH, [])
     
     # 각 팀별 실제 성적 초기화
     standings = {}
-    for group_name, teams in groups.items():
+    for group_name, teams in groups_dict.items():
         standings[group_name] = {
             team: {"pts": 0, "w": 0, "d": 0, "l": 0, "gd": 0, "gf": 0, "ga": 0}
             for team in teams
@@ -666,13 +667,13 @@ with tab2:
             
             # 어느 조인지 찾기
             g_name_a = None
-            for g_name, teams in groups.items():
+            for g_name, teams in groups_dict.items():
                 if team_a in teams:
                     g_name_a = g_name
                     break
             
             g_name_b = None
-            for g_name, teams in groups.items():
+            for g_name, teams in groups_dict.items():
                 if team_b in teams:
                     g_name_b = g_name
                     break
@@ -704,7 +705,7 @@ with tab2:
                     standings[group_name][team_b]["d"] += 1
 
     # 각 조별로 정렬 및 시각화
-    groups_list = sorted(list(groups.keys()))
+    groups_list = sorted(list(groups_dict.keys()))
     
     for row_idx in range(4): # 4개 행 (행마다 3개 조)
         cols = st.columns(3)
@@ -768,7 +769,7 @@ with tab3:
             
             standings = sim.simulate_group_stage()
             r32_teams = sim.get_advancing_teams(standings)
-            ko_results = sim.simulate_knockout_stage(r32_teams)
+            ko_results = sim.simulate_knockout_stage()
             
             r32 = ko_results["Round of 32"]
             r16 = ko_results["Round of 16"]
@@ -794,14 +795,18 @@ with tab3:
                 att_m_b, def_m_b, _ = get_injury_multipliers(team_b, active_injuries)
                 
                 # 개최국 홈 우위 버프 적용
-                r_a_adj = r_a + (40 if team_a in HOST_COUNTRIES else 0)
-                r_b_adj = r_b + (40 if team_b in HOST_COUNTRIES else 0)
+                is_host_a = team_a in HOST_COUNTRIES
+                is_host_b = team_b in HOST_COUNTRIES
+        
+                r_a_adj = r_a + (40 if is_host_a and not is_host_b else 0)
+                r_b_adj = r_b + (40 if is_host_b and not is_host_a else 0)
                 
                 # ELO 기반 예상 득점(람다) 산출
                 elo_sys = EloSystem()
                 expected_a = elo_sys.expected_score(r_a_adj, r_b_adj)
                 l_a, l_b = win_prob_to_lambda(expected_a)
                 
+                # 피로도는 간소화를 위해 0.0으로 가정하거나 대진표용은 제외 가능, 일단 0.0
                 final_l_a = l_a * att_m_a * def_m_b
                 final_l_b = l_b * att_m_b * def_m_a
                 
@@ -1153,7 +1158,7 @@ with tab4:
     
     col_t1, col_t2 = st.columns(2)
     with col_t1:
-        team_a = st.selectbox("첫 번째 팀 (Home)", sorted(list(elo_ratings.keys())), index=selected_team_idx if 'selected_team_idx' in locals() else 0, format_func=lambda x: f"{get_flag(x)} {x}")
+        team_a = st.selectbox("첫 번째 팀 (Home)", sorted(list(elo_ratings.keys())), index=0, format_func=lambda x: f"{get_flag(x)} {x}")
     with col_t2:
         team_b = st.selectbox("두 번째 팀 (Away)", sorted(list(elo_ratings.keys())), index=1, format_func=lambda x: f"{get_flag(x)} {x}")
         
@@ -1174,13 +1179,13 @@ with tab4:
     else:
         if st.button("전력 비교 및 AI 승률 예측 실행"):
             # 기본 ELO 점수 로드
-            r_a = elo_ratings.get(team_a, 1700.0)
-            r_b = elo_ratings.get(team_b, 1700.0)
+            r_a = elo_ratings.get(team_a, 1500.0)
+            r_b = elo_ratings.get(team_b, 1500.0)
             
             # ELO 가중치 보정
-            if home_advantage_opt == f"Team A ({team_a})가 개최국":
+            if home_advantage_opt == f"Team A ({get_flag(team_a)} {team_a})가 개최국":
                 r_a += 40
-            elif home_advantage_opt == f"Team B ({team_b})가 개최국":
+            elif home_advantage_opt == f"Team B ({get_flag(team_b)} {team_b})가 개최국":
                 r_b += 40
                 
             rest_bonus = min(abs(rest_days_diff) * 5, 30)
@@ -1332,19 +1337,19 @@ with tab5:
                 for t in r32_teams:
                     r32_counts[t] += 1
                     
-                ko_results = sim.simulate_knockout_stage(r32_teams)
+                ko_results = sim.simulate_knockout_stage()
                 
                 # 16강 진출팀 기록
-                for m in ko_results["Round of 16"]:
+                for m in ko_results["Round of 32"]:
                     r16_counts[m["winner"]] += 1
                 # 8강 진출팀 기록
-                for m in ko_results["Quarter-finals"]:
+                for m in ko_results["Round of 16"]:
                     qf_counts[m["winner"]] += 1
                 # 4강 진출팀 기록
-                for m in ko_results["Semi-finals"]:
+                for m in ko_results["Quarter-finals"]:
                     sf_counts[m["winner"]] += 1
                 # 결승 진출팀 기록
-                for m in ko_results["Final"]:
+                for m in ko_results["Semi-finals"]:
                     final_counts[m["winner"]] += 1
                 # 우승팀 기록
                 champion_counts[ko_results["Champion"]] += 1
