@@ -286,5 +286,23 @@
     "date": "2026-06-19",
     "stage": "group",
     "winner": "Brazil"
+  },
+  {
+    "team_a": "Netherlands",
+    "team_b": "Sweden",
+    "score_a": 5,
+    "score_b": 1,
+    "date": "2026-06-20",
+    "stage": "group",
+    "winner": "Netherlands"
+  },
+  {
+    "team_a": "Germany",
+    "team_b": "Ivory Coast",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-06-20",
+    "stage": "group",
+    "winner": "Germany"
   }
 ]
