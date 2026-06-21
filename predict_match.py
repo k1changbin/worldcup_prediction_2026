@@ -5,7 +5,7 @@ from collections import Counter
 import math
 import numpy as np
 from src.elo import EloSystem
-from src.poisson import win_prob_to_lambda, match_probabilities, simulate_match_score
+from src.poisson import win_prob_to_lambda, match_probabilities
 
 def find_team(query, valid_teams):
     query = query.strip().lower()
