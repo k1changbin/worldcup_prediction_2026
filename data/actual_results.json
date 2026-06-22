@@ -322,5 +322,41 @@
     "date": "2026-06-20",
     "stage": "group",
     "winner": null
+  },
+  {
+    "team_a": "Spain",
+    "team_b": "Saudi Arabia",
+    "score_a": 4,
+    "score_b": 0,
+    "date": "2026-06-21",
+    "stage": "group",
+    "winner": "Spain"
+  },
+  {
+    "team_a": "Egypt",
+    "team_b": "New Zealand",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-21",
+    "stage": "group",
+    "winner": "Egypt"
+  },
+  {
+    "team_a": "Cape Verde",
+    "team_b": "Uruguay",
+    "score_a": 2,
+    "score_b": 2,
+    "date": "2026-06-21",
+    "stage": "group",
+    "winner": null
+  },
+  {
+    "team_a": "Belgium",
+    "team_b": "Iran",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-06-21",
+    "stage": "group",
+    "winner": null
   }
 ]

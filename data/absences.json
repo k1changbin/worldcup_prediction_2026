@@ -118,5 +118,21 @@
       "reason": "yellow_cards",
       "served_at_count": 2
     }
+  ],
+  "Belgium": [
+    {
+      "name": "Nathan Ngoy",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
+  ],
+  "Cape Verde": [
+    {
+      "name": "Sidny Lopes Cabral",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
   ]
 }
