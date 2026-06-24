@@ -4,6 +4,7 @@ import re
 import unicodedata
 import httpx
 from bs4 import BeautifulSoup
+from src.absences import load_absences, save_absences
 
 # ELO 국가명과 Wikipedia 헤딩명 간 매핑 사전
 TEAM_ALIASES = {
@@ -366,16 +367,23 @@ def fetch_live_injuries_and_squads():
     with open(squads_path, "w", encoding="utf-8") as f:
         json.dump(final_squads, f, ensure_ascii=False, indent=2)
 
-    try:
-        with open(injuries_path, "r", encoding="utf-8") as f:
-            absences_data = json.load(f)
-    except (FileNotFoundError, json.JSONDecodeError):
-        absences_data = {"injuries": {}, "suspensions": {}}
-        
-    absences_data["injuries"] = live_injuries
+    absences_data = load_absences(injuries_path)
+    preserved_suspensions = {}
+    for team, items in absences_data.items():
+        suspensions = [
+            item
+            for item in items
+            if isinstance(item, dict) and item.get("type") == "suspension"
+        ]
+        if suspensions:
+            preserved_suspensions[team] = suspensions
 
-    with open(injuries_path, "w", encoding="utf-8") as f:
-        json.dump(absences_data, f, ensure_ascii=False, indent=2)
+    canonical_absences = preserved_suspensions
+    for team, players in live_injuries.items():
+        canonical_absences.setdefault(team, [])
+        canonical_absences[team].extend(players)
+
+    save_absences(injuries_path, canonical_absences)
 
     print(f"\n[성공] 데이터 업데이트 완료!")
     print(f"   - 스쿼드 데이터 저장 경로: {squads_path} (총 {len(final_squads)}개국, {total_players_count}명)")
