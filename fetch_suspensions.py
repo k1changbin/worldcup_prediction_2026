@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import os
 import re
+from src.absences import load_absences, save_absences
 
 # 웹사이트 팀명과 프로젝트 데이터 팀명의 불일치 매핑 사전
 TEAM_NAME_MAP = {
@@ -66,7 +67,7 @@ def main():
     # 데이터 로드
     squads = load_json(SQUADS_PATH)
     actual_results = load_json(ACTUAL_RESULTS_PATH, [])
-    injuries = load_json(ABSENCES_PATH)
+    injuries = load_absences(ABSENCES_PATH)
     
     html_content = None
     
@@ -226,7 +227,7 @@ def main():
             print(f"[징계 동기화] {matched_team}의 {matched_player} 등록 완료 (출장정지 적용 실제경기수: {served_at_count}회차)")
 
     if added_count > 0:
-        save_json(ABSENCES_PATH, injuries)
+        save_absences(ABSENCES_PATH, injuries)
         print(f"[징계 동기화] 총 {added_count}명의 징계 선수가 데이터베이스에 동기화되었습니다.")
     else:
         print("[징계 동기화] 새로 추가된 징계 선수가 없습니다.")
