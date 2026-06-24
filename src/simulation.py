@@ -5,6 +5,7 @@ import numpy as np
 from functools import cmp_to_key
 from src.elo import EloSystem
 from src.poisson import win_prob_to_lambda, simulate_match_score
+from src.absences import build_squad_stats, calculate_absence_multipliers, load_absences
 
 # 공동 개최국 정의
 HOST_COUNTRIES = {"USA", "Mexico", "Canada"}
@@ -88,13 +89,7 @@ class WorldCupSimulation:
                 except json.JSONDecodeError:
                     pass
 
-        self.injuries = {}
-        if absences_file and os.path.exists(absences_file):
-            with open(absences_file, "r", encoding="utf-8") as f:
-                try:
-                    self.injuries = json.load(f)
-                except json.JSONDecodeError:
-                    pass
+        self.injuries = load_absences(absences_file) if absences_file else {}
 
         self.squads = {}
         if os.path.exists(squads_file):
@@ -105,91 +100,18 @@ class WorldCupSimulation:
                     pass
 
         # 스쿼드별 총 가치, 포지션별 가치 및 HHI 집중도 지수 사전 계산
-        self.team_squad_stats = {}
-        for team, players in self.squads.items():
-            total_value = sum(p["value_eur"] for p in players)
-            if total_value == 0:
-                continue
-            
-            # HHI 지수 계산: sum((v_i / total_value)^2)
-            hhi = sum((p["value_eur"] / total_value) ** 2 for p in players)
-            
-            # GK, DF -> 수비(defense) / MF, FW -> 공격(attack) 총 가치 분배
-            attack_total = 0.0
-            defense_total = 0.0
-            for p in players:
-                pos = p["position"]
-                val = p["value_eur"]
-                if pos in ["Goalkeeper", "Defender"]:
-                    defense_total += val
-                else:
-                    attack_total += val
-            
-            self.team_squad_stats[team] = {
-                "total_value": total_value,
-                "hhi": hhi,
-                "attack_total": attack_total,
-                "defense_total": defense_total
-            }
+        self.team_squad_stats = build_squad_stats(self.squads)
 
         self.last_standings = None
 
     def get_injury_multipliers(self, team: str):
         """스쿼드 가치 비중과 HHI 의존도를 고려한 동적 공격/수비 결장 보정 배율 계산"""
-        # injuries.json은 단순 선수 이름 리스트 (예: {"South Korea": ["Son Heung-min"]})
-        # 만약 injuries.json이 딕셔너리가 아닌 리스트 등 다른 구조를 가졌을 경우를 고려하여 유연하게 파싱
-        raw_injuries = self.injuries.get(team, [])
-        team_injuries = []
-        if isinstance(raw_injuries, list):
-            for item in raw_injuries:
-                if isinstance(item, dict):
-                    team_injuries.append(item.get("name"))
-                else:
-                    team_injuries.append(str(item))
-        else:
-            team_injuries = [str(raw_injuries)]
-
-        # 필터링: 빈 값 제거
-        team_injuries = [name for name in team_injuries if name]
-
-        if not team_injuries or team not in self.team_squad_stats or team not in self.squads:
-            return 1.0, 1.0
-
-        stats = self.team_squad_stats[team]
-        players = self.squads[team]
-        
-        # HHI 기반 의존도 계수 산출 (최소 0.0385 ~ 최대 0.3 범위를 0 ~ 1로 정규화)
-        # HHI가 높을수록(스타 의존도가 높을수록) depth_factor가 1.0에 가까워져 부상 타격이 커짐
-        hhi = stats["hhi"]
-        min_hhi = 0.0385
-        max_hhi = 0.3000
-        norm_hhi = max(0.0, min(1.0, (hhi - min_hhi) / (max_hhi - min_hhi)))
-        depth_factor = 0.2 + 0.8 * norm_hhi
-
-        attack_reduction = 0.0
-        defense_reduction = 0.0
-
-        for player_name in team_injuries:
-            # 대소문자 및 양끝 공백 무시하고 매칭
-            matched_player = None
-            for p in players:
-                if p["name"].strip().lower() == player_name.strip().lower():
-                    matched_player = p
-                    break
-            
-            if matched_player:
-                pos = matched_player["position"]
-                val = matched_player["value_eur"]
-                
-                if pos in ["Goalkeeper", "Defender"]:
-                    if stats["defense_total"] > 0:
-                        defense_reduction += (val / stats["defense_total"]) * depth_factor
-                else:
-                    if stats["attack_total"] > 0:
-                        attack_reduction += (val / stats["attack_total"]) * depth_factor
-
-        attack_multiplier = max(0.5, 1.0 - attack_reduction)
-        defense_multiplier = min(2.0, 1.0 + defense_reduction)
+        attack_multiplier, defense_multiplier, _ = calculate_absence_multipliers(
+            team,
+            self.injuries,
+            self.squads,
+            self.team_squad_stats,
+        )
         return attack_multiplier, defense_multiplier
 
     def simulate_match(self, team_a: str, team_b: str, home_advantage: bool = True, rest_days_diff: int = 0, travel_fatigue_a: float = 0.0, travel_fatigue_b: float = 0.0):
