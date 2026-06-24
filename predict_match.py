@@ -6,6 +6,7 @@ import math
 import numpy as np
 from src.elo import EloSystem
 from src.poisson import win_prob_to_lambda, match_probabilities
+from src.absences import calculate_absence_multipliers, load_absences
 
 def find_team(query, valid_teams):
     query = query.strip().lower()
@@ -24,86 +25,6 @@ def find_team(query, valid_teams):
 def draw_bar(pct, width=20):
     filled = int(round(width * (pct / 100)))
     return "█" * filled + "░" * (width - filled)
-
-def get_injury_multipliers(team, injuries_dict):
-    squads_path = "data/squads.json"
-    squads = {}
-    if os.path.exists(squads_path):
-        with open(squads_path, "r", encoding="utf-8") as f:
-            try:
-                squads = json.load(f)
-            except json.JSONDecodeError:
-                pass
-                
-    raw_injuries = injuries_dict.get(team, [])
-    team_injuries = []
-    if isinstance(raw_injuries, list):
-        for item in raw_injuries:
-            if isinstance(item, dict):
-                team_injuries.append(item.get("name"))
-            else:
-                team_injuries.append(str(item))
-    else:
-        team_injuries = [str(raw_injuries)]
-    team_injuries = [n for n in team_injuries if n]
-
-    if not team_injuries or team not in squads:
-        return 1.0, 1.0, []
-
-    players = squads[team]
-    total_value = sum(p["value_eur"] for p in players)
-    if total_value == 0:
-        return 1.0, 1.0, []
-
-    # HHI
-    hhi = sum((p["value_eur"] / total_value) ** 2 for p in players)
-    min_hhi = 0.0385
-    max_hhi = 0.3000
-    norm_hhi = max(0.0, min(1.0, (hhi - min_hhi) / (max_hhi - min_hhi)))
-    depth_factor = 0.2 + 0.8 * norm_hhi
-
-    attack_total = 0.0
-    defense_total = 0.0
-    for p in players:
-        pos = p["position"]
-        val = p["value_eur"]
-        if pos in ["Goalkeeper", "Defender"]:
-            defense_total += val
-        else:
-            attack_total += val
-
-    attack_reduction = 0.0
-    defense_reduction = 0.0
-    details = []
-
-    for player_name in team_injuries:
-        matched_player = None
-        for p in players:
-            if p["name"].strip().lower() == player_name.strip().lower():
-                matched_player = p
-                break
-        
-        if matched_player:
-            pos = matched_player["position"]
-            val = matched_player["value_eur"]
-            pos_str = "수비" if pos in ["Goalkeeper", "Defender"] else "공격"
-            
-            if pos in ["Goalkeeper", "Defender"]:
-                if defense_total > 0:
-                    share = val / defense_total
-                    reduction = share * depth_factor
-                    defense_reduction += reduction
-                    details.append(f"{matched_player['name']} ({pos_str}, 가치: €{val/1000000:.1f}M, 포지션 비중: {share*100:.1f}%, 누수율: {reduction*100:.1f}%)")
-            else:
-                if attack_total > 0:
-                    share = val / attack_total
-                    reduction = share * depth_factor
-                    attack_reduction += reduction
-                    details.append(f"{matched_player['name']} ({pos_str}, 가치: €{val/1000000:.1f}M, 포지션 비중: {share*100:.1f}%, 누수율: {reduction*100:.1f}%)")
-
-    attack_multiplier = max(0.5, 1.0 - attack_reduction)
-    defense_multiplier = min(2.0, 1.0 + defense_reduction)
-    return attack_multiplier, defense_multiplier, details
 
 def predict_match():
     # ELO 레이팅 파일 로드
@@ -204,18 +125,31 @@ def predict_match():
     # 푸아송 람다 계산 (기본 득점력)
     lambda_a, lambda_b = win_prob_to_lambda(win_prob_a)
     
-    # 부상자 로드
+    # 부상자 및 스쿼드 로드
     injuries_path = "data/absences.json"
-    injuries = {}
-    if os.path.exists(injuries_path):
-        with open(injuries_path, "r", encoding="utf-8") as f:
+    injuries = load_absences(injuries_path)
+
+    squads_path = "data/squads.json"
+    squads = {}
+    if os.path.exists(squads_path):
+        with open(squads_path, "r", encoding="utf-8") as f:
             try:
-                injuries = json.load(f)
+                squads = json.load(f)
             except json.JSONDecodeError:
                 pass
                 
-    att_mult_a, def_mult_a, details_a = get_injury_multipliers(team_a, injuries)
-    att_mult_b, def_mult_b, details_b = get_injury_multipliers(team_b, injuries)
+    att_mult_a, def_mult_a, details_a = calculate_absence_multipliers(
+        team_a,
+        injuries,
+        squads,
+        include_values=True,
+    )
+    att_mult_b, def_mult_b, details_b = calculate_absence_multipliers(
+        team_b,
+        injuries,
+        squads,
+        include_values=True,
+    )
     
     # 3. 부상 배율 및 4. 이동 피로도 적용
     final_lambda_a = lambda_a * att_mult_a * def_mult_b * (1.0 - travel_fatigue_a)
@@ -252,15 +186,7 @@ def predict_match():
     if details_a or details_b:
         print("-" * 55)
         print("[부상 정보 및 전력 누수 현황]")
-        squads_path = "data/squads.json"
-        squads = {}
-        if os.path.exists(squads_path):
-            with open(squads_path, "r", encoding="utf-8") as f:
-                try:
-                    squads = json.load(f)
-                except:
-                    pass
-        
+
         if details_a:
             players_a = squads.get(team_a, [])
             total_raw_val_a = sum(p["value_eur"] for p in players_a)
