@@ -358,5 +358,68 @@
     "date": "2026-06-21",
     "stage": "group",
     "winner": null
+  },
+  {
+    "team_a": "Norway",
+    "team_b": "Senegal",
+    "score_a": 3,
+    "score_b": 2,
+    "date": "2026-06-22",
+    "stage": "group",
+    "winner": "Norway"
+  },
+  {
+    "team_a": "France",
+    "team_b": "Iraq",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-06-22",
+    "stage": "group",
+    "winner": "France"
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Austria",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-06-22",
+    "stage": "group",
+    "winner": "Argentina"
+  },
+  {
+    "team_a": "Algeria",
+    "team_b": "Jordan",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-06-22",
+    "stage": "group",
+    "winner": "Algeria"
+  },
+  {
+    "team_a": "Portugal",
+    "team_b": "Uzbekistan",
+    "score_a": 5,
+    "score_b": 0,
+    "date": "2026-06-23",
+    "stage": "group",
+    "winner": "Portugal"
+  },
+  {
+    "team_a": "England",
+    "team_b": "Ghana",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-06-23",
+    "stage": "group",
+    "winner": null
+  },
+  {
+    "team_a": "Croatia",
+    "team_b": "Panama",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-23",
+    "stage": "group",
+    "winner": "Croatia"
   }
 ]
