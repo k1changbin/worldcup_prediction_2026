@@ -6,6 +6,14 @@ import httpx
 TEAM_NAME_MAP = {
     "United States": "USA",
     "Turkey": "Türkiye",
+    "Turkiye": "Türkiye",
+    "Czech Republic": "Czechia",
+    "Korea Republic": "South Korea",
+    "IR Iran": "Iran",
+    "Cote d'Ivoire": "Ivory Coast",
+    "Congo DR": "DR Congo",
+    "Cabo Verde": "Cape Verde",
+    "Curacao": "Curaçao",
 }
 
 def normalize_team_name(name, valid_teams):
@@ -23,6 +31,118 @@ def normalize_team_name(name, valid_teams):
             return valid
             
     return None
+
+GROUP_PAGE_URLS = {
+    group: f"https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_Group_{group}"
+    for group in "ABCDEFGHIJKL"
+}
+
+def get_match_teams_from_fevent(fevent, valid_teams):
+    home_el = fevent.select_one(".fhome [itemprop='name']")
+    away_el = fevent.select_one(".faway [itemprop='name']")
+    home = normalize_team_name(home_el.get_text(" ", strip=True) if home_el else None, valid_teams)
+    away = normalize_team_name(away_el.get_text(" ", strip=True) if away_el else None, valid_teams)
+    return home, away
+
+def has_completed_score(fevent):
+    score_el = fevent.select_one(".fscore")
+    if not score_el:
+        return False
+    score = score_el.get_text(" ", strip=True)
+    return any(ch.isdigit() for ch in score)
+
+def iter_top_level_cells(table):
+    tbody = table.find("tbody", recursive=False)
+    rows = tbody.find_all("tr", recursive=False) if tbody else table.find_all("tr", recursive=False)
+    if not rows:
+        return []
+    return rows[0].find_all("td", recursive=False)
+
+def find_lineup_table_after(fevent):
+    for table in fevent.find_all_next("table"):
+        if "fevent" in (table.get("class") or []):
+            return None
+        cells = [cell for cell in iter_top_level_cells(table) if cell.get_text(" ", strip=True)]
+        if len(cells) < 2:
+            continue
+        if any("card" in img.get("alt", "").lower() for img in table.find_all("img")):
+            return table
+    return None
+
+def conduct_score_for_player_row(row):
+    alts = [
+        img.get("alt", "").strip().lower()
+        for img in row.find_all("img")
+    ]
+    has_yellow_red = any("yellow-red card" in alt for alt in alts)
+    has_red = any(alt == "red card" for alt in alts)
+    has_yellow = any(alt == "yellow card" for alt in alts)
+
+    if has_yellow_red:
+        return -3
+    if has_red and has_yellow:
+        return -5
+    if has_red:
+        return -4
+    if has_yellow:
+        return -1
+    return 0
+
+def conduct_score_for_team_cell(cell):
+    score = 0
+    for row in cell.find_all("tr"):
+        score += conduct_score_for_player_row(row)
+    return score
+
+def update_team_conduct_scores(valid_teams, headers):
+    from bs4 import BeautifulSoup
+
+    conduct_path = "data/team_conduct_scores.json"
+    conduct_scores = {team: 0 for team in valid_teams}
+    parsed_matches = 0
+    matches_with_cards = 0
+
+    print("[Conduct] Wikipedia 경기 기록에서 팀 conduct 점수를 재계산합니다...")
+    for group, url in GROUP_PAGE_URLS.items():
+        try:
+            response = httpx.get(url, headers=headers, timeout=15.0)
+            response.raise_for_status()
+        except Exception as e:
+            print(f"[Conduct] Group {group} 페이지 요청 실패: {e}")
+            continue
+
+        soup = BeautifulSoup(response.text, "html.parser")
+        for fevent in soup.find_all("table", class_="fevent"):
+            if not has_completed_score(fevent):
+                continue
+
+            home, away = get_match_teams_from_fevent(fevent, valid_teams)
+            if not home or not away:
+                continue
+
+            parsed_matches += 1
+            lineup_table = find_lineup_table_after(fevent)
+            if not lineup_table:
+                continue
+
+            cells = [cell for cell in iter_top_level_cells(lineup_table) if cell.get_text(" ", strip=True)]
+            if len(cells) < 2:
+                continue
+
+            home_score = conduct_score_for_team_cell(cells[0])
+            away_score = conduct_score_for_team_cell(cells[-1])
+            if home_score or away_score:
+                matches_with_cards += 1
+            conduct_scores[home] += home_score
+            conduct_scores[away] += away_score
+
+    with open(conduct_path, "w", encoding="utf-8") as f:
+        json.dump(dict(sorted(conduct_scores.items())), f, ensure_ascii=False, indent=2)
+
+    print(
+        f"[Conduct] 갱신 완료: {parsed_matches}경기 확인, "
+        f"{matches_with_cards}경기 카드 반영 -> {conduct_path}"
+    )
 
 def fetch_live_world_cup_data():
     elo_ratings_path = "data/elo_ratings.json"
@@ -239,6 +359,12 @@ def fetch_live_world_cup_data():
         fetch_suspensions.main()
     except Exception as e:
         print(f"\n[경고] 실시간 징계 정보를 동기화하는 중 오류가 발생했습니다 (ELO/결과는 정상 반영됨): {e}")
+
+    # 5. FIFA 공식 타이브레이커용 팀 conduct 점수 갱신
+    try:
+        update_team_conduct_scores(valid_teams, headers)
+    except Exception as e:
+        print(f"\n[경고] conduct 점수를 갱신하는 중 오류가 발생했습니다 (ELO/결과는 정상 반영됨): {e}")
 
 if __name__ == "__main__":
     fetch_live_world_cup_data()
