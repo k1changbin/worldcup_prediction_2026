@@ -60,7 +60,6 @@
   "Ghana": [
     "Alexander Djiku"
   ],
-  "Czechia": [],
   "South Africa": [
     {
       "name": "Themba Zwane",
@@ -73,34 +72,6 @@
       "type": "suspension",
       "reason": "yellow_cards",
       "served_at_count": 3
-    },
-    {
-      "name": "Sphephelo Sithole",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 2
-    }
-  ],
-  "Bosnia and Herzegovina": [
-    {
-      "name": "Tarik Muharemović",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    }
-  ],
-  "Qatar": [
-    {
-      "name": "Homam Ahmed",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    },
-    {
-      "name": "Assim Madibo",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
     }
   ],
   "Paraguay": [
@@ -109,14 +80,6 @@
       "type": "suspension",
       "reason": "yellow_cards",
       "served_at_count": 3
-    }
-  ],
-  "Mexico": [
-    {
-      "name": "César Montes",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 2
     }
   ],
   "Belgium": [

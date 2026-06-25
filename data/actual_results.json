@@ -421,5 +421,50 @@
     "date": "2026-06-23",
     "stage": "group",
     "winner": "Croatia"
+  },
+  {
+    "team_a": "Colombia",
+    "team_b": "DR Congo",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-23",
+    "stage": "group",
+    "winner": "Colombia"
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Haiti",
+    "score_a": 4,
+    "score_b": 2,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "Morocco"
+  },
+  {
+    "team_a": "Canada",
+    "team_b": "Switzerland",
+    "score_a": 1,
+    "score_b": 2,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "Switzerland"
+  },
+  {
+    "team_a": "Brazil",
+    "team_b": "Scotland",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "Brazil"
+  },
+  {
+    "team_a": "Bosnia and Herzegovina",
+    "team_b": "Qatar",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "Bosnia and Herzegovina"
   }
 ]
