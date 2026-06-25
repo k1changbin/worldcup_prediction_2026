@@ -2,7 +2,7 @@ import os
 import json
 import random
 import numpy as np
-from functools import cmp_to_key
+from itertools import combinations
 from src.elo import EloSystem
 from src.poisson import win_prob_to_lambda, simulate_match_score
 from src.absences import build_squad_stats, calculate_absence_multipliers, load_absences
@@ -76,7 +76,17 @@ def date_to_day_num(date_str: str) -> int:
 
 
 class WorldCupSimulation:
-    def __init__(self, elo_system: EloSystem, groups_file: str = "data/groups.json", actual_results_file: str = None, absences_file: str = "data/absences.json", squads_file: str = "data/squads.json"):
+    def __init__(
+        self,
+        elo_system: EloSystem,
+        groups_file: str = "data/groups.json",
+        actual_results_file: str = None,
+        absences_file: str = "data/absences.json",
+        squads_file: str = "data/squads.json",
+        fifa_rankings_file: str = "data/fifa_rankings.json",
+        team_conduct_file: str = "data/team_conduct_scores.json",
+        third_place_annex_file: str = "data/third_place_annex_c.json",
+    ):
         self.elo_system = elo_system
         with open(groups_file, "r", encoding="utf-8") as f:
             self.groups = json.load(f)
@@ -101,8 +111,29 @@ class WorldCupSimulation:
 
         # 스쿼드별 총 가치, 포지션별 가치 및 HHI 집중도 지수 사전 계산
         self.team_squad_stats = build_squad_stats(self.squads)
+        self.fifa_rankings = self._load_optional_json(fifa_rankings_file, {})
+        self.team_conduct_scores = self._load_optional_json(team_conduct_file, {})
+        self.third_place_annex = self._load_optional_json(third_place_annex_file, {})
 
         self.last_standings = None
+
+    def _load_optional_json(self, path: str, default):
+        if not path or not os.path.exists(path):
+            return default
+        with open(path, "r", encoding="utf-8") as f:
+            try:
+                return json.load(f)
+            except json.JSONDecodeError:
+                return default
+
+    def get_team_conduct_score(self, team: str) -> int:
+        return int(self.team_conduct_scores.get(team, 0))
+
+    def get_fifa_ranking(self, team: str) -> int:
+        ranking = self.fifa_rankings.get(team)
+        if ranking is None:
+            raise KeyError(f"FIFA ranking data is missing for {team}")
+        return int(ranking)
 
     def get_injury_multipliers(self, team: str):
         """스쿼드 가치 비중과 HHI 의존도를 고려한 동적 공격/수비 결장 보정 배율 계산"""
@@ -175,6 +206,76 @@ class WorldCupSimulation:
             stats[team_a]["d"] += 1
             stats[team_b]["d"] += 1
 
+    def _head_to_head_stats(self, team_names, group_match_results):
+        h2h = {
+            team: {"pts": 0, "gd": 0, "gf": 0}
+            for team in team_names
+        }
+        for team_a, team_b in combinations(team_names, 2):
+            score_a, score_b = group_match_results[(team_a, team_b)]
+            h2h[team_a]["gf"] += score_a
+            h2h[team_a]["gd"] += score_a - score_b
+            h2h[team_b]["gf"] += score_b
+            h2h[team_b]["gd"] += score_b - score_a
+            if score_a > score_b:
+                h2h[team_a]["pts"] += 3
+            elif score_a < score_b:
+                h2h[team_b]["pts"] += 3
+            else:
+                h2h[team_a]["pts"] += 1
+                h2h[team_b]["pts"] += 1
+        return h2h
+
+    def _rank_equal_points_teams(self, team_names, stats, group_match_results):
+        if len(team_names) <= 1:
+            return team_names
+
+        h2h = self._head_to_head_stats(team_names, group_match_results)
+        for key in ("pts", "gd", "gf"):
+            grouped = {}
+            for team in team_names:
+                grouped.setdefault(h2h[team][key], []).append(team)
+            if len(grouped) > 1:
+                ranked = []
+                for value in sorted(grouped.keys(), reverse=True):
+                    tied = grouped[value]
+                    ranked.extend(self._rank_equal_points_teams(tied, stats, group_match_results))
+                return ranked
+
+        return sorted(
+            team_names,
+            key=lambda team: (
+                -stats[team]["gd"],
+                -stats[team]["gf"],
+                -self.get_team_conduct_score(team),
+                self.get_fifa_ranking(team),
+            ),
+        )
+
+    def _sort_group_standings(self, stats, group_match_results):
+        grouped_by_points = {}
+        for team in stats:
+            grouped_by_points.setdefault(stats[team]["pts"], []).append(team)
+
+        ranked_teams = []
+        for points in sorted(grouped_by_points.keys(), reverse=True):
+            tied = grouped_by_points[points]
+            ranked_teams.extend(self._rank_equal_points_teams(tied, stats, group_match_results))
+
+        return [(team, stats[team]) for team in ranked_teams]
+
+    def _sort_third_places(self, third_places):
+        return sorted(
+            third_places,
+            key=lambda team: (
+                -team["stats"]["pts"],
+                -team["stats"]["gd"],
+                -team["stats"]["gf"],
+                -self.get_team_conduct_score(team["team_name"]),
+                self.get_fifa_ranking(team["team_name"]),
+            ),
+        )
+
     def simulate_group_stage(self):
         """
         모든 조별 리그를 시뮬레이션합니다.
@@ -189,7 +290,7 @@ class WorldCupSimulation:
                 for team in teams
             }
 
-            # 조별 리그 모든 경기 결과 저장 (승자승 타이브레이커용)
+            # 조별 리그 모든 경기 결과 저장 (맞대결 타이브레이커용)
             group_match_results = {}
 
             # 라운드별 경기 페어링 (T0, T1, T2, T3)
@@ -241,32 +342,7 @@ class WorldCupSimulation:
                 # 기록 업데이트
                 self._update_group_stats(team_a, team_b, score_a, score_b, stats, group_match_results)
 
-            # 커스텀 승자 정렬 (승점 -> 골득실 -> 다득점 -> 승자승 -> ELO -> 알파벳 순)
-            def compare_teams(x, y):
-                if x[1]["pts"] != y[1]["pts"]:
-                    return -1 if x[1]["pts"] > y[1]["pts"] else 1
-                if x[1]["gd"] != y[1]["gd"]:
-                    return -1 if x[1]["gd"] > y[1]["gd"] else 1
-                if x[1]["gf"] != y[1]["gf"]:
-                    return -1 if x[1]["gf"] > y[1]["gf"] else 1
-                
-                x_name, y_name = x[0], y[0]
-                match_key = (x_name, y_name)
-                if match_key in group_match_results:
-                    score_x, score_y = group_match_results[match_key]
-                    if score_x != score_y:
-                        return -1 if score_x > score_y else 1
-                
-                elo_x = self.elo_system.get_rating(x_name)
-                elo_y = self.elo_system.get_rating(y_name)
-                if elo_x != elo_y:
-                    return -1 if elo_x > elo_y else 1
-                
-                if x_name != y_name:
-                    return -1 if x_name < y_name else 1
-                return 0
-
-            sorted_teams = sorted(stats.items(), key=cmp_to_key(compare_teams))
+            sorted_teams = self._sort_group_standings(stats, group_match_results)
             group_standings[group_name] = sorted_teams
 
         self.last_standings = group_standings
@@ -288,26 +364,7 @@ class WorldCupSimulation:
                 "stats": teams[2][1]
             })
             
-        # 3위 팀 중 상위 8팀 추출 (승점 -> 골득실 -> 다득점 -> ELO -> 알파벳 순)
-        def compare_third_places(x, y):
-            if x["stats"]["pts"] != y["stats"]["pts"]:
-                return -1 if x["stats"]["pts"] > y["stats"]["pts"] else 1
-            if x["stats"]["gd"] != y["stats"]["gd"]:
-                return -1 if x["stats"]["gd"] > y["stats"]["gd"] else 1
-            if x["stats"]["gf"] != y["stats"]["gf"]:
-                return -1 if x["stats"]["gf"] > y["stats"]["gf"] else 1
-            
-            elo_x = self.elo_system.get_rating(x["team_name"])
-            elo_y = self.elo_system.get_rating(y["team_name"])
-            if elo_x != elo_y:
-                return -1 if elo_x > elo_y else 1
-                
-            if x["team_name"] != y["team_name"]:
-                return -1 if x["team_name"] < y["team_name"] else 1
-            return 0
-
-        third_places.sort(key=cmp_to_key(compare_third_places))
-        top_8_thirds = third_places[:8]
+        top_8_thirds = self._sort_third_places(third_places)[:8]
         
         seeded_teams = [team[0] for team in first_places] + \
                        [team[0] for team in second_places] + \
@@ -316,49 +373,16 @@ class WorldCupSimulation:
         return seeded_teams
 
     def match_thirds(self, third_place_teams):
-        """이분 매칭 알고리즘을 사용해 8개의 3위 팀을 대진표 슬롯에 할당합니다."""
-        slots = [
-            {"id": 74, "allowed": {"A", "B", "C", "D", "F"}},
-            {"id": 77, "allowed": {"C", "D", "F", "G", "H"}},
-            {"id": 79, "allowed": {"C", "E", "F", "H", "I"}},
-            {"id": 80, "allowed": {"E", "H", "I", "J", "K"}},
-            {"id": 81, "allowed": {"B", "E", "F", "I", "J"}},
-            {"id": 82, "allowed": {"A", "E", "H", "I", "J"}},
-            {"id": 85, "allowed": {"E", "F", "G", "I", "J"}},
-            {"id": 87, "allowed": {"D", "E", "I", "J", "L"}}
-        ]
-        
-        assignment = {}
-        used_teams = set()
-        
-        def dfs(slot_idx):
-            if slot_idx == len(slots):
-                return True
-            slot = slots[slot_idx]
-            slot_id = slot["id"]
-            allowed = slot["allowed"]
-            
-            for team_name, group_letter in third_place_teams:
-                if team_name in used_teams:
-                    continue
-                if group_letter in allowed:
-                    assignment[slot_id] = team_name
-                    used_teams.add(team_name)
-                    if dfs(slot_idx + 1):
-                        return True
-                    used_teams.remove(team_name)
-                    del assignment[slot_id]
-            return False
-            
-        if dfs(0):
-            return assignment
-        
-        # fallback
-        for idx, slot in enumerate(slots):
-            slot_id = slot["id"]
-            if idx < len(third_place_teams):
-                assignment[slot_id] = third_place_teams[idx][0]
-        return assignment
+        """FIFA World Cup 2026 Regulations Annex C에 따라 3위 팀을 32강 슬롯에 배정합니다."""
+        teams_by_group = {group_letter: team_name for team_name, group_letter in third_place_teams}
+        key = "".join(sorted(teams_by_group))
+        if key not in self.third_place_annex:
+            raise ValueError(f"Annex C third-place assignment is missing for groups: {key}")
+
+        return {
+            int(match_id): teams_by_group[group_letter]
+            for match_id, group_letter in self.third_place_annex[key].items()
+        }
 
     def simulate_knockout_match(self, team_a, team_b, rest_days_diff: int = 0, travel_fatigue_a: float = 0.0, travel_fatigue_b: float = 0.0):
         """단판 승부 시뮬레이션 (무승부 시 승부차기, 환경 변수 반영)"""
@@ -512,23 +536,7 @@ class WorldCupSimulation:
                 "stats": teams[2][1]
             })
             
-        def compare_third_places(x, y):
-            if x["stats"]["pts"] != y["stats"]["pts"]:
-                return -1 if x["stats"]["pts"] > y["stats"]["pts"] else 1
-            if x["stats"]["gd"] != y["stats"]["gd"]:
-                return -1 if x["stats"]["gd"] > y["stats"]["gd"] else 1
-            if x["stats"]["gf"] != y["stats"]["gf"]:
-                return -1 if x["stats"]["gf"] > y["stats"]["gf"] else 1
-            elo_x = self.elo_system.get_rating(x["team_name"])
-            elo_y = self.elo_system.get_rating(y["team_name"])
-            if elo_x != elo_y:
-                return -1 if elo_x > elo_y else 1
-            if x["team_name"] != y["team_name"]:
-                return -1 if x["team_name"] < y["team_name"] else 1
-            return 0
-
-        third_places.sort(key=cmp_to_key(compare_third_places))
-        top_8_thirds = third_places[:8]
+        top_8_thirds = self._sort_third_places(third_places)[:8]
         
         # 팀 코드 매핑 (A1 -> team_name, etc.)
         team_by_code = {}
