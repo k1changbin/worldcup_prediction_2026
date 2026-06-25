@@ -19,14 +19,15 @@
 
 ### 2. 조별 리그 진행 (`src/simulation.py`)
 - 조별(A~L조) 4개 팀이 서로 1번씩 맞붙는 풀리그(조당 6경기)를 진행합니다.
-- 승점(승 3, 무 1, 패 0), 골득실차, 다득점을 계산하여 그룹별 1~4위 순위를 정렬합니다.
+- FIFA 2026 공식 타이브레이커 순서에 따라 그룹별 1~4위 순위를 정렬합니다. 승점 동률 시 맞대결 승점, 맞대결 골득실, 맞대결 다득점을 먼저 적용하고, 이후 전체 골득실, 전체 다득점, 팀 conduct 점수, FIFA 랭킹 순으로 결정합니다.
 
 ### 3. 32강 대진표 및 토너먼트 진행
 - 각 조 1, 2위 24팀과 3위 중 상위 8팀(와일드카드)을 선별해 총 32팀을 구성합니다.
-- 성적순 시드 배정으로 대진표를 만들고 단판 승부를 시뮬레이션합니다. 90분 무승부 시 30분 연장전(Extra Time)을 추가 진행하며, 연장전 후에도 동점인 경우 Elo 승률 기반의 확률적 승부차기(PK)로 반드시 승자를 결정합니다.
+- 3위 팀 간 순위는 승점, 골득실, 다득점, 팀 conduct 점수, FIFA 랭킹 순으로 결정하며, 32강 슬롯 배정은 FIFA World Cup 2026 Regulations Annex C의 495개 조합표(`data/third_place_annex_c.json`)를 사용합니다.
+- 공식 32강 대진표를 구성한 뒤 단판 승부를 시뮬레이션합니다. 90분 무승부 시 30분 연장전(Extra Time)을 추가 진행하며, 연장전 후에도 동점인 경우 Elo 승률 기반의 확률적 승부차기(PK)로 반드시 승자를 결정합니다.
 
 ### 4. 실시간 데이터 자동 수집 및 혼합 반영 (`fetch_data.py`)
-- eloratings.net에서 월드컵 참가국의 최신 실시간 ELO 레이팅과 완료된 실제 경기 결과를 동시에 수집하여 로컬 데이터(`elo_ratings.json`, `actual_results.json`)를 자동으로 최신화한 직후, Wikipedia에서 최신 징계(출장정지) 정보를 자동으로 연쇄 동기화하여 [data/absences.json](file:///Users/gwonchangbin/projects/worldcup_prediction_2026/data/absences.json)을 갱신합니다.
+- eloratings.net에서 월드컵 참가국의 최신 실시간 ELO 레이팅과 완료된 실제 경기 결과를 동시에 수집하여 로컬 데이터(`elo_ratings.json`, `actual_results.json`)를 자동으로 최신화합니다. 이후 Wikipedia에서 최신 징계(출장정지) 정보를 동기화하여 [data/absences.json](file:///Users/gwonchangbin/projects/worldcup_prediction_2026/data/absences.json)을 갱신하고, 조별리그 경기별 카드 기록을 재계산해 `data/team_conduct_scores.json`을 갱신합니다.
 - **조별 리그 실시간 반영 & 대진 동적 고정**: 실제 치러진 경기는 조별 리그 시뮬레이션 시 실제 점수로 고정(Override) 대입됩니다. 조별 리그가 완전히 종료된 조는 100% 실제 성적에 따라 순위가 결정되며, 피파 공식 32강 매칭 대진 규칙에 맞추어 실제 진출팀이 지정된 32강 트리 슬롯에 자동으로 고정 배치됩니다.
 - **토너먼트 실제 결과 고정 (Override)**: 32강 이후 토너먼트 경기도 실제 결과가 등록되면 시뮬레이션을 무시하고 실제 최종 스코어와 실제 승리 국가(Winner)를 강제로 다음 라운드에 진출시키며 대진을 실시간으로 고정해 나갑니다.
 
