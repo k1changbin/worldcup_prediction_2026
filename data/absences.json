@@ -60,28 +60,6 @@
   "Ghana": [
     "Alexander Djiku"
   ],
-  "South Africa": [
-    {
-      "name": "Themba Zwane",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    },
-    {
-      "name": "Teboho Mokoena",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    }
-  ],
-  "Paraguay": [
-    {
-      "name": "Miguel Almirón",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 3
-    }
-  ],
   "Belgium": [
     {
       "name": "Nathan Ngoy",

@@ -432,6 +432,15 @@
     "winner": "Colombia"
   },
   {
+    "team_a": "South Africa",
+    "team_b": "South Korea",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "South Africa"
+  },
+  {
     "team_a": "Morocco",
     "team_b": "Haiti",
     "score_a": 4,
@@ -439,6 +448,15 @@
     "date": "2026-06-24",
     "stage": "group",
     "winner": "Morocco"
+  },
+  {
+    "team_a": "Mexico",
+    "team_b": "Czechia",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "Mexico"
   },
   {
     "team_a": "Canada",
@@ -466,5 +484,59 @@
     "date": "2026-06-24",
     "stage": "group",
     "winner": "Bosnia and Herzegovina"
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Türkiye",
+    "score_a": 2,
+    "score_b": 3,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": "Türkiye"
+  },
+  {
+    "team_a": "Netherlands",
+    "team_b": "Tunisia",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": "Netherlands"
+  },
+  {
+    "team_a": "Japan",
+    "team_b": "Sweden",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": null
+  },
+  {
+    "team_a": "Ivory Coast",
+    "team_b": "Curaçao",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": "Ivory Coast"
+  },
+  {
+    "team_a": "Ecuador",
+    "team_b": "Germany",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": "Ecuador"
+  },
+  {
+    "team_a": "Australia",
+    "team_b": "Paraguay",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": null
   }
 ]
