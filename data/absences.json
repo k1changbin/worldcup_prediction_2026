@@ -37,7 +37,13 @@
     "Matthew Garbett"
   ],
   "Iraq": [
-    "Ahmed Yahya"
+    "Ahmed Yahya",
+    {
+      "name": "Rebin Sulaka",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
   ],
   "Argentina": [
     "Leonardo Balerdi"
@@ -68,9 +74,89 @@
       "served_at_count": 3
     }
   ],
+  "Egypt": [
+    {
+      "name": "Mohanad Lasheen",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
+  ],
+  "South Africa": [
+    {
+      "name": "Sphephelo Sithole",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 2
+    },
+    {
+      "name": "Themba Zwane",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    },
+    {
+      "name": "Teboho Mokoena",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
+  ],
+  "Mexico": [
+    {
+      "name": "César Montes",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 2
+    }
+  ],
+  "Bosnia and Herzegovina": [
+    {
+      "name": "Tarik Muharemović",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
+  ],
+  "Qatar": [
+    {
+      "name": "Homam Ahmed",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    },
+    {
+      "name": "Assim Madibo",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
+  ],
+  "Paraguay": [
+    {
+      "name": "Miguel Almirón",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    },
+    {
+      "name": "Diego Gómez",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
+  ],
   "Cape Verde": [
     {
       "name": "Sidny Lopes Cabral",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 3
+    }
+  ],
+  "Uruguay": [
+    {
+      "name": "Agustín Canobbio",
       "type": "suspension",
       "reason": "yellow_cards",
       "served_at_count": 3
