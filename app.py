@@ -1,4 +1,5 @@
 import streamlit as st
+import html
 import json
 import os
 import numpy as np
@@ -336,14 +337,376 @@ def run_app():
 
 
     # ----------------- 메인 대시보드 화면 구성 -----------------
-    st.title("2026 FIFA 월드컵 AI 실시간 예측 대시보드")
-    st.markdown("본 대시보드는 실시간 부상 상태, ELO 레이팅, 경기 간 휴식 일정 및 대륙 이동 피로도를 Poisson 확률 공식에 대입하여 경기 결과를 정밀 예측합니다.")
+    st.title("2026 FIFA 월드컵 토너먼트 예측 대시보드")
+    st.markdown("조별리그 최종 결과를 바탕으로 현재 토너먼트 대진, 실제 반영 경기, 향후 경기 예측을 중심으로 보여줍니다.")
+
+    refresh_message = st.session_state.pop("data_refresh_message", None)
+    if refresh_message:
+        st.success(refresh_message)
+
+    refresh_col, _ = st.columns([1, 4])
+    with refresh_col:
+        if st.button("전체 데이터 갱신", key="refresh_all_data", use_container_width=True):
+            try:
+                with st.spinner("ELO, 실제 결과, 징계/결장 데이터를 갱신 중입니다..."):
+                    import fetch_data
+                    fetch_data.fetch_live_world_cup_data()
+                st.session_state["data_refresh_message"] = "전체 데이터 갱신이 완료되었습니다."
+                st.rerun()
+            except Exception as exc:
+                st.error(f"전체 데이터 갱신 중 오류가 발생했습니다: {exc}")
+
+    def build_knockout_projection():
+        elo_sys = EloSystem()
+        elo_sys.load_ratings(ELO_PATH)
+        sim = WorldCupSimulation(
+            elo_system=elo_sys,
+            groups_file=GROUPS_PATH,
+            actual_results_file=ACTUAL_RESULTS_PATH,
+            absences_file=ABSENCES_PATH,
+            squads_file=SQUADS_PATH
+        )
+
+        standings = sim.simulate_group_stage()
+        sim.get_advancing_teams(standings)
+        ko_results = sim.simulate_knockout_stage()
+
+        match_map = {}
+        for round_key, start_match in [
+            ("Round of 32", 73),
+            ("Round of 16", 89),
+            ("Quarter-finals", 97),
+            ("Semi-finals", 101),
+            ("Final", 104),
+        ]:
+            for idx, projected_match in enumerate(ko_results[round_key]):
+                match_map[start_match + idx] = projected_match
+
+        return ko_results, match_map
+
+    knockout_projection_error = None
+    try:
+        projected_knockout_results, projected_knockout_matches = build_knockout_projection()
+    except Exception as exc:
+        projected_knockout_results = None
+        projected_knockout_matches = {}
+        knockout_projection_error = exc
+
+    def get_actual_knockout_result(team_a, team_b):
+        if not team_a or not team_b:
+            return None
+        for result in actual_results:
+            if (
+                result.get("stage") == "knockout"
+                and {result.get("team_a"), result.get("team_b")} == {team_a, team_b}
+            ):
+                return result
+        return None
+
+    def make_current_match(match_id, team_a, team_b):
+        result = get_actual_knockout_result(team_a, team_b)
+        if result:
+            score_a = result["score_a"] if result["team_a"] == team_a else result["score_b"]
+            score_b = result["score_b"] if result["team_a"] == team_a else result["score_a"]
+            winner = result.get("winner")
+            if not winner and score_a != score_b:
+                winner = team_a if score_a > score_b else team_b
+            return {
+                "match_id": match_id,
+                "team_a": team_a,
+                "team_b": team_b,
+                "score_a": score_a,
+                "score_b": score_b,
+                "winner": winner,
+                "is_pk": score_a == score_b and bool(winner),
+                "played": True,
+            }
+
+        return {
+            "match_id": match_id,
+            "team_a": team_a,
+            "team_b": team_b,
+            "score_a": None,
+            "score_b": None,
+            "winner": None,
+            "is_pk": False,
+            "played": False,
+        }
+
+    def build_current_knockout_state():
+        elo_sys = EloSystem()
+        elo_sys.load_ratings(ELO_PATH)
+        sim = WorldCupSimulation(
+            elo_system=elo_sys,
+            groups_file=GROUPS_PATH,
+            actual_results_file=ACTUAL_RESULTS_PATH,
+            absences_file=ABSENCES_PATH,
+            squads_file=SQUADS_PATH
+        )
+        standings = sim.simulate_group_stage()
+
+        team_by_code = {}
+        third_places = []
+        for group_name, group_teams in standings.items():
+            group_letter = group_name.split(" ")[1]
+            team_by_code[f"{group_letter}1"] = group_teams[0][0]
+            team_by_code[f"{group_letter}2"] = group_teams[1][0]
+            team_by_code[f"{group_letter}3"] = group_teams[2][0]
+            third_places.append({
+                "team_name": group_teams[2][0],
+                "group": group_letter,
+                "stats": group_teams[2][1],
+            })
+
+        top_8_thirds = sim._sort_third_places(third_places)[:8]
+        third_assignment = sim.match_thirds([(t["team_name"], t["group"]) for t in top_8_thirds])
+
+        r32_slots = [
+            {"match_id": 73, "team_a": "A2", "team_b": "B2"},
+            {"match_id": 74, "team_a": "E1", "team_b": "3rd_74"},
+            {"match_id": 75, "team_a": "F1", "team_b": "C2"},
+            {"match_id": 76, "team_a": "C1", "team_b": "F2"},
+            {"match_id": 77, "team_a": "I1", "team_b": "3rd_77"},
+            {"match_id": 78, "team_a": "E2", "team_b": "I2"},
+            {"match_id": 79, "team_a": "A1", "team_b": "3rd_79"},
+            {"match_id": 80, "team_a": "L1", "team_b": "3rd_80"},
+            {"match_id": 81, "team_a": "D1", "team_b": "3rd_81"},
+            {"match_id": 82, "team_a": "G1", "team_b": "3rd_82"},
+            {"match_id": 83, "team_a": "K2", "team_b": "L2"},
+            {"match_id": 84, "team_a": "H1", "team_b": "J2"},
+            {"match_id": 85, "team_a": "B1", "team_b": "3rd_85"},
+            {"match_id": 86, "team_a": "J1", "team_b": "H2"},
+            {"match_id": 87, "team_a": "K1", "team_b": "3rd_87"},
+            {"match_id": 88, "team_a": "D2", "team_b": "G2"},
+        ]
+
+        r32 = []
+        for slot in r32_slots:
+            team_a = team_by_code[slot["team_a"]]
+            team_b = third_assignment[slot["match_id"]] if slot["team_b"].startswith("3rd_") else team_by_code[slot["team_b"]]
+            r32.append(make_current_match(slot["match_id"], team_a, team_b))
+
+        def winner_or_slot(matches, idx, match_id):
+            return matches[idx]["winner"] or f"Winner M{match_id}"
+
+        r16_pairings = [
+            (winner_or_slot(r32, 0, 73), winner_or_slot(r32, 2, 75)),
+            (winner_or_slot(r32, 1, 74), winner_or_slot(r32, 4, 77)),
+            (winner_or_slot(r32, 3, 76), winner_or_slot(r32, 5, 78)),
+            (winner_or_slot(r32, 6, 79), winner_or_slot(r32, 7, 80)),
+            (winner_or_slot(r32, 10, 83), winner_or_slot(r32, 11, 84)),
+            (winner_or_slot(r32, 8, 81), winner_or_slot(r32, 9, 82)),
+            (winner_or_slot(r32, 13, 86), winner_or_slot(r32, 15, 88)),
+            (winner_or_slot(r32, 12, 85), winner_or_slot(r32, 14, 87)),
+        ]
+        r16 = [make_current_match(89 + idx, team_a, team_b) for idx, (team_a, team_b) in enumerate(r16_pairings)]
+
+        qf_pairings = [
+            (winner_or_slot(r16, 0, 89), winner_or_slot(r16, 1, 90)),
+            (winner_or_slot(r16, 2, 91), winner_or_slot(r16, 3, 92)),
+            (winner_or_slot(r16, 4, 93), winner_or_slot(r16, 5, 94)),
+            (winner_or_slot(r16, 6, 95), winner_or_slot(r16, 7, 96)),
+        ]
+        qf = [make_current_match(97 + idx, team_a, team_b) for idx, (team_a, team_b) in enumerate(qf_pairings)]
+
+        sf_pairings = [
+            (winner_or_slot(qf, 0, 97), winner_or_slot(qf, 1, 98)),
+            (winner_or_slot(qf, 2, 99), winner_or_slot(qf, 3, 100)),
+        ]
+        sf = [make_current_match(101 + idx, team_a, team_b) for idx, (team_a, team_b) in enumerate(sf_pairings)]
+
+        final = [make_current_match(104, winner_or_slot(sf, 0, 101), winner_or_slot(sf, 1, 102))]
+        return {
+            "Round of 32": r32,
+            "Round of 16": r16,
+            "Quarter-finals": qf,
+            "Semi-finals": sf,
+            "Final": final,
+            "Champion": final[0]["winner"] or "미정",
+        }
+
+    def render_static_bracket_html(ko_results, champion_label=None):
+        r32 = ko_results["Round of 32"]
+        r16 = ko_results["Round of 16"]
+        qf = ko_results["Quarter-finals"]
+        sf = ko_results["Semi-finals"]
+        final = ko_results["Final"]
+        champion = champion_label if champion_label is not None else ko_results.get("Champion", "미정")
+
+        def card(match, round_name, fallback_id):
+            match_id = match.get("match_id", fallback_id)
+            team_a = html.escape(str(match.get("team_a") or "TBD"))
+            team_b = html.escape(str(match.get("team_b") or "TBD"))
+            winner = match.get("winner")
+            win_a = "winner" if winner == match.get("team_a") else ""
+            win_b = "winner" if winner == match.get("team_b") else ""
+            pk_a = " (PK)" if match.get("is_pk") and winner == match.get("team_a") else ""
+            pk_b = " (PK)" if match.get("is_pk") and winner == match.get("team_b") else ""
+            score_a = "" if match.get("score_a") is None else f"{match['score_a']}{pk_a}"
+            score_b = "" if match.get("score_b") is None else f"{match['score_b']}{pk_b}"
+            state_class = "played" if match.get("played") else "scheduled"
+
+            return f"""
+            <div class="match-card {state_class}">
+                <div class="match-title">M{match_id} {round_name}</div>
+                <div class="team-row {win_a}">
+                    <span class="team-name">{team_a}</span>
+                    <span class="score">{score_a}</span>
+                </div>
+                <div class="team-row {win_b}">
+                    <span class="team-name">{team_b}</span>
+                    <span class="score">{score_b}</span>
+                </div>
+            </div>
+            """
+
+        col1_html = "".join([card(r32[i], "32강", 73 + i) for i in [0, 2, 1, 4, 3, 5, 6, 7]])
+        col2_html = "".join([card(r16[i], "16강", 89 + i) for i in [0, 1, 2, 3]])
+        col3_html = "".join([card(qf[i], "8강", 97 + i) for i in [0, 1]])
+        col4_html = card(sf[0], "4강", 101)
+        col5_html = f"""
+        {card(final[0], "결승", 104)}
+        <div class="champion-card">
+            <div class="champion-title">CHAMPION</div>
+            <div class="champion-name">{html.escape(str(champion))}</div>
+        </div>
+        """
+        col6_html = card(sf[1], "4강", 102)
+        col7_html = "".join([card(qf[i], "8강", 97 + i) for i in [2, 3]])
+        col8_html = "".join([card(r16[i], "16강", 89 + i) for i in [4, 5, 6, 7]])
+        col9_html = "".join([card(r32[i], "32강", 73 + i) for i in [10, 11, 8, 9, 13, 15, 12, 14]])
+
+        return f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <style>
+                body {{
+                    background-color: #0f172a;
+                    color: #f1f5f9;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                    margin: 0;
+                    padding: 10px;
+                    overflow: auto;
+                    height: 100vh;
+                    box-sizing: border-box;
+                }}
+                .bracket-container {{
+                    display: grid;
+                    grid-template-columns: repeat(9, minmax(110px, 1fr));
+                    gap: 8px;
+                    height: 580px;
+                    min-width: 1080px;
+                }}
+                .round-col {{
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: space-around;
+                    height: 100%;
+                }}
+                .match-card {{
+                    background-color: #1e293b;
+                    border: 1px solid #334155;
+                    border-radius: 6px;
+                    padding: 6px;
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2px;
+                    font-size: 8.5px;
+                }}
+                .match-card.played {{
+                    border-color: #10b981;
+                }}
+                .match-card.scheduled {{
+                    opacity: 0.88;
+                }}
+                .match-title {{
+                    font-size: 8px;
+                    font-weight: 600;
+                    color: #38bdf8;
+                    border-bottom: 1px solid #334155;
+                    padding-bottom: 2px;
+                    margin-bottom: 4px;
+                    text-align: center;
+                }}
+                .team-row {{
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    gap: 6px;
+                    padding: 1px 2px;
+                    border-radius: 3px;
+                }}
+                .team-row.winner {{
+                    font-weight: bold;
+                    color: #10b981;
+                    background-color: rgba(16, 185, 129, 0.08);
+                }}
+                .team-name {{
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    max-width: 82px;
+                }}
+                .score {{
+                    min-width: 18px;
+                    text-align: right;
+                    font-weight: bold;
+                    font-size: 8.5px;
+                }}
+                .champion-card {{
+                    background: linear-gradient(135deg, #1e293b, #0f172a);
+                    border: 2px solid #10b981;
+                    border-radius: 8px;
+                    padding: 8px;
+                    text-align: center;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 4px;
+                }}
+                .champion-title {{
+                    font-size: 9px;
+                    font-weight: 800;
+                    color: #10b981;
+                    letter-spacing: 0.5px;
+                }}
+                .champion-name {{
+                    font-weight: bold;
+                    font-size: 11px;
+                    color: #ffffff;
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="bracket-container">
+                <div class="round-col">{col1_html}</div>
+                <div class="round-col">{col2_html}</div>
+                <div class="round-col">{col3_html}</div>
+                <div class="round-col">{col4_html}</div>
+                <div class="round-col" style="justify-content: center; gap: 30px;">{col5_html}</div>
+                <div class="round-col">{col6_html}</div>
+                <div class="round-col">{col7_html}</div>
+                <div class="round-col">{col8_html}</div>
+                <div class="round-col">{col9_html}</div>
+            </div>
+        </body>
+        </html>
+        """
+
+    current_knockout_error = None
+    try:
+        current_knockout_results = build_current_knockout_state()
+    except Exception as exc:
+        current_knockout_results = None
+        current_knockout_error = exc
 
     # 메인 탭 구조 설정
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "경기 일정 및 승무패 예측",
-        "현재 리그 진행도",
+    tab3, tab1, tab2, tab4, tab5 = st.tabs([
         "토너먼트 대진표",
+        "토너먼트 일정 및 승무패 예측",
+        "조별리그 최종 순위",
         "1 대 1 가상 매치 시뮬레이터",
         "전체 예측"
     ])
@@ -371,7 +734,7 @@ def run_app():
 
         col_f1, col_f2 = st.columns([1, 1])
         with col_f1:
-            stage_filter = st.selectbox("대회 단계", ["전체보기", "조별리그", "토너먼트"])
+            stage_filter = st.selectbox("대회 단계", ["토너먼트", "전체보기", "조별리그"])
         with col_f2:
             st.markdown("<div style='margin-top: 28px;'></div>", unsafe_allow_html=True)
             view_all = st.toggle("모든 날짜 보기", value=default_view_all)
@@ -422,6 +785,10 @@ def run_app():
 
             home = match["homeTeam"]
             away = match["awayTeam"]
+            projected_match = projected_knockout_matches.get(m_num)
+            if projected_match:
+                home = projected_match["team_a"]
+                away = projected_match["team_b"]
 
             # 실제 이미 치러진 경기 여부 확인
             match_key = frozenset([home, away])
@@ -541,10 +908,10 @@ def run_app():
             st.markdown("<hr style='border: 0.5px solid #334155; margin-top:20px; margin-bottom:20px;'>", unsafe_allow_html=True)
 
 
-    # ----------------- 탭 2: 현재 리그 진행도 -----------------
+    # ----------------- 탭 2: 조별리그 최종 순위 -----------------
     with tab2:
-        st.header("조별 리그 실제 진행도 및 현재 순위")
-        st.markdown("현재까지 완료된 실제 경기 결과를 바탕으로 집계된 조별 리그 순위표입니다.")
+        st.header("조별리그 최종 순위")
+        st.markdown("조별리그 완료 결과를 바탕으로 집계한 최종 순위표입니다. 토너먼트 대진 산출의 기준 데이터로만 유지합니다.")
 
         # 실제 경기 결과 및 그룹 데이터 로드
         groups_dict = load_json(GROUPS_PATH)
@@ -650,27 +1017,25 @@ def run_app():
 
     # ----------------- 탭 3: 토너먼트 대진표 시각화 -----------------
     with tab3:
-        st.header("가상 월드컵 토너먼트 대진표 시각화")
-        st.markdown("현재 부상 선수 명단과 ELO 레이팅이 반영된 1회성 토너먼트 시뮬레이션을 실행하여, 32강부터 결승전 및 우승팀까지 이어지는 대진표를 한 화면에 트리 형태로 확인합니다.")
+        st.header("월드컵 토너먼트 대진표")
+        st.markdown("기본 표는 현재 확정된 토너먼트 상태만 보여줍니다. 실제 결과가 있는 경기는 점수와 승자를 표시하고, 아직 치르지 않은 경기는 팀명만 표시합니다.")
 
-        if st.button("가상 토너먼트 시뮬레이션 및 대진표 생성"):
-            with st.spinner("가상 토너먼트 매치 연산 중..."):
-                # ELO 객체 초기화
-                elo_sys = EloSystem()
-                elo_sys.load_ratings(ELO_PATH)
+        if current_knockout_error:
+            st.error(f"현재 토너먼트 대진 계산 중 오류가 발생했습니다: {current_knockout_error}")
+        else:
+            st.iframe(render_static_bracket_html(current_knockout_results), height=620)
 
-                # 시뮬레이터 실행
-                sim = WorldCupSimulation(
-                    elo_system=elo_sys,
-                    groups_file=GROUPS_PATH,
-                    actual_results_file=ACTUAL_RESULTS_PATH,
-                    absences_file=ABSENCES_PATH,
-                    squads_file=SQUADS_PATH
-                )
+        if st.button("현재 기준 예측 토너먼트 대진표 생성", key="generate_projected_knockout_bracket"):
+            st.session_state["show_projected_knockout_bracket"] = True
 
-                standings = sim.simulate_group_stage()
-                r32_teams = sim.get_advancing_teams(standings)
-                ko_results = sim.simulate_knockout_stage()
+        if st.session_state.get("show_projected_knockout_bracket"):
+            st.subheader("현재 기준 예측 토너먼트 대진표")
+            st.markdown("아래 표는 남은 경기를 현재 ELO, 결장자, 휴식일과 이동 피로도를 반영해 한 번 시뮬레이션한 예측 결과입니다.")
+
+            if knockout_projection_error:
+                st.error(f"예측 토너먼트 대진 계산 중 오류가 발생했습니다: {knockout_projection_error}")
+            else:
+                ko_results = projected_knockout_results
 
                 r32 = ko_results["Round of 32"]
                 r16 = ko_results["Round of 16"]
@@ -1049,7 +1414,7 @@ def run_app():
                 </body>
                 </html>
                 """
-                st.iframe(html_code, height=600)
+                st.iframe(html_code, height=620)
 
 
     # ----------------- 탭 4: 1대1 가상 매치 시뮬레이터 -----------------
