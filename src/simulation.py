@@ -2,6 +2,7 @@ import os
 import json
 import random
 import numpy as np
+from collections import Counter
 from itertools import combinations
 from src.elo import EloSystem
 from src.poisson import win_prob_to_lambda, simulate_match_score
@@ -468,7 +469,33 @@ class WorldCupSimulation:
         else:
             return team_b, score_a, score_b, True
 
-    def simulate_knockout_round(self, pairings, match_start_id, team_states):
+    def simulate_knockout_match_consensus(self, team_a, team_b, rest_days_diff: int = 0, travel_fatigue_a: float = 0.0, travel_fatigue_b: float = 0.0, runs: int = 10000):
+        """여러 번의 단판 시뮬레이션에서 가장 자주 진출한 팀과 대표 스코어를 반환합니다."""
+        runs = max(1, int(runs))
+        winner_counts = Counter()
+        score_counts = Counter()
+
+        for _ in range(runs):
+            winner, score_a, score_b, is_pk = self.simulate_knockout_match(
+                team_a,
+                team_b,
+                rest_days_diff=rest_days_diff,
+                travel_fatigue_a=travel_fatigue_a,
+                travel_fatigue_b=travel_fatigue_b,
+            )
+            winner_counts[winner] += 1
+            score_counts[(winner, score_a, score_b, is_pk)] += 1
+
+        winner = winner_counts.most_common(1)[0][0]
+        winner_score_counts = Counter({
+            (score_a, score_b, is_pk): count
+            for (score_winner, score_a, score_b, is_pk), count in score_counts.items()
+            if score_winner == winner
+        })
+        score_a, score_b, is_pk = winner_score_counts.most_common(1)[0][0]
+        return winner, score_a, score_b, is_pk, winner_counts
+
+    def simulate_knockout_round(self, pairings, match_start_id, team_states, consensus_runs=None):
         """동적 변수(휴식일 격차, 이동 피로도) 계산기를 내장한 한 라운드 시뮬레이션 일괄 수행기"""
         round_results = []
         winners = []
@@ -494,13 +521,27 @@ class WorldCupSimulation:
             diff_b = abs(match_region - state_b["last_region"])
             fatigue_b = 0.03 if diff_b >= 3 else (0.015 if diff_b > 0 else 0.0)
             
-            # 경기 진행
-            winner, score_a, score_b, is_pk = self.simulate_knockout_match(
-                team_a, team_b,
-                rest_days_diff=rest_days_diff,
-                travel_fatigue_a=fatigue_a,
-                travel_fatigue_b=fatigue_b
-            )
+            if consensus_runs and consensus_runs > 1:
+                winner, score_a, score_b, is_pk, winner_counts = self.simulate_knockout_match_consensus(
+                    team_a,
+                    team_b,
+                    rest_days_diff=rest_days_diff,
+                    travel_fatigue_a=fatigue_a,
+                    travel_fatigue_b=fatigue_b,
+                    runs=consensus_runs,
+                )
+                advance_prob_a = winner_counts[team_a] / consensus_runs
+                advance_prob_b = winner_counts[team_b] / consensus_runs
+            else:
+                winner, score_a, score_b, is_pk = self.simulate_knockout_match(
+                    team_a,
+                    team_b,
+                    rest_days_diff=rest_days_diff,
+                    travel_fatigue_a=fatigue_a,
+                    travel_fatigue_b=fatigue_b,
+                )
+                advance_prob_a = None
+                advance_prob_b = None
             
             # 진출한 승리팀의 최종 일정(날짜 및 권역) 업데이트
             team_states[winner] = {
@@ -511,13 +552,19 @@ class WorldCupSimulation:
             round_results.append({
                 "team_a": team_a, "team_b": team_b,
                 "score_a": score_a, "score_b": score_b,
-                "winner": winner, "is_pk": is_pk
+                "winner": winner, "is_pk": is_pk,
+                "rest_days_diff": rest_days_diff,
+                "travel_fatigue_a": fatigue_a,
+                "travel_fatigue_b": fatigue_b,
+                "advance_prob_a": advance_prob_a,
+                "advance_prob_b": advance_prob_b,
+                "consensus_runs": consensus_runs if consensus_runs and consensus_runs > 1 else None,
             })
             winners.append(winner)
             
         return round_results, winners
 
-    def simulate_knockout_stage(self):
+    def simulate_knockout_stage(self, consensus_runs=None):
         """32강부터 결승까지 토너먼트 진행 (휴식일 및 피로도 누적 시뮬레이션)"""
         if not self.last_standings:
             raise ValueError("조별 리그 standings 데이터가 존재하지 않습니다.")
@@ -597,7 +644,7 @@ class WorldCupSimulation:
         results = {}
         
         # 3. 32강 시뮬레이션
-        results["Round of 32"], r32_winners = self.simulate_knockout_round(r32_matches, 73, team_states)
+        results["Round of 32"], r32_winners = self.simulate_knockout_round(r32_matches, 73, team_states, consensus_runs=consensus_runs)
             
         # 4. 16강 시뮬레이션
         r16_pairings = [
@@ -610,7 +657,7 @@ class WorldCupSimulation:
             (r32_winners[13], r32_winners[15]),
             (r32_winners[12], r32_winners[14])
         ]
-        results["Round of 16"], r16_winners = self.simulate_knockout_round(r16_pairings, 89, team_states)
+        results["Round of 16"], r16_winners = self.simulate_knockout_round(r16_pairings, 89, team_states, consensus_runs=consensus_runs)
             
         # 5. 8강 시뮬레이션
         qf_pairings = [
@@ -619,18 +666,18 @@ class WorldCupSimulation:
             (r16_winners[4], r16_winners[5]),
             (r16_winners[6], r16_winners[7])
         ]
-        results["Quarter-finals"], qf_winners = self.simulate_knockout_round(qf_pairings, 97, team_states)
+        results["Quarter-finals"], qf_winners = self.simulate_knockout_round(qf_pairings, 97, team_states, consensus_runs=consensus_runs)
             
         # 6. 4강 시뮬레이션
         sf_pairings = [
             (qf_winners[0], qf_winners[1]),
             (qf_winners[2], qf_winners[3])
         ]
-        results["Semi-finals"], sf_winners = self.simulate_knockout_round(sf_pairings, 101, team_states)
+        results["Semi-finals"], sf_winners = self.simulate_knockout_round(sf_pairings, 101, team_states, consensus_runs=consensus_runs)
             
         # 7. 결승전 시뮬레이션
         final_pairings = [(sf_winners[0], sf_winners[1])]
-        results["Final"], final_winners = self.simulate_knockout_round(final_pairings, 104, team_states)
+        results["Final"], final_winners = self.simulate_knockout_round(final_pairings, 104, team_states, consensus_runs=consensus_runs)
         
         results["Champion"] = final_winners[0]
         return results

@@ -34,6 +34,7 @@ ABSENCES_PATH = "data/absences.json"
 SCHEDULE_PATH = "data/schedule.json"
 ACTUAL_RESULTS_PATH = "data/actual_results.json"
 GROUPS_PATH = "data/groups.json"
+KNOCKOUT_CONSENSUS_RUNS = 10000
 
 # 국가별 국기 이모티콘 매핑 사전
 FLAG_MAP = {
@@ -121,6 +122,15 @@ def get_injury_multipliers(team, injuries_dict, squads_dict=None):
 
 def run_app():
     global squads
+
+    def clear_projected_knockout_cache():
+        for key in (
+            "projected_knockout_results",
+            "projected_knockout_matches",
+            "projected_knockout_error",
+            "show_projected_knockout_bracket",
+        ):
+            st.session_state.pop(key, None)
 
     st.set_page_config(
         page_title="World Cup 2026 AI Simulator",
@@ -222,6 +232,7 @@ def run_app():
     if st.sidebar.button("실시간 징계 정보 동기화 (Wikipedia)"):
         with st.sidebar.spinner("Wikipedia에서 징계 기록 수집 중..."):
             fetch_suspensions.main()
+        clear_projected_knockout_cache()
         st.sidebar.success("동기화가 완료되었습니다.")
         st.rerun()
 
@@ -301,6 +312,7 @@ def run_app():
                     })
 
                 save_absences(ABSENCES_PATH, active_injuries)
+                clear_projected_knockout_cache()
                 st.rerun()
         else:
             st.sidebar.warning("이 팀의 모든 선수가 결장 상태이거나 선택 가능한 선수가 없습니다.")
@@ -331,6 +343,7 @@ def run_app():
                     if not active_injuries[team]:
                         del active_injuries[team]
             save_absences(ABSENCES_PATH, active_injuries)
+            clear_projected_knockout_cache()
             st.rerun()
     else:
         st.sidebar.text("복귀 처리할 결장 선수가 없습니다.")
@@ -351,6 +364,7 @@ def run_app():
                 with st.spinner("ELO, 실제 결과, 징계/결장 데이터를 갱신 중입니다..."):
                     import fetch_data
                     fetch_data.fetch_live_world_cup_data()
+                clear_projected_knockout_cache()
                 st.session_state["data_refresh_message"] = "전체 데이터 갱신이 완료되었습니다."
                 st.rerun()
             except Exception as exc:
@@ -369,7 +383,7 @@ def run_app():
 
         standings = sim.simulate_group_stage()
         sim.get_advancing_teams(standings)
-        ko_results = sim.simulate_knockout_stage()
+        ko_results = sim.simulate_knockout_stage(consensus_runs=KNOCKOUT_CONSENSUS_RUNS)
 
         match_map = {}
         for round_key, start_match in [
@@ -384,13 +398,26 @@ def run_app():
 
         return ko_results, match_map
 
-    knockout_projection_error = None
-    try:
-        projected_knockout_results, projected_knockout_matches = build_knockout_projection()
-    except Exception as exc:
-        projected_knockout_results = None
-        projected_knockout_matches = {}
-        knockout_projection_error = exc
+    projected_knockout_results = st.session_state.get("projected_knockout_results")
+    projected_knockout_matches = st.session_state.get("projected_knockout_matches", {})
+    knockout_projection_error = st.session_state.get("projected_knockout_error")
+
+    def flatten_knockout_matches(ko_results):
+        if not ko_results:
+            return {}
+        match_map = {}
+        for round_key in [
+            "Round of 32",
+            "Round of 16",
+            "Quarter-finals",
+            "Semi-finals",
+            "Final",
+        ]:
+            for match in ko_results.get(round_key, []):
+                match_id = match.get("match_id")
+                if match_id:
+                    match_map[match_id] = match
+        return match_map
 
     def get_actual_knockout_result(team_a, team_b):
         if not team_a or not team_b:
@@ -701,6 +728,7 @@ def run_app():
     except Exception as exc:
         current_knockout_results = None
         current_knockout_error = exc
+    current_knockout_matches = flatten_knockout_matches(current_knockout_results)
 
     # 메인 탭 구조 설정
     tab3, tab1, tab2, tab4, tab5 = st.tabs([
@@ -785,14 +813,15 @@ def run_app():
 
             home = match["homeTeam"]
             away = match["awayTeam"]
-            projected_match = projected_knockout_matches.get(m_num)
-            if projected_match:
-                home = projected_match["team_a"]
-                away = projected_match["team_b"]
+            current_match = current_knockout_matches.get(m_num)
+            if current_match:
+                home = current_match["team_a"]
+                away = current_match["team_b"]
+            has_known_teams = home in elo_ratings and away in elo_ratings
 
             # 실제 이미 치러진 경기 여부 확인
             match_key = frozenset([home, away])
-            has_actual = match_key in actual_map
+            has_actual = has_known_teams and match_key in actual_map
 
             with st.container():
                 st.markdown(
@@ -809,7 +838,8 @@ def run_app():
 
                 with c1:
                     st.markdown(f"<div style='font-size: 1.35em; font-weight: bold; text-align: right; margin-bottom: 2px;'>{get_flag(home)} {home}</div>", unsafe_allow_html=True)
-                    st.markdown(f"<div style='text-align: right; color: #94a3b8; font-size: 0.9em;'>ELO: {elo_ratings.get(home, 1500.0):.0f}</div>", unsafe_allow_html=True)
+                    if home in elo_ratings:
+                        st.markdown(f"<div style='text-align: right; color: #94a3b8; font-size: 0.9em;'>ELO: {elo_ratings[home]:.0f}</div>", unsafe_allow_html=True)
                     # 부상자 출력
                     team_inj = active_injuries.get(home, [])
                     if team_inj:
@@ -818,7 +848,8 @@ def run_app():
 
                 with c3:
                     st.markdown(f"<div style='font-size: 1.35em; font-weight: bold; text-align: left; margin-bottom: 2px;'>{get_flag(away)} {away}</div>", unsafe_allow_html=True)
-                    st.markdown(f"<div style='text-align: left; color: #94a3b8; font-size: 0.9em;'>ELO: {elo_ratings.get(away, 1500.0):.0f}</div>", unsafe_allow_html=True)
+                    if away in elo_ratings:
+                        st.markdown(f"<div style='text-align: left; color: #94a3b8; font-size: 0.9em;'>ELO: {elo_ratings[away]:.0f}</div>", unsafe_allow_html=True)
                     # 부상자 출력
                     team_inj = active_injuries.get(away, [])
                     if team_inj:
@@ -842,7 +873,7 @@ def run_app():
                             """,
                             unsafe_allow_html=True
                         )
-                    else:
+                    elif has_known_teams:
                         # ELO 예측 확률 계산
                         r_home = elo_ratings.get(home, 1500.0)
                         r_away = elo_ratings.get(away, 1500.0)
@@ -901,6 +932,15 @@ def run_app():
                             </div>
                             <div style='text-align: center; color: #38bdf8; font-size: 0.85em; font-weight: bold;'>
                                 최빈 예상 스코어: {b_sa} - {b_sb}
+                            </div>
+                            """,
+                            unsafe_allow_html=True
+                        )
+                    else:
+                        st.markdown(
+                            """
+                            <div style='text-align: center; color: #94a3b8; font-size: 0.95em; font-weight: bold; padding: 18px 0;'>
+                                대진 확정 전
                             </div>
                             """,
                             unsafe_allow_html=True
@@ -1026,14 +1066,30 @@ def run_app():
             st.iframe(render_static_bracket_html(current_knockout_results), height=620)
 
         if st.button("현재 기준 예측 토너먼트 대진표 생성", key="generate_projected_knockout_bracket"):
+            try:
+                with st.spinner(f"토너먼트 예측을 {KNOCKOUT_CONSENSUS_RUNS:,}회 반복 시뮬레이션 중입니다..."):
+                    projected_knockout_results, projected_knockout_matches = build_knockout_projection()
+                st.session_state["projected_knockout_results"] = projected_knockout_results
+                st.session_state["projected_knockout_matches"] = projected_knockout_matches
+                st.session_state.pop("projected_knockout_error", None)
+            except Exception as exc:
+                projected_knockout_results = None
+                projected_knockout_matches = {}
+                st.session_state["projected_knockout_error"] = str(exc)
             st.session_state["show_projected_knockout_bracket"] = True
 
         if st.session_state.get("show_projected_knockout_bracket"):
             st.subheader("현재 기준 예측 토너먼트 대진표")
-            st.markdown("아래 표는 남은 경기를 현재 ELO, 결장자, 휴식일과 이동 피로도를 반영해 한 번 시뮬레이션한 예측 결과입니다.")
+            st.markdown(f"아래 표는 남은 토너먼트 각 경기를 현재 ELO, 결장자, 휴식일과 이동 피로도를 반영해 {KNOCKOUT_CONSENSUS_RUNS:,}회 반복 시뮬레이션한 뒤, 가장 자주 진출한 팀을 표시합니다.")
+
+            projected_knockout_results = st.session_state.get("projected_knockout_results")
+            projected_knockout_matches = st.session_state.get("projected_knockout_matches", {})
+            knockout_projection_error = st.session_state.get("projected_knockout_error")
 
             if knockout_projection_error:
                 st.error(f"예측 토너먼트 대진 계산 중 오류가 발생했습니다: {knockout_projection_error}")
+            elif not projected_knockout_results:
+                st.info("예측 대진표를 생성하려면 위 버튼을 눌러 주세요.")
             else:
                 ko_results = projected_knockout_results
 
@@ -1060,21 +1116,29 @@ def run_app():
                     att_m_a, def_m_a, _ = get_injury_multipliers(team_a, active_injuries)
                     att_m_b, def_m_b, _ = get_injury_multipliers(team_b, active_injuries)
 
-                    # 개최국 홈 우위 버프 적용
+                    # 개최국 홈 우위 및 휴식일 버프 적용
                     is_host_a = team_a in HOST_COUNTRIES
                     is_host_b = team_b in HOST_COUNTRIES
 
                     r_a_adj = r_a + (40 if is_host_a and not is_host_b else 0)
                     r_b_adj = r_b + (40 if is_host_b and not is_host_a else 0)
 
+                    rest_days_diff = m.get("rest_days_diff", 0)
+                    rest_bonus = min(abs(rest_days_diff) * 5, 30)
+                    if rest_days_diff >= 1:
+                        r_a_adj += rest_bonus
+                    elif rest_days_diff <= -1:
+                        r_b_adj += rest_bonus
+
                     # ELO 기반 예상 득점(람다) 산출
                     elo_sys = EloSystem()
                     expected_a = elo_sys.expected_score(r_a_adj, r_b_adj)
                     l_a, l_b = win_prob_to_lambda(expected_a)
 
-                    # 피로도는 간소화를 위해 0.0으로 가정하거나 대진표용은 제외 가능, 일단 0.0
-                    final_l_a = l_a * att_m_a * def_m_b
-                    final_l_b = l_b * att_m_b * def_m_a
+                    fatigue_a = m.get("travel_fatigue_a", 0.0)
+                    fatigue_b = m.get("travel_fatigue_b", 0.0)
+                    final_l_a = l_a * att_m_a * def_m_b * (1.0 - fatigue_a)
+                    final_l_b = l_b * att_m_b * def_m_a * (1.0 - fatigue_b)
 
                     # 승무패 확률 계산
                     prob = match_probabilities(final_l_a, final_l_b)
@@ -1092,8 +1156,16 @@ def run_app():
                     inj_a_esc = inj_a_str.replace("'", "\\'")
                     inj_b_esc = inj_b_str.replace("'", "\\'")
                     w_esc = m["winner"].replace("'", "\\'") if m["winner"] else ""
+                    advance_prob_a = m.get("advance_prob_a")
+                    advance_prob_b = m.get("advance_prob_b")
+                    winner_prob = 0.0
+                    if m["winner"] == team_a and advance_prob_a is not None:
+                        winner_prob = advance_prob_a * 100
+                    elif m["winner"] == team_b and advance_prob_b is not None:
+                        winner_prob = advance_prob_b * 100
+                    consensus_runs = m.get("consensus_runs") or 0
 
-                    onclick_attr = f"onclick=\"showMatchDetail({m_id}, '{t_a_esc}', {m['score_a']}, '{t_b_esc}', {m['score_b']}, {p_win:.2f}, {p_draw:.2f}, {p_lose:.2f}, {r_a_adj:.1f}, {r_b_adj:.1f}, {final_l_a:.2f}, {final_l_b:.2f}, '{inj_a_esc}', '{inj_b_esc}', {str(m['is_pk']).lower()}, '{w_esc}')\""
+                    onclick_attr = f"onclick=\"showMatchDetail({m_id}, '{t_a_esc}', {m['score_a']}, '{t_b_esc}', {m['score_b']}, {p_win:.2f}, {p_draw:.2f}, {p_lose:.2f}, {r_a_adj:.1f}, {r_b_adj:.1f}, {final_l_a:.2f}, {final_l_b:.2f}, '{inj_a_esc}', '{inj_b_esc}', {str(m['is_pk']).lower()}, '{w_esc}', {winner_prob:.2f}, {consensus_runs})\""
 
                     return f"""
                     <div class="match-card" {onclick_attr}>
@@ -1349,12 +1421,13 @@ def run_app():
                     </div>
 
                     <script>
-                        function showMatchDetail(matchId, teamA, scoreA, teamB, scoreB, winProbA, winProbDraw, winProbB, eloA, eloB, lambdaA, lambdaB, injuriesA, injuriesB, isPk, winner) {{
+                        function showMatchDetail(matchId, teamA, scoreA, teamB, scoreB, winProbA, winProbDraw, winProbB, eloA, eloB, lambdaA, lambdaB, injuriesA, injuriesB, isPk, winner, winnerProb, consensusRuns) {{
                             const modal = document.getElementById('match-modal');
                             const body = document.getElementById('modal-body');
 
                             const pkSuffix = isPk ? " (PK)" : "";
-                            const winnerText = winner ? "시뮬레이션 승리: " + winner + pkSuffix : "무승부";
+                            const runSuffix = consensusRuns > 0 ? ` (${{Math.round(winnerProb)}}%, ${{consensusRuns.toLocaleString()}}회)` : "";
+                            const winnerText = winner ? "반복 시뮬레이션 진출: " + winner + pkSuffix + runSuffix : "무승부";
 
                             const injAList = injuriesA ? injuriesA.split(',') : [];
                             const injBList = injuriesB ? injuriesB.split(',') : [];
@@ -1392,7 +1465,7 @@ def run_app():
                                     </div>
                                 </div>
 
-                                <div style="font-size: 9.5px; font-weight: bold; color: #cbd5e1; margin-bottom: 4px; text-align: center;">AI 승 / 무 / 패 예측 확률</div>
+                                <div style="font-size: 9.5px; font-weight: bold; color: #cbd5e1; margin-bottom: 4px; text-align: center;">90분 AI 승 / 무 / 패 예측 확률</div>
                                 <div class="gauge-container">
                                     <div class="gauge-bar" style="width: ${{winProbA}}%; background-color: #0ea5e9;">${{Math.round(winProbA)}}%</div>
                                     <div class="gauge-bar" style="width: ${{winProbDraw}}%; background-color: #64748b;">${{Math.round(winProbDraw)}}%</div>
