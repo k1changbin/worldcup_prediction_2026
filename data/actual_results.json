@@ -592,5 +592,68 @@
     "date": "2026-06-26",
     "stage": "group",
     "winner": "Belgium"
+  },
+  {
+    "team_a": "England",
+    "team_b": "Panama",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": "England"
+  },
+  {
+    "team_a": "DR Congo",
+    "team_b": "Uzbekistan",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": "DR Congo"
+  },
+  {
+    "team_a": "Croatia",
+    "team_b": "Ghana",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": "Croatia"
+  },
+  {
+    "team_a": "Colombia",
+    "team_b": "Portugal",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": null
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Jordan",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": "Argentina"
+  },
+  {
+    "team_a": "Algeria",
+    "team_b": "Austria",
+    "score_a": 3,
+    "score_b": 3,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": null
+  },
+  {
+    "team_a": "Canada",
+    "team_b": "South Africa",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-28",
+    "stage": "knockout",
+    "winner": "Canada"
   }
 ]
