@@ -360,11 +360,9 @@ def fetch_live_world_cup_data():
     except Exception as e:
         print(f"\n[경고] 실시간 징계 정보를 동기화하는 중 오류가 발생했습니다 (ELO/결과는 정상 반영됨): {e}")
 
-    # 5. FIFA 공식 타이브레이커용 팀 conduct 점수 갱신
-    try:
-        update_team_conduct_scores(valid_teams, headers)
-    except Exception as e:
-        print(f"\n[경고] conduct 점수를 갱신하는 중 오류가 발생했습니다 (ELO/결과는 정상 반영됨): {e}")
+    # 5. 조별리그 종료 이후에는 conduct 점수를 더 이상 갱신하지 않습니다.
+    #    함수는 조별 순위 재계산/검증이 필요할 때 재사용할 수 있도록 유지합니다.
+    print("[Conduct] 조별리그 종료 상태이므로 team_conduct_scores.json 갱신을 건너뜁니다.")
 
 if __name__ == "__main__":
     fetch_live_world_cup_data()
