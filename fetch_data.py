@@ -37,6 +37,8 @@ GROUP_PAGE_URLS = {
     for group in "ABCDEFGHIJKL"
 }
 
+ESPN_SCOREBOARD_URL = "https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard"
+
 def get_match_teams_from_fevent(fevent, valid_teams):
     home_el = fevent.select_one(".fhome [itemprop='name']")
     away_el = fevent.select_one(".faway [itemprop='name']")
@@ -93,6 +95,51 @@ def conduct_score_for_team_cell(cell):
     for row in cell.find_all("tr"):
         score += conduct_score_for_player_row(row)
     return score
+
+def fetch_espn_knockout_decisions(dates, valid_teams, headers):
+    """ESPN scoreboard에서 승부차기 등으로 결정된 토너먼트 진출팀을 가져옵니다."""
+    decisions = {}
+    for date_str in sorted(dates):
+        espn_date = date_str.replace("-", "")
+        try:
+            response = httpx.get(
+                ESPN_SCOREBOARD_URL,
+                params={"dates": espn_date},
+                headers=headers,
+                timeout=15.0,
+            )
+            response.raise_for_status()
+            data = response.json()
+        except Exception as e:
+            print(f"[경기 결과] ESPN scoreboard 조회 실패 ({date_str}): {e}")
+            continue
+
+        for event in data.get("events", []):
+            for competition in event.get("competitions", []):
+                competitors = competition.get("competitors", [])
+                if len(competitors) != 2:
+                    continue
+
+                teams = []
+                winner = None
+                for competitor in competitors:
+                    team_data = competitor.get("team", {})
+                    raw_name = (
+                        team_data.get("displayName")
+                        or team_data.get("name")
+                        or team_data.get("location")
+                    )
+                    team_name = normalize_team_name(raw_name, valid_teams)
+                    if not team_name:
+                        break
+                    teams.append(team_name)
+                    if competitor.get("advance") or competitor.get("winner"):
+                        winner = team_name
+
+                if len(teams) == 2 and winner:
+                    decisions[frozenset(teams)] = winner
+
+    return decisions
 
 def update_team_conduct_scores(valid_teams, headers):
     from bs4 import BeautifulSoup
@@ -277,6 +324,7 @@ def fetch_live_world_cup_data():
         return "knockout" if (month == 6 and day >= 28) or (month >= 7) else "group"
 
     actual_results = []
+    tied_knockout_dates = set()
     for idx, match in enumerate(parsed_matches):
         team_a = match["team_a"]
         team_b = match["team_b"]
@@ -308,6 +356,8 @@ def fetch_live_world_cup_data():
                         found_next = True
                         
                 # 만약 결승전처럼 다음 경기가 없는 경우는 winner가 None으로 유지됨
+                if winner is None:
+                    tied_knockout_dates.add(date_str)
                         
         actual_results.append({
             "team_a": team_a,
@@ -318,6 +368,22 @@ def fetch_live_world_cup_data():
             "stage": stage,
             "winner": winner
         })
+
+    if tied_knockout_dates:
+        espn_decisions = fetch_espn_knockout_decisions(tied_knockout_dates, valid_teams, headers)
+        applied_decisions = 0
+        for result in actual_results:
+            if (
+                result["stage"] == "knockout"
+                and result["score_a"] == result["score_b"]
+                and not result["winner"]
+            ):
+                winner = espn_decisions.get(frozenset((result["team_a"], result["team_b"])))
+                if winner:
+                    result["winner"] = winner
+                    applied_decisions += 1
+        if applied_decisions:
+            print(f"[경기 결과] ESPN 승부차기/진출팀 정보 {applied_decisions}건을 반영했습니다.")
                 
     # 기존 로컬 결과 로드 및 비교
     local_results = []
