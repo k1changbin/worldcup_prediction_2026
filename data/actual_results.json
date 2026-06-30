@@ -655,5 +655,32 @@
     "date": "2026-06-28",
     "stage": "knockout",
     "winner": "Canada"
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Netherlands",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-06-29",
+    "stage": "knockout",
+    "winner": "Morocco"
+  },
+  {
+    "team_a": "Germany",
+    "team_b": "Paraguay",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-06-29",
+    "stage": "knockout",
+    "winner": "Paraguay"
+  },
+  {
+    "team_a": "Brazil",
+    "team_b": "Japan",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-06-29",
+    "stage": "knockout",
+    "winner": "Brazil"
   }
 ]
