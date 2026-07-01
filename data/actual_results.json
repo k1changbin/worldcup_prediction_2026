@@ -693,6 +693,15 @@
     "winner": "Norway"
   },
   {
+    "team_a": "Mexico",
+    "team_b": "Ecuador",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-06-30",
+    "stage": "knockout",
+    "winner": "Mexico"
+  },
+  {
     "team_a": "France",
     "team_b": "Sweden",
     "score_a": 3,
