@@ -682,5 +682,23 @@
     "date": "2026-06-29",
     "stage": "knockout",
     "winner": "Brazil"
+  },
+  {
+    "team_a": "Norway",
+    "team_b": "Ivory Coast",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-06-30",
+    "stage": "knockout",
+    "winner": "Norway"
+  },
+  {
+    "team_a": "France",
+    "team_b": "Sweden",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-06-30",
+    "stage": "knockout",
+    "winner": "France"
   }
 ]
