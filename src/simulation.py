@@ -8,10 +8,10 @@ from src.elo import EloSystem
 from src.poisson import win_prob_to_lambda, simulate_match_score
 from src.absences import build_squad_stats, calculate_absence_multipliers, load_absences
 
-# 공동 개최국 정의
+# Co-host countries.
 HOST_COUNTRIES = {"USA", "Mexico", "Canada"}
 
-# 2026 월드컵 개최지 5대 권역 분류
+# Five host-region buckets for the 2026 World Cup.
 # Region 1: West Coast
 # Region 2: Central-West / Mexico
 # Region 3: Central
@@ -24,9 +24,9 @@ GROUP_REGIONS = {
     "J": 5, "K": 5, "L": 5
 }
 
-# 토너먼트 경기 일정 및 개최 권역 정보
+# Knockout match dates and host-region metadata.
 KNOCKOUT_MATCH_INFO = {
-    # 32강 (Matches 73-88)
+    # Round of 32 (Matches 73-88)
     73: {"date": "2026-06-28", "region": 5},
     74: {"date": "2026-06-29", "region": 1},
     75: {"date": "2026-06-29", "region": 5},
@@ -43,7 +43,7 @@ KNOCKOUT_MATCH_INFO = {
     86: {"date": "2026-07-05", "region": 5},
     87: {"date": "2026-07-05", "region": 3},
     88: {"date": "2026-07-06", "region": 3},
-    # 16강 (Matches 89-96)
+    # Round of 16 (Matches 89-96)
     89: {"date": "2026-07-04", "region": 1},
     90: {"date": "2026-07-05", "region": 3},
     91: {"date": "2026-07-05", "region": 5},
@@ -52,20 +52,20 @@ KNOCKOUT_MATCH_INFO = {
     94: {"date": "2026-07-07", "region": 3},
     95: {"date": "2026-07-08", "region": 5},
     96: {"date": "2026-07-08", "region": 5},
-    # 8강 (Matches 97-100)
+    # Quarter-finals (Matches 97-100)
     97: {"date": "2026-07-09", "region": 3},
     98: {"date": "2026-07-10", "region": 5},
     99: {"date": "2026-07-11", "region": 1},
     100: {"date": "2026-07-11", "region": 5},
-    # 4강 (Matches 101-102)
+    # Semi-finals (Matches 101-102)
     101: {"date": "2026-07-14", "region": 3},
     102: {"date": "2026-07-15", "region": 4},
-    # 결승 (Match 104)
+    # Final (Match 104)
     104: {"date": "2026-07-19", "region": 5}
 }
 
 def date_to_day_num(date_str: str) -> int:
-    """날짜 문자열('YYYY-MM-DD')을 정수형 기준일로 변환"""
+    """Convert a YYYY-MM-DD date string into a tournament day number."""
     parts = date_str.split("-")
     month = int(parts[1])
     day = int(parts[2])
@@ -110,7 +110,7 @@ class WorldCupSimulation:
                 except json.JSONDecodeError:
                     pass
 
-        # 스쿼드별 총 가치, 포지션별 가치 및 HHI 집중도 지수 사전 계산
+        # Precompute squad total value, position totals, and HHI concentration.
         self.team_squad_stats = build_squad_stats(self.squads)
         self.fifa_rankings = self._load_optional_json(fifa_rankings_file, {})
         self.team_conduct_scores = self._load_optional_json(team_conduct_file, {})
@@ -137,7 +137,7 @@ class WorldCupSimulation:
         return int(ranking)
 
     def get_injury_multipliers(self, team: str):
-        """스쿼드 가치 비중과 HHI 의존도를 고려한 동적 공격/수비 결장 보정 배율 계산"""
+        """Calculate dynamic attack/defense absence multipliers from squad value and HHI."""
         attack_multiplier, defense_multiplier, _ = calculate_absence_multipliers(
             team,
             self.injuries,
@@ -147,11 +147,11 @@ class WorldCupSimulation:
         return attack_multiplier, defense_multiplier
 
     def simulate_match(self, team_a: str, team_b: str, home_advantage: bool = True, rest_days_diff: int = 0, travel_fatigue_a: float = 0.0, travel_fatigue_b: float = 0.0):
-        """두 팀의 1경기를 시뮬레이션하고 결과를 반환합니다."""
+        """Simulate one match between two teams and return the score."""
         rating_a = self.elo_system.get_rating(team_a)
         rating_b = self.elo_system.get_rating(team_b)
 
-        # 1. 개최국 홈 우위 적용 (+40 ELO)
+        # 1. Apply co-host advantage (+40 Elo).
         if home_advantage:
             is_host_a = team_a in HOST_COUNTRIES
             is_host_b = team_b in HOST_COUNTRIES
@@ -160,7 +160,7 @@ class WorldCupSimulation:
             elif is_host_b and not is_host_a:
                 rating_b += 40
 
-        # 2. 휴식일 체력 격차 보정 적용 (하루당 +5, 최대 +30 ELO)
+        # 2. Apply rest-day advantage (+5 Elo per day, capped at +30).
         rest_bonus = min(abs(rest_days_diff) * 5, 30)
         if rest_days_diff >= 1:
             rating_a += rest_bonus
@@ -170,12 +170,12 @@ class WorldCupSimulation:
         win_prob_a = self.elo_system.expected_score(rating_a, rating_b)
         lambda_a, lambda_b = win_prob_to_lambda(win_prob_a)
         
-        # 3. 부상 보정 배율 적용 (get_injury_multipliers: attack_multiplier <= 1.0, defense_multiplier >= 1.0)
+        # 3. Apply absence multipliers.
         att_mult_a, def_mult_a = self.get_injury_multipliers(team_a)
         att_mult_b, def_mult_b = self.get_injury_multipliers(team_b)
         
-        # 4. 이동 피로도 및 로테이션 보정 적용
-        # A팀의 공격진이 다치면 A팀의 득점이 줄고(att_mult_a <= 1.0), B팀의 수비진이 다치면 A팀의 득점이 늘어납니다(def_mult_b >= 1.0).
+        # 4. Apply travel fatigue and rotation adjustments.
+        # Missing attackers reduce a team's scoring; missing defenders increase the opponent's scoring.
         final_lambda_a = lambda_a * att_mult_a * def_mult_b * (1.0 - travel_fatigue_a)
         final_lambda_b = lambda_b * att_mult_b * def_mult_a * (1.0 - travel_fatigue_b)
         
@@ -279,27 +279,27 @@ class WorldCupSimulation:
 
     def simulate_group_stage(self):
         """
-        모든 조별 리그를 시뮬레이션합니다.
-        반환값: 각 조의 최종 순위 딕셔너리
+        Simulate all group-stage matches.
+        Returns a dictionary of final standings by group.
         """
         group_standings = {}
 
         for group_name, teams in self.groups.items():
-            # 팀별 성적 저장: [승점, 득실차, 다득점]
+            # Store team records.
             stats = {
                 team: {"pts": 0, "gd": 0, "gf": 0, "ga": 0, "w": 0, "d": 0, "l": 0} 
                 for team in teams
             }
 
-            # 조별 리그 모든 경기 결과 저장 (맞대결 타이브레이커용)
+            # Store all group match results for head-to-head tiebreakers.
             group_match_results = {}
 
-            # 라운드별 경기 페어링 (T0, T1, T2, T3)
+            # Round pairings by team slot.
             r1_pairings = [(teams[0], teams[1]), (teams[2], teams[3])]
             r2_pairings = [(teams[0], teams[2]), (teams[1], teams[3])]
             r3_pairings = [(teams[0], teams[3]), (teams[1], teams[2])]
 
-            # 1라운드 및 2라운드 시뮬레이션 선 진행
+            # Simulate rounds 1 and 2 first.
             for team_a, team_b in r1_pairings + r2_pairings:
                 actual_match = None
                 for m in self.actual_results:
@@ -311,19 +311,19 @@ class WorldCupSimulation:
                     score_a = actual_match["score_a"] if actual_match["team_a"] == team_a else actual_match["score_b"]
                     score_b = actual_match["score_b"] if actual_match["team_a"] == team_a else actual_match["score_a"]
                 else:
-                    # 조별 리그 단계에서는 홈 이점 미적용 (중립국 구장)
+                    # Group-stage matches are treated as neutral-site matches.
                     score_a, score_b = self.simulate_match(team_a, team_b, home_advantage=False)
                 
-                # 기록 업데이트
+                # Update records.
                 self._update_group_stats(team_a, team_b, score_a, score_b, stats, group_match_results)
 
-            # 2라운드 끝난 후 진출 확정팀 식별 (승점 6점 획득 팀)
+            # Identify teams that have effectively qualified after round 2.
             rotation_teams = set()
             for team, s in stats.items():
                 if s["pts"] == 6:
                     rotation_teams.add(team)
 
-            # 3라운드 진행
+            # Simulate round 3.
             for team_a, team_b in r3_pairings:
                 actual_match = None
                 for m in self.actual_results:
@@ -335,12 +335,12 @@ class WorldCupSimulation:
                     score_a = actual_match["score_a"] if actual_match["team_a"] == team_a else actual_match["score_b"]
                     score_b = actual_match["score_b"] if actual_match["team_a"] == team_a else actual_match["score_a"]
                 else:
-                    # 3차전 로테이션 보정 배율 적용 (진출 확정팀은 예상 득점 20% 페널티)
+                    # Apply a round-3 rotation penalty to teams already on six points.
                     fatigue_a = 0.2 if team_a in rotation_teams else 0.0
                     fatigue_b = 0.2 if team_b in rotation_teams else 0.0
                     score_a, score_b = self.simulate_match(team_a, team_b, home_advantage=False, travel_fatigue_a=fatigue_a, travel_fatigue_b=fatigue_b)
                 
-                # 기록 업데이트
+                # Update records.
                 self._update_group_stats(team_a, team_b, score_a, score_b, stats, group_match_results)
 
             sorted_teams = self._sort_group_standings(stats, group_match_results)
@@ -350,7 +350,7 @@ class WorldCupSimulation:
         return group_standings
 
     def get_advancing_teams(self, group_standings):
-        """조별 리그 결과에서 32강 진출 팀을 추립니다."""
+        """Return teams advancing to the Round of 32 from group standings."""
         first_places = []
         second_places = []
         third_places = []
@@ -374,7 +374,7 @@ class WorldCupSimulation:
         return seeded_teams
 
     def match_thirds(self, third_place_teams):
-        """FIFA World Cup 2026 Regulations Annex C에 따라 3위 팀을 32강 슬롯에 배정합니다."""
+        """Assign third-place teams to Round of 32 slots using FIFA World Cup 2026 Annex C."""
         teams_by_group = {group_letter: team_name for team_name, group_letter in third_place_teams}
         key = "".join(sorted(teams_by_group))
         if key not in self.third_place_annex:
@@ -386,8 +386,8 @@ class WorldCupSimulation:
         }
 
     def simulate_knockout_match(self, team_a, team_b, rest_days_diff: int = 0, travel_fatigue_a: float = 0.0, travel_fatigue_b: float = 0.0):
-        """단판 승부 시뮬레이션 (무승부 시 승부차기, 환경 변수 반영)"""
-        # 실제 완료된 경기 결과 고정 체크
+        """Simulate a single knockout match, including penalties and contextual adjustments."""
+        # Check for an already completed actual result.
         actual_match = None
         for m in self.actual_results:
             if {m["team_a"], m["team_b"]} == {team_a, team_b} and m.get("stage") == "knockout":
@@ -425,7 +425,7 @@ class WorldCupSimulation:
             winner = team_a if score_a > score_b else team_b
             return winner, score_a, score_b, False
             
-        # 90분 무승부인 경우 연장전(Extra Time) 시뮬레이션 (30분 추가)
+        # If the match is tied after 90 minutes, simulate 30 minutes of extra time.
         rating_a = self.elo_system.get_rating(team_a)
         rating_b = self.elo_system.get_rating(team_b)
         
@@ -451,7 +451,7 @@ class WorldCupSimulation:
         final_lambda_a = lambda_a * att_mult_a * def_mult_b * (1.0 - travel_fatigue_a)
         final_lambda_b = lambda_b * att_mult_b * def_mult_a * (1.0 - travel_fatigue_b)
         
-        # 30분 연장전 골 수 산출 (90분 평균 대비 1/3 비율)
+        # Extra-time goals use one third of the 90-minute expected goals.
         goals_a_et = np.random.poisson(final_lambda_a / 3.0)
         goals_b_et = np.random.poisson(final_lambda_b / 3.0)
         
@@ -462,7 +462,7 @@ class WorldCupSimulation:
             winner = team_a if score_a > score_b else team_b
             return winner, score_a, score_b, False
             
-        # 연장전도 무승부인 경우 승부차기 진행
+        # If extra time is still tied, decide the match on penalties.
         win_prob_pk_a = self.elo_system.expected_score(rating_a, rating_b)
         if random.random() < win_prob_pk_a:
             return team_a, score_a, score_b, True
@@ -470,7 +470,7 @@ class WorldCupSimulation:
             return team_b, score_a, score_b, True
 
     def simulate_knockout_match_consensus(self, team_a, team_b, rest_days_diff: int = 0, travel_fatigue_a: float = 0.0, travel_fatigue_b: float = 0.0, runs: int = 10000):
-        """여러 번의 단판 시뮬레이션에서 가장 자주 진출한 팀과 대표 스코어를 반환합니다."""
+        """Return the most frequent advancing team and representative score across many simulations."""
         runs = max(1, int(runs))
         winner_counts = Counter()
         score_counts = Counter()
@@ -496,7 +496,7 @@ class WorldCupSimulation:
         return winner, score_a, score_b, is_pk, winner_counts
 
     def simulate_knockout_round(self, pairings, match_start_id, team_states, consensus_runs=None):
-        """동적 변수(휴식일 격차, 이동 피로도) 계산기를 내장한 한 라운드 시뮬레이션 일괄 수행기"""
+        """Simulate one knockout round with rest-day and travel-fatigue calculations."""
         round_results = []
         winners = []
         for idx, (team_a, team_b) in enumerate(pairings):
@@ -505,16 +505,16 @@ class WorldCupSimulation:
             match_date = date_to_day_num(m_info["date"])
             match_region = m_info["region"]
             
-            # 피로도 및 휴식일 파악을 위한 각 팀의 직전 상태 확인
+            # Read each team's latest state for rest and travel calculations.
             state_a = team_states[team_a]
             state_b = team_states[team_b]
             
-            # 1. 휴식일 계산
+            # 1. Calculate rest-day gap.
             rest_a = match_date - state_a["last_date"]
             rest_b = match_date - state_b["last_date"]
             rest_days_diff = rest_a - rest_b
             
-            # 2. 대륙 권역간 이동에 의한 피로도(Travel Fatigue) 계산
+            # 2. Calculate travel fatigue between host regions.
             diff_a = abs(match_region - state_a["last_region"])
             fatigue_a = 0.03 if diff_a >= 3 else (0.015 if diff_a > 0 else 0.0)
             
@@ -543,7 +543,7 @@ class WorldCupSimulation:
                 advance_prob_a = None
                 advance_prob_b = None
             
-            # 진출한 승리팀의 최종 일정(날짜 및 권역) 업데이트
+            # Update the winning team's latest date and region.
             team_states[winner] = {
                 "last_date": match_date,
                 "last_region": match_region
@@ -565,11 +565,11 @@ class WorldCupSimulation:
         return round_results, winners
 
     def simulate_knockout_stage(self, consensus_runs=None):
-        """32강부터 결승까지 토너먼트 진행 (휴식일 및 피로도 누적 시뮬레이션)"""
+        """Simulate the knockout stage from the Round of 32 through the final."""
         if not self.last_standings:
-            raise ValueError("조별 리그 standings 데이터가 존재하지 않습니다.")
+            raise ValueError("Group-stage standings are not available.")
             
-        # 1. 32강 진출 3위 팀 매칭 연산
+        # 1. Resolve third-place teams advancing to the Round of 32.
         first_places = []
         second_places = []
         third_places = []
@@ -585,7 +585,7 @@ class WorldCupSimulation:
             
         top_8_thirds = self._sort_third_places(third_places)[:8]
         
-        # 팀 코드 매핑 (A1 -> team_name, etc.)
+        # Map bracket codes such as A1 to team names.
         team_by_code = {}
         for group_name, group_teams in self.last_standings.items():
             group_letter = group_name.split(" ")[1]
@@ -596,8 +596,8 @@ class WorldCupSimulation:
         third_place_inputs = [(t["team_name"], t["group"]) for t in top_8_thirds]
         third_assignment = self.match_thirds(third_place_inputs)
         
-        # 32강에 올라간 각 팀의 마지막 경기 날짜와 지역 추적 데이터 초기화
-        # (조별 리그 최종 종료일인 6월 27일, day 27을 기준점으로 시작)
+        # Initialize each advancing team's last match date and region.
+        # The group stage ends on June 27, represented as tournament day 27.
         team_states = {}
         for group_name, group_teams in self.last_standings.items():
             group_letter = group_name.split(" ")[1]
@@ -608,7 +608,7 @@ class WorldCupSimulation:
             reg = GROUP_REGIONS[t["group"]]
             team_states[t["team_name"]] = {"last_date": 27, "last_region": reg}
         
-        # 2. R32 공식 매치업 구성
+        # 2. Build official Round of 32 pairings.
         r32_slots = [
             {"match_id": 73, "team_a": "A2", "team_b": "B2"},
             {"match_id": 74, "team_a": "E1", "team_b": "3rd_74"},
@@ -643,10 +643,10 @@ class WorldCupSimulation:
             
         results = {}
         
-        # 3. 32강 시뮬레이션
+        # 3. Simulate the Round of 32.
         results["Round of 32"], r32_winners = self.simulate_knockout_round(r32_matches, 73, team_states, consensus_runs=consensus_runs)
             
-        # 4. 16강 시뮬레이션
+        # 4. Simulate the Round of 16.
         r16_pairings = [
             (r32_winners[0], r32_winners[2]),
             (r32_winners[1], r32_winners[4]),
@@ -659,7 +659,7 @@ class WorldCupSimulation:
         ]
         results["Round of 16"], r16_winners = self.simulate_knockout_round(r16_pairings, 89, team_states, consensus_runs=consensus_runs)
             
-        # 5. 8강 시뮬레이션
+        # 5. Simulate the quarter-finals.
         qf_pairings = [
             (r16_winners[0], r16_winners[1]),
             (r16_winners[2], r16_winners[3]),
@@ -668,14 +668,14 @@ class WorldCupSimulation:
         ]
         results["Quarter-finals"], qf_winners = self.simulate_knockout_round(qf_pairings, 97, team_states, consensus_runs=consensus_runs)
             
-        # 6. 4강 시뮬레이션
+        # 6. Simulate the semi-finals.
         sf_pairings = [
             (qf_winners[0], qf_winners[1]),
             (qf_winners[2], qf_winners[3])
         ]
         results["Semi-finals"], sf_winners = self.simulate_knockout_round(sf_pairings, 101, team_states, consensus_runs=consensus_runs)
             
-        # 7. 결승전 시뮬레이션
+        # 7. Simulate the final.
         final_pairings = [(sf_winners[0], sf_winners[1])]
         results["Final"], final_winners = self.simulate_knockout_round(final_pairings, 104, team_states, consensus_runs=consensus_runs)
         
@@ -687,7 +687,7 @@ if __name__ == "__main__":
     import sys
     import os
     
-    # 상위 경로를 sys.path에 추가하여 src 모듈을 정상적으로 임포트
+    # Add the parent path so src modules can be imported when this file is run directly.
     sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     
     elo = EloSystem()
@@ -695,17 +695,17 @@ if __name__ == "__main__":
     
     sim = WorldCupSimulation(elo)
     
-    print("조별 리그 시뮬레이션 중...")
+    print("Simulating the group stage...")
     standings = sim.simulate_group_stage()
     
-    print("32강 진출 팀 확정 중...")
+    print("Resolving Round of 32 teams...")
     seeded_teams = sim.get_advancing_teams(standings)
     
-    print("토너먼트 시뮬레이션 중...\n")
+    print("Simulating the knockout stage...\n")
     knockout_results = sim.simulate_knockout_stage()
     
-    print("--- [결승전 결과] ---")
+    print("--- [Final Result] ---")
     final_match = knockout_results["Final"][0]
-    pk_str = " (승부차기)" if final_match["is_pk"] else ""
+    pk_str = " (penalties)" if final_match["is_pk"] else ""
     print(f"{final_match['team_a']} {final_match['score_a']} : {final_match['score_b']} {final_match['team_b']}{pk_str}")
-    print(f"우승: {knockout_results['Champion']}")
+    print(f"Champion: {knockout_results['Champion']}")

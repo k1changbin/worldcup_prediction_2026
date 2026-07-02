@@ -6,14 +6,14 @@ import httpx
 from bs4 import BeautifulSoup
 from src.absences import load_absences, save_absences
 
-# ELO 국가명과 Wikipedia 헤딩명 간 매핑 사전
+# Mapping between Elo team names and Wikipedia headings.
 TEAM_ALIASES = {
     "United States": "USA",
     "Czech Republic": "Czechia",
     "Turkey": "Türkiye"
 }
 
-# 주요 에이스 선수 데이터베이스 (시장 가치 고정 입력용)
+# Star-player database used for fixed market-value inputs.
 STAR_PLAYERS = {
     "South Korea": [
         {"name": "Son Heung-min", "position": "Forward", "value": 50000000},
@@ -127,7 +127,7 @@ def normalize_for_matching(name):
     return " ".join(ascii_name.lower().split())
 
 def get_deterministic_squad_value(rating):
-    # ELO 기반으로 스쿼드 총 가치 산출 (백만 유로 단위, 결정론적 수식 적용)
+    # Estimate total squad market value from Elo with a deterministic formula.
     if rating >= 2100:
         return int(800000000 + (rating - 2100) * 30000000)
     elif rating >= 2000:
@@ -147,7 +147,7 @@ def fetch_live_injuries_and_squads():
     elo_path = "data/elo_ratings.json"
 
     if not os.path.exists(elo_path):
-        print(f"[에러] {elo_path} 파일이 존재하지 않습니다.")
+        print(f"[Error] {elo_path} does not exist.")
         return
 
     with open(elo_path, "r", encoding="utf-8") as f:
@@ -158,15 +158,15 @@ def fetch_live_injuries_and_squads():
     }
 
     url = "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup_squads"
-    print(f"[스쿼드 & 부상자 수집] Wikipedia에서 데이터 수집 시작... ({url})")
+    print(f"[Squad & injury fetch] Fetching data from Wikipedia... ({url})")
 
     try:
         r = httpx.get(url, headers=headers, timeout=15.0)
         if r.status_code != 200:
-            print(f"[에러] HTTP {r.status_code} 응답을 받았습니다.")
+            print(f"[Error] Received HTTP {r.status_code}.")
             return
     except Exception as e:
-        print(f"[에러] Wikipedia 요청 실패: {e}")
+        print(f"[Error] Wikipedia request failed: {e}")
         return
 
     soup = BeautifulSoup(r.text, "html.parser")
@@ -177,22 +177,22 @@ def fetch_live_injuries_and_squads():
     total_players_count = 0
     total_injuries_count = 0
 
-    print("Wikipedia 페이지 파싱 중...")
+    print("Parsing Wikipedia page...")
 
     for h in headings:
         heading_text = h.text.strip()
         normalized_heading = normalize_team(heading_text)
 
-        # ELO 레이팅에 존재하는 국가인지 확인
+        # Keep only teams present in the Elo ratings.
         if normalized_heading not in ratings:
             continue
 
-        # 헤딩 div로 감싸져 있는 구조 및 일반 구조 모두 대응하여 sibling 검색
+        # Support both wrapped heading divs and normal heading sibling structures.
         p = h.parent
         is_wrapped = p and p.name == "div" and any(cls.startswith("mw-heading") for cls in p.get("class", []))
         start_el = p if is_wrapped else h
 
-        # 1. 조별 설명 단락 및 테이블 수집
+        # 1. Collect descriptive paragraphs and the squad table.
         paragraphs = []
         table = None
         curr = start_el.find_next_sibling()
@@ -209,10 +209,10 @@ def fetch_live_injuries_and_squads():
 
         text_block = " ".join(paragraphs)
 
-        # 2. 스쿼드 테이블 파싱
+        # 2. Parse squad table.
         players_list = []
         if table:
-            rows = table.find_all("tr")[1:]  # 헤더 제외
+            rows = table.find_all("tr")[1:]  # Skip header row.
             for row in rows:
                 cols = row.find_all(["th", "td"])
                 if len(cols) < 7:
@@ -223,7 +223,7 @@ def fetch_live_injuries_and_squads():
                 raw_name = cols[2].text.strip()
                 raw_caps = cols[4].text.strip()
 
-                # 포지션 매핑
+                # Map positions.
                 pos_str = "Forward"
                 if "GK" in raw_pos:
                     pos_str = "Goalkeeper"
@@ -234,10 +234,10 @@ def fetch_live_injuries_and_squads():
                 elif "FW" in raw_pos:
                     pos_str = "Forward"
 
-                # 선수 이름 정제
+                # Clean player name.
                 name_clean = clean_player_name(raw_name)
 
-                # 출장 수(Caps) 정제 및 파싱
+                # Clean and parse caps.
                 caps_val = 0
                 try:
                     caps_val = int(re.sub(r"\D", "", raw_caps))
@@ -248,18 +248,18 @@ def fetch_live_injuries_and_squads():
                     "name": name_clean,
                     "position": pos_str,
                     "caps": caps_val,
-                    "value_eur": 0  # 임시값
+                    "value_eur": 0  # Temporary value.
                 })
 
         if not players_list:
-            print(f"   - [경고] {normalized_heading}의 스쿼드 테이블을 파싱하지 못했습니다.")
+            print(f"   - [Warning] Could not parse squad table for {normalized_heading}.")
             continue
 
-        # 3. 단락 내 부상/대체 정보 분석
+        # 3. Analyze injury/replacement information in paragraphs.
         team_injured_names = []
         p_clean = re.sub(r"\[\d+\]", "", text_block)
         
-        # 'withdrew' 및 'replaced by' 키워드가 들어있는 문장 탐색
+        # Find sentences that include both "withdrew" and "replaced by".
         sentences = re.split(r"(?<=[.!?])\s+", p_clean)
         for sentence in sentences:
             if "withdrew" in sentence and "replaced by" in sentence:
@@ -268,11 +268,11 @@ def fetch_live_injuries_and_squads():
                 if "." in before:
                     before = before.split(".")[-1].strip()
                 
-                # 부상 결장 선수명 추출
+                # Extract withdrawn player names.
                 withdrawn_raw = re.split(r"\b(?:and|,)\b", before)
                 withdrawn_players = [w.strip() for w in withdrawn_raw if w.strip()]
 
-                # 대체 선수명 추출
+                # Extract replacement player names.
                 after = parts[1]
                 replaced_players = []
                 if "replaced by" in after:
@@ -281,13 +281,13 @@ def fetch_live_injuries_and_squads():
                     replaced_raw = re.split(r"\b(?:and|,)\b", after_clean)
                     replaced_players = [r.strip() for r in replaced_raw if r.strip()]
 
-                # 매칭 및 스쿼드 복원 처리
-                # (스쿼드 테이블에 있는 대체 선수를 부상 선수로 대체하여, 시뮬레이션에서 가치 손실을 계산하도록 함)
+                # Match replacements and restore the withdrawn player in the squad list.
+                # This lets the simulation calculate value loss from the missing original player.
                 for w_name, r_name in zip(withdrawn_players, replaced_players):
                     w_norm = normalize_for_matching(w_name)
                     r_norm = normalize_for_matching(r_name)
 
-                    # 테이블에서 대체 선수 탐색
+                    # Find the replacement player in the table.
                     matched_idx = -1
                     for idx, p_item in enumerate(players_list):
                         if normalize_for_matching(p_item["name"]) == r_norm:
@@ -295,11 +295,11 @@ def fetch_live_injuries_and_squads():
                             break
 
                     if matched_idx != -1:
-                        # 복원: 대체선수를 부상당한 원조 선수로 덮어쓰기
+                        # Restore the original withdrawn player over the replacement.
                         players_list[matched_idx]["name"] = w_name
                         team_injured_names.append(w_name)
                     else:
-                        # 대체 선수가 테이블에서 확인되지 않는 경우, 그냥 부상자 명단에만 우선 추가
+                        # If the replacement is not found, still add the withdrawn player as absent.
                         team_injured_names.append(w_name)
 
         parsed_teams_data[normalized_heading] = players_list
@@ -308,11 +308,11 @@ def fetch_live_injuries_and_squads():
         if team_injured_names:
             live_injuries[normalized_heading] = team_injured_names
             total_injuries_count += len(team_injured_names)
-            print(f"   - {normalized_heading}: {len(players_list)}명 파싱 완료 (부상 이탈: {team_injured_names})")
+            print(f"   - {normalized_heading}: parsed {len(players_list)} players (withdrawn: {team_injured_names})")
         else:
-            print(f"   - {normalized_heading}: {len(players_list)}명 파싱 완료")
+            print(f"   - {normalized_heading}: parsed {len(players_list)} players")
 
-    # 4. 각 팀별 ELO 레이팅 기반 및 에이스 수동 지정을 통한 선수 가치(Market Value) 동적 책정
+    # 4. Assign market values from Elo-based totals plus manually specified star players.
     final_squads = {}
     for team, players in parsed_teams_data.items():
         rating = ratings.get(team, 1700.0)
@@ -324,7 +324,7 @@ def fetch_live_injuries_and_squads():
         for s in stars:
             star_names_lower[normalize_for_matching(s["name"])] = s
 
-        # 스타 플레이어 값 우선 적용
+        # Assign star-player values first.
         assigned_players = []
         regular_players = []
 
@@ -333,17 +333,17 @@ def fetch_live_injuries_and_squads():
             if p_norm in star_names_lower:
                 star_data = star_names_lower[p_norm]
                 p["value_eur"] = star_data["value"]
-                # 만약 포지션 불일치가 있으면 고침
+                # Correct the position if it differs from the star-player database.
                 p["position"] = star_data["position"]
                 assigned_players.append(p)
                 star_values_sum += star_data["value"]
             else:
                 regular_players.append(p)
 
-        # 잔여 가치 분배
+        # Distribute remaining value.
         remaining_value = max(total_squad_value * 0.2, total_squad_value - star_values_sum)
         
-        # 일반 선수들은 Caps(출장수) 기준 내림차순 정렬하여 Pareto(지프) 분포로 가치 배분
+        # Sort regular players by caps and allocate value with a Pareto-style distribution.
         regular_players.sort(key=lambda x: x["caps"], reverse=True)
         
         num_regulars = len(regular_players)
@@ -357,11 +357,11 @@ def fetch_live_injuries_and_squads():
                 p["value_eur"] = max(100000, val)
                 assigned_players.append(p)
 
-        # 원래 인덱스 순으로 정렬하거나 그대로 저장
+        # Store assigned players as parsed.
         final_squads[team] = assigned_players
 
-    # 5. 파일 저장
-    # data 폴더가 없을 경우 생성
+    # 5. Save files.
+    # Create the data directory if needed.
     os.makedirs(os.path.dirname(squads_path), exist_ok=True)
 
     with open(squads_path, "w", encoding="utf-8") as f:
@@ -385,9 +385,9 @@ def fetch_live_injuries_and_squads():
 
     save_absences(injuries_path, canonical_absences)
 
-    print(f"\n[성공] 데이터 업데이트 완료!")
-    print(f"   - 스쿼드 데이터 저장 경로: {squads_path} (총 {len(final_squads)}개국, {total_players_count}명)")
-    print(f"   - 부상자 데이터 저장 경로: {injuries_path} (총 {len(live_injuries)}개국, {total_injuries_count}명)")
+    print(f"\n[Success] Data update complete.")
+    print(f"   - Squad data saved to: {squads_path} ({len(final_squads)} teams, {total_players_count} players)")
+    print(f"   - Absence data saved to: {injuries_path} ({len(live_injuries)} teams, {total_injuries_count} players)")
 
 if __name__ == "__main__":
     fetch_live_injuries_and_squads()

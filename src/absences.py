@@ -130,8 +130,8 @@ def get_absence_names(raw_list):
 def format_absence_list_to_str_list(raw_list):
     formatted = []
     reason_map = {
-        "red_card": "퇴장 징계",
-        "yellow_cards": "경고 누적 징계",
+        "red_card": "red-card suspension",
+        "yellow_cards": "yellow-card accumulation suspension",
     }
 
     for item in _as_list(raw_list):
@@ -140,14 +140,14 @@ def format_absence_list_to_str_list(raw_list):
             if not name:
                 continue
             if item.get("type", "injury") == "suspension":
-                reason_text = reason_map.get(item.get("reason"), "출장 정지")
+                reason_text = reason_map.get(item.get("reason"), "suspension")
                 formatted.append(f"{name} ({reason_text})")
             else:
-                formatted.append(f"{name} (부상)")
+                formatted.append(f"{name} (injury)")
         else:
             name = _absence_name(item)
             if name:
-                formatted.append(f"{name} (부상)")
+                formatted.append(f"{name} (injury)")
 
     return formatted
 
@@ -258,7 +258,7 @@ def calculate_absence_multipliers(team, absences, squads, squad_stats=None, incl
 
         pos = matched_player["position"]
         val = matched_player["value_eur"]
-        pos_str = "수비" if pos in ["Goalkeeper", "Defender"] else "공격"
+        pos_str = "defense" if pos in ["Goalkeeper", "Defender"] else "attack"
 
         if pos in ["Goalkeeper", "Defender"]:
             if stats["defense_total"] > 0:
@@ -267,22 +267,22 @@ def calculate_absence_multipliers(team, absences, squads, squad_stats=None, incl
                 defense_reduction += reduction
                 if include_values:
                     details.append(
-                        f"{matched_player['name']} ({pos_str}, 가치: €{val/1000000:.1f}M, "
-                        f"포지션 비중: {share*100:.1f}%, 누수율: {reduction*100:.1f}%)"
+                        f"{matched_player['name']} ({pos_str}, value: €{val/1000000:.1f}M, "
+                        f"position share: {share*100:.1f}%, reduction: {reduction*100:.1f}%)"
                     )
                 else:
-                    details.append(f"{matched_player['name']} ({pos_str}, 누수율: {reduction*100:.1f}%)")
+                    details.append(f"{matched_player['name']} ({pos_str}, reduction: {reduction*100:.1f}%)")
         elif stats["attack_total"] > 0:
             share = val / stats["attack_total"]
             reduction = share * depth_factor
             attack_reduction += reduction
             if include_values:
                 details.append(
-                    f"{matched_player['name']} ({pos_str}, 가치: €{val/1000000:.1f}M, "
-                    f"포지션 비중: {share*100:.1f}%, 누수율: {reduction*100:.1f}%)"
+                    f"{matched_player['name']} ({pos_str}, value: €{val/1000000:.1f}M, "
+                    f"position share: {share*100:.1f}%, reduction: {reduction*100:.1f}%)"
                 )
             else:
-                details.append(f"{matched_player['name']} ({pos_str}, 누수율: {reduction*100:.1f}%)")
+                details.append(f"{matched_player['name']} ({pos_str}, reduction: {reduction*100:.1f}%)")
 
     attack_multiplier = max(0.5, 1.0 - attack_reduction)
     defense_multiplier = min(2.0, 1.0 + defense_reduction)

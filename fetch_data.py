@@ -2,7 +2,7 @@ import json
 import os
 import httpx
 
-# 웹사이트 팀명과 프로젝트 데이터 팀명의 불일치 매핑 사전
+# Mapping between website team names and project team names.
 TEAM_NAME_MAP = {
     "United States": "USA",
     "Turkey": "Türkiye",
@@ -21,11 +21,11 @@ def normalize_team_name(name, valid_teams):
         return None
     name = name.strip()
     
-    # 1. 수동 매핑 사전 확인
+    # 1. Check manual mapping first.
     if name in TEAM_NAME_MAP:
         return TEAM_NAME_MAP[name]
         
-    # 2. 대소문자 무관 완전 일치 확인
+    # 2. Check case-insensitive exact matches.
     for valid in valid_teams:
         if valid.lower() == name.lower():
             return valid
@@ -97,7 +97,7 @@ def conduct_score_for_team_cell(cell):
     return score
 
 def fetch_espn_knockout_decisions(dates, valid_teams, headers):
-    """ESPN scoreboard에서 승부차기 등으로 결정된 토너먼트 진출팀을 가져옵니다."""
+    """Fetch knockout advancement decisions from the ESPN scoreboard, including penalties."""
     decisions = {}
     for date_str in sorted(dates):
         espn_date = date_str.replace("-", "")
@@ -111,7 +111,7 @@ def fetch_espn_knockout_decisions(dates, valid_teams, headers):
             response.raise_for_status()
             data = response.json()
         except Exception as e:
-            print(f"[경기 결과] ESPN scoreboard 조회 실패 ({date_str}): {e}")
+            print(f"[Match results] Failed to query ESPN scoreboard ({date_str}): {e}")
             continue
 
         for event in data.get("events", []):
@@ -149,13 +149,13 @@ def update_team_conduct_scores(valid_teams, headers):
     parsed_matches = 0
     matches_with_cards = 0
 
-    print("[Conduct] Wikipedia 경기 기록에서 팀 conduct 점수를 재계산합니다...")
+    print("[Conduct] Recalculating team conduct scores from Wikipedia match records...")
     for group, url in GROUP_PAGE_URLS.items():
         try:
             response = httpx.get(url, headers=headers, timeout=15.0)
             response.raise_for_status()
         except Exception as e:
-            print(f"[Conduct] Group {group} 페이지 요청 실패: {e}")
+            print(f"[Conduct] Failed to request Group {group} page: {e}")
             continue
 
         soup = BeautifulSoup(response.text, "html.parser")
@@ -187,8 +187,8 @@ def update_team_conduct_scores(valid_teams, headers):
         json.dump(dict(sorted(conduct_scores.items())), f, ensure_ascii=False, indent=2)
 
     print(
-        f"[Conduct] 갱신 완료: {parsed_matches}경기 확인, "
-        f"{matches_with_cards}경기 카드 반영 -> {conduct_path}"
+        f"[Conduct] Update complete: checked {parsed_matches} matches, "
+        f"applied card records from {matches_with_cards} matches -> {conduct_path}"
     )
 
 def fetch_live_world_cup_data():
@@ -196,10 +196,10 @@ def fetch_live_world_cup_data():
     actual_results_path = "data/actual_results.json"
     
     if not os.path.exists(elo_ratings_path):
-        print(f"에러: {elo_ratings_path} 파일을 찾을 수 없습니다. 프로젝트 루트에서 실행해 주세요.")
+        print(f"Error: {elo_ratings_path} was not found. Run this from the project root.")
         return
         
-    # 48개 참가국 정보 로드
+    # Load the 48 participating teams.
     with open(elo_ratings_path, "r", encoding="utf-8") as f:
         local_ratings = json.load(f)
         valid_teams = set(local_ratings.keys())
@@ -208,13 +208,13 @@ def fetch_live_world_cup_data():
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
     }
     
-    # 1. 팀명/코드 매핑 파일 다운로드
-    print("[ELO] eloratings.net에서 팀명/코드 매핑 파일 다운로드 중...")
+    # 1. Download team-name/code mapping file.
+    print("[ELO] Downloading team-name/code mapping from eloratings.net...")
     try:
         r_teams = httpx.get("https://www.eloratings.net/en.teams.tsv", headers=headers, timeout=15.0)
         r_teams.raise_for_status()
     except Exception as e:
-        print(f"팀 매핑 파일 요청 실패: {e}")
+        print(f"Failed to request team mapping file: {e}")
         return
         
     code_to_name = {}
@@ -223,13 +223,13 @@ def fetch_live_world_cup_data():
         if len(parts) >= 2:
             code_to_name[parts[0]] = parts[1]
             
-    # 2. ELO 레이팅 파일 다운로드 및 갱신
-    print("[ELO] eloratings.net에서 전 세계 실시간 ELO 레이팅 파일 다운로드 중...")
+    # 2. Download and update Elo ratings.
+    print("[ELO] Downloading live world Elo ratings from eloratings.net...")
     try:
         r_world = httpx.get("https://www.eloratings.net/World.tsv", headers=headers, timeout=15.0)
         r_world.raise_for_status()
     except Exception as e:
-        print(f"ELO 레이팅 파일 요청 실패: {e}")
+        print(f"Failed to request Elo ratings file: {e}")
         return
         
     updated_ratings = dict(local_ratings)
@@ -254,15 +254,15 @@ def fetch_live_world_cup_data():
     with open(elo_ratings_path, "w", encoding="utf-8") as f:
         json.dump(updated_ratings, f, ensure_ascii=False, indent=2)
         
-    print(f"[ELO] ELO 레이팅 갱신 완료: {ratings_updated_count}개국 ELO 반영")
+    print(f"[ELO] Elo ratings update complete: applied ratings for {ratings_updated_count} teams")
     
-    # 3. 2026 경기 결과(스코어) 다운로드 및 파싱
-    print("[경기 결과] eloratings.net에서 2026년 경기 결과 데이터 다운로드 중...")
+    # 3. Download and parse 2026 match results.
+    print("[Match results] Downloading 2026 match-result data from eloratings.net...")
     try:
         r_results = httpx.get("https://www.eloratings.net/2026_results.tsv", headers=headers, timeout=15.0)
         r_results.raise_for_status()
     except Exception as e:
-        print(f"경기 결과 파일 요청 실패: {e}")
+        print(f"Failed to request match results file: {e}")
         return
         
     parsed_matches = []
@@ -271,7 +271,7 @@ def fetch_live_world_cup_data():
         parts = line.split("\t")
         if len(parts) >= 8:
             tournament_code = parts[7]
-            # 월드컵 본선 경기(WC)만 추출
+            # Keep only World Cup final-tournament matches.
             if tournament_code != "WC":
                 continue
                 
@@ -285,7 +285,7 @@ def fetch_live_world_cup_data():
                 score_a = int(parts[5])
                 score_b = int(parts[6])
             except ValueError:
-                # 숫자가 아니면 경기 전으로 취급하고 패스
+                # Non-numeric scores are treated as unplayed matches.
                 continue
                 
             home_name = code_to_name.get(home_code)
@@ -305,7 +305,7 @@ def fetch_live_world_cup_data():
                     "score_b": score_b
                 })
                 
-    # 일정 데이터 로드하여 스테이지 확인
+    # Load schedule data to identify each match stage.
     schedule_data = []
     schedule_path = "data/schedule.json"
     if os.path.exists(schedule_path):
@@ -343,8 +343,8 @@ def fetch_live_world_cup_data():
             winner = team_b
         else:
             if stage == "knockout":
-                # 다음 경기들을 탐색하여 어느 팀이 진출했는지 판별
-                # 주의: 3/4위전은 결승전(보통 마지막) 이전에 있을 수 있음
+                # Search later matches to infer which tied team advanced.
+                # Note: a third-place playoff can appear before the final.
                 found_next = False
                 for next_match in parsed_matches[idx + 1:]:
                     next_teams = {next_match["team_a"], next_match["team_b"]}
@@ -355,7 +355,7 @@ def fetch_live_world_cup_data():
                         winner = team_b
                         found_next = True
                         
-                # 만약 결승전처럼 다음 경기가 없는 경우는 winner가 None으로 유지됨
+                # If there is no later match, as with the final, keep winner as None.
                 if winner is None:
                     tied_knockout_dates.add(date_str)
                         
@@ -383,9 +383,9 @@ def fetch_live_world_cup_data():
                     result["winner"] = winner
                     applied_decisions += 1
         if applied_decisions:
-            print(f"[경기 결과] ESPN 승부차기/진출팀 정보 {applied_decisions}건을 반영했습니다.")
+            print(f"[Match results] Applied {applied_decisions} ESPN penalty/advancement decisions.")
                 
-    # 기존 로컬 결과 로드 및 비교
+    # Load and compare existing local results.
     local_results = []
     if os.path.exists(actual_results_path):
         try:
@@ -409,26 +409,26 @@ def fetch_live_world_cup_data():
                 break
 
     if is_same:
-        print("[경기 결과] 새로 추가된 경기가 없습니다.")
+        print("[Match results] No new completed matches were added.")
     else:
         with open(actual_results_path, "w", encoding="utf-8") as f:
             json.dump(actual_results, f, ensure_ascii=False, indent=2)
-        print(f"경기 결과 갱신 완료: 총 {len(actual_results)}개의 종료된 경기 결과를 {actual_results_path}에 고정 저장했습니다.")
+        print(f"Match results update complete: locked {len(actual_results)} completed matches in {actual_results_path}.")
         for res in actual_results:
-            winner_str = f" (승자: {res['winner']})" if res['winner'] else ""
+            winner_str = f" (winner: {res['winner']})" if res['winner'] else ""
             print(f"   - [{res['stage'].upper()}] {res['team_a']} {res['score_a']} : {res['score_b']} {res['team_b']}{winner_str}")
         
-    # 4. 실시간 징계(출장정지) 정보 위키피디아 동기화 실행 (예외 보장)
+    # 4. Sync live suspension data from Wikipedia.
     try:
         import fetch_suspensions
-        print("\n[ELO & 징계 통합] ELO/결과 갱신에 이어 실시간 징계 정보를 동기화합니다...")
+        print("\n[ELO & suspensions] Syncing live suspension data after Elo/result updates...")
         fetch_suspensions.main()
     except Exception as e:
-        print(f"\n[경고] 실시간 징계 정보를 동기화하는 중 오류가 발생했습니다 (ELO/결과는 정상 반영됨): {e}")
+        print(f"\n[Warning] Failed to sync live suspension data. Elo/results were still updated: {e}")
 
-    # 5. 조별리그 종료 이후에는 conduct 점수를 더 이상 갱신하지 않습니다.
-    #    함수는 조별 순위 재계산/검증이 필요할 때 재사용할 수 있도록 유지합니다.
-    print("[Conduct] 조별리그 종료 상태이므로 team_conduct_scores.json 갱신을 건너뜁니다.")
+    # 5. Conduct scores are no longer updated after the group stage.
+    #    The function remains available for standings recalculation or verification.
+    print("[Conduct] Skipping team_conduct_scores.json update because the group stage is complete.")
 
 if __name__ == "__main__":
     fetch_live_world_cup_data()

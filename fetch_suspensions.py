@@ -5,7 +5,7 @@ import os
 import re
 from src.absences import load_absences, save_absences
 
-# 웹사이트 팀명과 프로젝트 데이터 팀명의 불일치 매핑 사전
+# Mapping between website team names and project team names.
 TEAM_NAME_MAP = {
     "United States": "USA",
     "Turkey": "Türkiye",
@@ -62,38 +62,38 @@ def get_actual_match_count(team_name, actual_results):
     return count
 
 def main():
-    print("[징계 동기화] Wikipedia에서 실시간 출장정지 선수 명단을 수집합니다...")
+    print("[Suspension sync] Fetching live suspended-player data from Wikipedia...")
     
-    # 데이터 로드
+    # Load data.
     squads = load_json(SQUADS_PATH)
     actual_results = load_json(ACTUAL_RESULTS_PATH, [])
     injuries = load_absences(ABSENCES_PATH)
     
     html_content = None
     
-    # 1. Wikipedia에서 가져오기 시도 (User-Agent 필수)
+    # 1. Try fetching from Wikipedia. A User-Agent is required.
     try:
         response = httpx.get(URL, headers={"User-Agent": "Mozilla/5.0"}, timeout=10.0)
         if response.status_code == 200:
             html_content = response.text
-            print("[징계 동기화] Wikipedia 공식 페이지 로드 성공.")
+            print("[Suspension sync] Loaded the official Wikipedia page.")
         else:
-            print(f"[징계 동기화] Wikipedia 페이지가 존재하지 않거나 로드에 실패했습니다. (HTTP {response.status_code})")
+            print(f"[Suspension sync] Wikipedia page is unavailable or failed to load. (HTTP {response.status_code})")
     except Exception as e:
-        print(f"[징계 동기화] Wikipedia 연결 중 오류 발생: {e}")
+        print(f"[Suspension sync] Wikipedia request failed: {e}")
         
-    # 2. 로드 실패 시 로컬 모크 파일 체크
+    # 2. If the live page is unavailable, fall back to a local mock file.
     if not html_content:
         mock_path = "scratch/mock_disciplinary_record.html"
         if os.path.exists(mock_path):
-            print(f"[징계 동기화] 로컬 테스트 모크 파일({mock_path})을 사용하여 파싱을 진행합니다.")
+            print(f"[Suspension sync] Parsing local mock file: {mock_path}")
             with open(mock_path, "r", encoding="utf-8") as f:
                 html_content = f.read()
         else:
-            print("[징계 동기화] 가동 가능한 데이터 소스가 없어 종료합니다.")
+            print("[Suspension sync] No usable data source is available. Exiting.")
             return
 
-    # 3. HTML 파싱
+    # 3. Parse HTML.
     soup = BeautifulSoup(html_content, "html.parser")
     tables = soup.find_all("table")
     
@@ -101,9 +101,9 @@ def main():
     table_type = None # "main_page" or "disciplinary_page"
     
     for table in tables:
-        # 헤더 행 검사
+        # Inspect header rows.
         headers = [th.text.strip().lower() for th in table.find_all("th")]
-        # Player와 Suspension이 헤더에 포함되어 있는지 확인
+        # Check whether Player and Suspension are present in the headers.
         has_player = any("player" in h for h in headers)
         has_suspension = any("suspension" in h or "served" in h or "match" in h for h in headers)
         has_offense = any("offense" in h or "booking" in h or "card" in h for h in headers)
@@ -120,10 +120,10 @@ def main():
                 break
 
     if not suspensions_table:
-        print("[징계 동기화] Suspensions 테이블을 찾을 수 없습니다.")
+        print("[Suspension sync] Could not find a Suspensions table.")
         return
 
-    # 4. 테이블 데이터 추출 및 매핑
+    # 4. Extract and map table data.
     rows = suspensions_table.find_all("tr")
     added_count = 0
     
@@ -140,7 +140,7 @@ def main():
         else: # "main_page"
             player_raw = tds[0].text.strip()
             
-            # flagicon 내부의 깃발 이미지 또는 링크 타이틀에서 국가 추출
+            # Extract the country from the flag icon image or link title.
             flagicon = tds[0].find(class_="flagicon")
             team_raw = ""
             if flagicon:
@@ -156,18 +156,18 @@ def main():
             offense_raw = tds[1].text.strip()
             suspension_raw = tds[2].text.strip()
         
-        # 국가(Team) 매핑
+        # Map the team.
         matched_team = normalize_team_name(team_raw, squads.keys())
                 
         if not matched_team:
             continue
             
-        # 선수(Player) 매핑
+        # Map the player.
         matched_player = None
         team_players = squads[matched_team]
         for p in team_players:
             p_name = p["name"]
-            # 조금 더 엄격한 매칭: 이름이 완전히 일치하거나, p_name의 단어들이 player_raw에 모두 포함되는 경우
+            # Use stricter matching: exact name, or every player-name token is present in the raw text.
             if p_name.lower() == player_raw.lower() or all(word.lower() in player_raw.lower() for word in p_name.split()):
                 matched_player = p_name
                 break
@@ -175,15 +175,15 @@ def main():
         if not matched_player:
             continue
             
-        # 경기 수 및 정지 기간 산정
+        # Determine match count and suspension length.
         N = get_actual_match_count(matched_team, actual_results)
         
-        # 징계 기간 파싱 (기본 1경기, '2 matches' 등이 보이면 2경기)
+        # Parse suspension length. Default to one match.
         suspension_length = 1
         combined_text = (offense_raw + " " + suspension_raw).lower()
-        if "2 matches" in combined_text or "two matches" in combined_text or "2경기" in combined_text:
+        if "2 matches" in combined_text or "two matches" in combined_text:
             suspension_length = 2
-        elif "3 matches" in combined_text or "three matches" in combined_text or "3경기" in combined_text:
+        elif "3 matches" in combined_text or "three matches" in combined_text:
             suspension_length = 3
             
         matchday_nums = [int(x) for x in re.findall(r"matchday\s*(\d+)", combined_text)]
@@ -192,20 +192,20 @@ def main():
         else:
             served_at_count = N + suspension_length
             
-        reason = "red_card" if "red" in combined_text or "퇴장" in combined_text else "yellow_cards"
+        reason = "red_card" if "red" in combined_text else "yellow_cards"
         
-        # injuries 데이터베이스에 징계 기록 추가
+        # Add the suspension record to the absences database.
         if matched_team not in injuries:
             injuries[matched_team] = []
             
-        # 이미 등록되어 있는지 체크 (이름 기준)
+        # Check whether this player is already registered by name.
         already_exists = False
         for idx, item in enumerate(injuries[matched_team]):
-            # 기존 레코드가 문자열인 경우와 딕셔너리인 경우 모두 대응
+            # Support both legacy string records and structured dictionary records.
             item_name = item if isinstance(item, str) else item.get("name")
             if item_name == matched_player:
                 already_exists = True
-                # 기존이 단순 문자열이거나 징계가 만료된 경우 딕셔너리형으로 고도화/갱신
+                # Upgrade or refresh legacy/non-suspension records to structured suspensions.
                 if isinstance(item, str) or item.get("type") != "suspension":
                     injuries[matched_team][idx] = {
                         "name": matched_player,
@@ -224,13 +224,13 @@ def main():
                 "served_at_count": served_at_count
             })
             added_count += 1
-            print(f"[징계 동기화] {matched_team}의 {matched_player} 등록 완료 (출장정지 적용 실제경기수: {served_at_count}회차)")
+            print(f"[Suspension sync] Registered {matched_player} for {matched_team} (returns after match count: {served_at_count})")
 
     if added_count > 0:
         save_absences(ABSENCES_PATH, injuries)
-        print(f"[징계 동기화] 총 {added_count}명의 징계 선수가 데이터베이스에 동기화되었습니다.")
+        print(f"[Suspension sync] Synced {added_count} suspended players into the database.")
     else:
-        print("[징계 동기화] 새로 추가된 징계 선수가 없습니다.")
+        print("[Suspension sync] No new suspended players were added.")
 
 if __name__ == "__main__":
     main()

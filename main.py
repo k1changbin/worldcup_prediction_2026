@@ -14,33 +14,33 @@ def run_monte_carlo(iterations=10000):
             with open(actual_results_path, "r", encoding="utf-8") as f:
                 ar = json.load(f)
                 if ar:
-                    print(f"[실제 경기 결과 고정] ({len(ar)}경기)...")
+                    print(f"[Actual results locked] ({len(ar)} matches)...")
         except json.JSONDecodeError as e:
-            print(f"[오류] 실제 경기 결과 로드 중 오류 발생: {e}")
+            print(f"[Error] Failed to load actual results: {e}")
             
     sim = WorldCupSimulation(elo, "data/groups.json", actual_results_path)
     
-    # 통계 저장용 딕셔너리 (48개 참가국 전체로 초기화)
+    # Initialize statistics for all 48 participating teams.
     stats = {}
     for group_teams in sim.groups.values():
         for team in group_teams:
             stats[team] = {"R32": 0, "R16": 0, "QF": 0, "SF": 0, "F": 0, "Champion": 0}
     
-    print(f"[시뮬레이션 시작] {iterations}번의 몬테카를로 시뮬레이션을 시작합니다... (약 10~30초 소요 예상)")
+    print(f"[Simulation started] Running {iterations} Monte Carlo simulations... (estimated 10-30 seconds)")
     
     for i in range(iterations):
-        # 1. 조별 리그 진행
+        # 1. Simulate group stage.
         standings = sim.simulate_group_stage()
         
-        # 2. 32강 진출팀 확정
+        # 2. Resolve Round of 32 teams.
         advancing_teams = sim.get_advancing_teams(standings)
         for team in advancing_teams:
             stats[team]["R32"] += 1
             
-        # 3. 토너먼트 진행
+        # 3. Simulate knockout stage.
         knockout_results = sim.simulate_knockout_stage()
         
-        # 4. 결과 집계
+        # 4. Aggregate results.
         for match in knockout_results["Round of 32"]:
             stats[match["winner"]]["R16"] += 1
             
@@ -56,13 +56,13 @@ def run_monte_carlo(iterations=10000):
         champion = knockout_results["Champion"]
         stats[champion]["Champion"] += 1
         
-        # 진행 상황 출력 (10% 단위)
+        # Print progress at 10% intervals.
         if iterations >= 10 and (i + 1) % (iterations // 10) == 0:
-            print(f"진행도: {(i + 1) / iterations * 100:.0f}% 완료")
+            print(f"Progress: {(i + 1) / iterations * 100:.0f}% complete")
             
-    # 확률 계산 및 정렬 (우승 확률 -> 결승 -> 4강 -> 8강 -> 16강 -> 32강 순으로 정렬)
-    print("\n[몬테카를로 시뮬레이션 결과] (우승 확률 순)")
-    print(f"{'순위':<4} {'팀명':<15} {'우승':<7} {'결승':<7} {'4강':<7} {'8강':<7} {'16강':<7} {'32강':<7}")
+    # Calculate probabilities and sort by Champion, Final, SF, QF, R16, and R32.
+    print("\n[Monte Carlo Simulation Results] (sorted by championship probability)")
+    print(f"{'Rank':<4} {'Team':<15} {'Champion':<9} {'Final':<7} {'SF':<7} {'QF':<7} {'R16':<7} {'R32':<7}")
     print("-" * 70)
     
     sorted_teams = sorted(

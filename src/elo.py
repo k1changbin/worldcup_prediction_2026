@@ -7,9 +7,9 @@ class EloSystem:
         self.ratings = {}
 
     def load_ratings(self, path: str = None):
-        """JSON 파일에서 초기 Elo 레이팅 로드 (경로 자동 해결)"""
+        """Load initial Elo ratings from JSON, resolving the default path automatically."""
         if path is None:
-            # 현재 파일(elo.py) 위치 기준 상위 디렉토리의 data/elo_ratings.json 참조
+            # Resolve data/elo_ratings.json relative to the project root.
             base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             path = os.path.join(base_dir, "data", "elo_ratings.json")
 
@@ -55,5 +55,5 @@ if __name__ == "__main__":
     )
 
     print(f"{team_a} vs {team_b}")
-    print(f"{team_a} 승리 확률: {prob:.1%}")
-    print(f"{team_b} 승리 확률: {1 - prob:.1%}")
+    print(f"{team_a} win probability: {prob:.1%}")
+    print(f"{team_b} win probability: {1 - prob:.1%}")
