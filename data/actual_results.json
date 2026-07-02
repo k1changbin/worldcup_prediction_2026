@@ -709,5 +709,32 @@
     "date": "2026-06-30",
     "stage": "knockout",
     "winner": "France"
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Bosnia and Herzegovina",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-07-01",
+    "stage": "knockout",
+    "winner": "USA"
+  },
+  {
+    "team_a": "England",
+    "team_b": "DR Congo",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-07-01",
+    "stage": "knockout",
+    "winner": "England"
+  },
+  {
+    "team_a": "Belgium",
+    "team_b": "Senegal",
+    "score_a": 3,
+    "score_b": 2,
+    "date": "2026-07-01",
+    "stage": "knockout",
+    "winner": "Belgium"
   }
 ]
