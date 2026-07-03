@@ -736,5 +736,32 @@
     "date": "2026-07-01",
     "stage": "knockout",
     "winner": "Belgium"
+  },
+  {
+    "team_a": "Switzerland",
+    "team_b": "Algeria",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-07-02",
+    "stage": "knockout",
+    "winner": "Switzerland"
+  },
+  {
+    "team_a": "Spain",
+    "team_b": "Austria",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-07-02",
+    "stage": "knockout",
+    "winner": "Spain"
+  },
+  {
+    "team_a": "Portugal",
+    "team_b": "Croatia",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-07-02",
+    "stage": "knockout",
+    "winner": "Portugal"
   }
 ]
