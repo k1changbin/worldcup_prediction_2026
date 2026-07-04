@@ -763,5 +763,23 @@
     "date": "2026-07-02",
     "stage": "knockout",
     "winner": "Portugal"
+  },
+  {
+    "team_a": "Australia",
+    "team_b": "Egypt",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-07-03",
+    "stage": "knockout",
+    "winner": "Egypt"
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Cape Verde",
+    "score_a": 3,
+    "score_b": 2,
+    "date": "2026-07-03",
+    "stage": "knockout",
+    "winner": "Argentina"
   }
 ]
