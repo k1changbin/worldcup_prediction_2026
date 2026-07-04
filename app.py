@@ -17,6 +17,7 @@ from src.absences import (
     load_absences,
     save_absences,
 )
+from src.tournament_state import filter_team_map, get_active_teams
 
 # City-to-region mapping used for travel-fatigue calculations.
 CITY_REGIONS = {
@@ -142,18 +143,22 @@ def run_app():
     # Load data.
     elo_ratings = load_json(ELO_PATH)
     squads = load_json(SQUADS_PATH)
-    injuries_raw = load_absences(ABSENCES_PATH)
+    registered_absences = load_absences(ABSENCES_PATH)
     schedule = load_json(SCHEDULE_PATH)
     actual_results = load_json(ACTUAL_RESULTS_PATH)
     groups_dict = load_json(GROUPS_PATH)
 
     # Automatically restore served suspensions.
-    injuries_raw = clean_served_suspensions(injuries_raw, actual_results)
+    registered_absences = clean_served_suspensions(registered_absences, actual_results)
 
     # Validate required data.
     if not elo_ratings or not groups_dict:
         st.error("Required data files (data/elo_ratings.json, data/groups.json) are missing or empty. Check the project setup.")
         st.stop()
+
+    active_teams = get_active_teams(groups_dict, actual_results, elo_ratings=elo_ratings)
+    if not active_teams:
+        active_teams = set(elo_ratings.keys())
 
     # ----------------- Absence management helpers for the sidebar -----------------
     # ----------------- Dynamic rest/fatigue state calculation from the full schedule -----------------
@@ -238,13 +243,10 @@ def run_app():
 
     # Show current injuries and suspensions.
     st.sidebar.markdown("### Current Absences")
-    active_injuries = load_absences(ABSENCES_PATH)
-
-    # Re-run auto-restoration as a guard.
-    active_injuries = clean_served_suspensions(active_injuries, actual_results)
+    active_injuries = filter_team_map(registered_absences, active_teams)
 
     if not active_injuries or all(len(v) == 0 for v in active_injuries.values()):
-        st.sidebar.text("No registered absences.")
+        st.sidebar.text("No registered absences for active teams.")
     else:
         for team, players_list in list(active_injuries.items()):
             if not players_list:
@@ -270,14 +272,16 @@ def run_app():
     st.sidebar.markdown("### Register New Absence")
 
     # Team selection.
-    all_teams = sorted(list(elo_ratings.keys()))
+    all_teams = sorted(team for team in elo_ratings.keys() if team in active_teams)
+    if not all_teams:
+        all_teams = sorted(list(elo_ratings.keys()))
     selected_team = st.sidebar.selectbox("Select Team", all_teams, format_func=lambda x: f"{get_flag(x)} {x}")
 
     # Player selection.
     if selected_team in squads:
         team_players = [p["name"] for p in squads[selected_team]]
         # Exclude players that are already registered as absent.
-        already_injured_names = get_absence_names(active_injuries.get(selected_team, []))
+        already_injured_names = get_absence_names(registered_absences.get(selected_team, []))
         available_players = [p for p in team_players if p not in already_injured_names]
 
         if available_players:
@@ -288,11 +292,11 @@ def run_app():
             )
 
             if st.sidebar.button("Add to Absence List"):
-                if selected_team not in active_injuries:
-                    active_injuries[selected_team] = []
+                if selected_team not in registered_absences:
+                    registered_absences[selected_team] = []
 
                 if absence_reason == "Injury":
-                    active_injuries[selected_team].append({
+                    registered_absences[selected_team].append({
                         "name": selected_player,
                         "type": "injury"
                     })
@@ -307,14 +311,14 @@ def run_app():
                     served_at = N + suspension_length
                     reason = "red_card" if "Red card" in absence_reason else "yellow_cards"
 
-                    active_injuries[selected_team].append({
+                    registered_absences[selected_team].append({
                         "name": selected_player,
                         "type": "suspension",
                         "reason": reason,
                         "served_at_count": served_at
                     })
 
-                save_absences(ABSENCES_PATH, active_injuries)
+                save_absences(ABSENCES_PATH, registered_absences)
                 clear_projected_knockout_cache()
                 st.rerun()
         else:
@@ -338,14 +342,14 @@ def run_app():
         if st.sidebar.button("Restore Selected Players"):
             for opt in selected_to_recover:
                 # Find and remove the matching team/player record.
-                for team, players_list in list(active_injuries.items()):
+                for team, players_list in list(registered_absences.items()):
                     for p in list(players_list):
                         p_name = p.get("name") if isinstance(p, dict) else p
                         if f"{get_flag(team)} {team} - {p_name}" == opt:
                             players_list.remove(p)
-                    if not active_injuries[team]:
-                        del active_injuries[team]
-            save_absences(ABSENCES_PATH, active_injuries)
+                    if not registered_absences[team]:
+                        del registered_absences[team]
+            save_absences(ABSENCES_PATH, registered_absences)
             clear_projected_knockout_cache()
             st.rerun()
     else:
@@ -1697,7 +1701,9 @@ def run_app():
                     champion_counts[ko_results["Champion"]] += 1
 
                 # Build dataframe.
-                all_countries = list(elo_ratings.keys())
+                all_countries = [team for team in elo_ratings.keys() if team in active_teams]
+                if not all_countries:
+                    all_countries = list(elo_ratings.keys())
                 sim_records = []
                 for t in all_countries:
                     sim_records.append({

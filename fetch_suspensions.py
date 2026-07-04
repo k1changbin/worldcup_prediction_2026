@@ -3,7 +3,8 @@ from bs4 import BeautifulSoup
 import json
 import os
 import re
-from src.absences import load_absences, save_absences
+from src.absences import clean_served_suspensions, load_absences, save_absences
+from src.tournament_state import filter_team_map, load_active_teams
 
 # Mapping between website team names and project team names.
 TEAM_NAME_MAP = {
@@ -67,7 +68,20 @@ def main():
     # Load data.
     squads = load_json(SQUADS_PATH)
     actual_results = load_json(ACTUAL_RESULTS_PATH, [])
-    injuries = load_absences(ABSENCES_PATH)
+    all_injuries = load_absences(ABSENCES_PATH)
+    active_teams = load_active_teams()
+    if active_teams:
+        squads = filter_team_map(squads, active_teams)
+        injuries = filter_team_map(all_injuries, active_teams)
+        pruned_absence_count = sum(
+            len(items)
+            for team, items in all_injuries.items()
+            if team not in active_teams
+        )
+        print(f"[Suspension sync] Considering {len(active_teams)} active teams.")
+    else:
+        injuries = all_injuries
+        pruned_absence_count = 0
     
     html_content = None
     
@@ -191,6 +205,9 @@ def main():
             served_at_count = max(matchday_nums)
         else:
             served_at_count = N + suspension_length
+
+        if N >= served_at_count:
+            continue
             
         reason = "red_card" if "red" in combined_text else "yellow_cards"
         
@@ -226,9 +243,16 @@ def main():
             added_count += 1
             print(f"[Suspension sync] Registered {matched_player} for {matched_team} (returns after match count: {served_at_count})")
 
-    if added_count > 0:
+    injuries, cleaned_served = clean_served_suspensions(injuries, actual_results)
+
+    if added_count > 0 or pruned_absence_count > 0 or cleaned_served:
         save_absences(ABSENCES_PATH, injuries)
-        print(f"[Suspension sync] Synced {added_count} suspended players into the database.")
+        if added_count > 0:
+            print(f"[Suspension sync] Synced {added_count} suspended players into the database.")
+        if pruned_absence_count > 0:
+            print(f"[Suspension sync] Removed {pruned_absence_count} absence records for eliminated teams.")
+        if cleaned_served:
+            print("[Suspension sync] Removed served suspension records.")
     else:
         print("[Suspension sync] No new suspended players were added.")
 

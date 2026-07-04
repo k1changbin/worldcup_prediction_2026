@@ -4,7 +4,8 @@ import re
 import unicodedata
 import httpx
 from bs4 import BeautifulSoup
-from src.absences import load_absences, save_absences
+from src.absences import clean_served_suspensions, load_absences, load_json, save_absences
+from src.tournament_state import filter_team_map, load_active_teams
 
 # Mapping between Elo team names and Wikipedia headings.
 TEAM_ALIASES = {
@@ -145,6 +146,7 @@ def fetch_live_injuries_and_squads():
     squads_path = "data/squads.json"
     injuries_path = "data/absences.json"
     elo_path = "data/elo_ratings.json"
+    actual_results_path = "data/actual_results.json"
 
     if not os.path.exists(elo_path):
         print(f"[Error] {elo_path} does not exist.")
@@ -152,6 +154,10 @@ def fetch_live_injuries_and_squads():
 
     with open(elo_path, "r", encoding="utf-8") as f:
         ratings = json.load(f)
+    active_teams = load_active_teams(ratings_path=elo_path)
+    if not active_teams:
+        active_teams = set(ratings.keys())
+    print(f"[Squad & injury fetch] Considering {len(active_teams)} active teams.")
 
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -183,8 +189,8 @@ def fetch_live_injuries_and_squads():
         heading_text = h.text.strip()
         normalized_heading = normalize_team(heading_text)
 
-        # Keep only teams present in the Elo ratings.
-        if normalized_heading not in ratings:
+        # Keep only teams still active in the tournament.
+        if normalized_heading not in active_teams:
             continue
 
         # Support both wrapped heading divs and normal heading sibling structures.
@@ -368,8 +374,10 @@ def fetch_live_injuries_and_squads():
         json.dump(final_squads, f, ensure_ascii=False, indent=2)
 
     absences_data = load_absences(injuries_path)
+    actual_results = load_json(actual_results_path, [])
+    absences_data, _ = clean_served_suspensions(absences_data, actual_results)
     preserved_suspensions = {}
-    for team, items in absences_data.items():
+    for team, items in filter_team_map(absences_data, active_teams).items():
         suspensions = [
             item
             for item in items

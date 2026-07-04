@@ -3,6 +3,7 @@ import os
 import json
 from src.elo import EloSystem
 from src.simulation import WorldCupSimulation
+from src.tournament_state import get_active_teams
 
 def run_monte_carlo(iterations=10000):
     elo = EloSystem()
@@ -19,6 +20,9 @@ def run_monte_carlo(iterations=10000):
             print(f"[Error] Failed to load actual results: {e}")
             
     sim = WorldCupSimulation(elo, "data/groups.json", actual_results_path)
+    active_teams = get_active_teams(sim.groups, sim.actual_results, elo_ratings=elo.ratings)
+    if not active_teams:
+        active_teams = set(elo.ratings.keys())
     
     # Initialize statistics for all 48 participating teams.
     stats = {}
@@ -66,7 +70,11 @@ def run_monte_carlo(iterations=10000):
     print("-" * 70)
     
     sorted_teams = sorted(
-        stats.items(), 
+        (
+            (team, team_stats)
+            for team, team_stats in stats.items()
+            if team in active_teams
+        ),
         key=lambda x: (x[1]["Champion"], x[1]["F"], x[1]["SF"], x[1]["QF"], x[1]["R16"], x[1]["R32"]), 
         reverse=True
     )

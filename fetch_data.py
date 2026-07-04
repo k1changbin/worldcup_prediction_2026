@@ -1,6 +1,7 @@
 import json
 import os
 import httpx
+from src.tournament_state import load_active_teams
 
 # Mapping between website team names and project team names.
 TEAM_NAME_MAP = {
@@ -203,6 +204,9 @@ def fetch_live_world_cup_data():
     with open(elo_ratings_path, "r", encoding="utf-8") as f:
         local_ratings = json.load(f)
         valid_teams = set(local_ratings.keys())
+    active_teams = load_active_teams(ratings_path=elo_ratings_path)
+    if not active_teams:
+        active_teams = set(valid_teams)
         
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
@@ -247,14 +251,17 @@ def fetch_live_world_cup_data():
             raw_name = code_to_name.get(country_code)
             normalized_name = normalize_team_name(raw_name, valid_teams)
             
-            if normalized_name in valid_teams:
+            if normalized_name in active_teams:
                 updated_ratings[normalized_name] = elo_val
                 ratings_updated_count += 1
                 
     with open(elo_ratings_path, "w", encoding="utf-8") as f:
         json.dump(updated_ratings, f, ensure_ascii=False, indent=2)
         
-    print(f"[ELO] Elo ratings update complete: applied ratings for {ratings_updated_count} teams")
+    print(
+        f"[ELO] Elo ratings update complete: applied ratings for "
+        f"{ratings_updated_count} active teams ({len(active_teams)} considered)"
+    )
     
     # 3. Download and parse 2026 match results.
     print("[Match results] Downloading 2026 match-result data from eloratings.net...")
