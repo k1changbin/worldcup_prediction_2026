@@ -765,6 +765,15 @@
     "winner": "Portugal"
   },
   {
+    "team_a": "Colombia",
+    "team_b": "Ghana",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-07-03",
+    "stage": "knockout",
+    "winner": "Colombia"
+  },
+  {
     "team_a": "Australia",
     "team_b": "Egypt",
     "score_a": 1,
@@ -781,5 +790,23 @@
     "date": "2026-07-03",
     "stage": "knockout",
     "winner": "Argentina"
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Canada",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-07-04",
+    "stage": "knockout",
+    "winner": "Morocco"
+  },
+  {
+    "team_a": "France",
+    "team_b": "Paraguay",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-07-04",
+    "stage": "knockout",
+    "winner": "France"
   }
 ]
