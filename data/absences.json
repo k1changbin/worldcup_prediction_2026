@@ -1,7 +1,4 @@
 {
-  "Brazil": [
-    "Wesley"
-  ],
   "Morocco": [
     "Abde Ezzalzouli",
     "Nayef Aguerd"
@@ -10,6 +7,12 @@
     "Leonardo Balerdi"
   ],
   "England": [
-    "Tino Livramento"
+    "Tino Livramento",
+    {
+      "name": "Jarell Quansah",
+      "type": "suspension",
+      "reason": "yellow_cards",
+      "served_at_count": 6
+    }
   ]
 }
