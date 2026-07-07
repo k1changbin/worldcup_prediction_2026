@@ -826,5 +826,23 @@
     "date": "2026-07-05",
     "stage": "knockout",
     "winner": "England"
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Belgium",
+    "score_a": 1,
+    "score_b": 4,
+    "date": "2026-07-06",
+    "stage": "knockout",
+    "winner": "Belgium"
+  },
+  {
+    "team_a": "Spain",
+    "team_b": "Portugal",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-07-06",
+    "stage": "knockout",
+    "winner": "Spain"
   }
 ]
