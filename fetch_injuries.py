@@ -6,6 +6,8 @@ import httpx
 from bs4 import BeautifulSoup
 from src.absences import clean_served_suspensions, load_absences, load_json, save_absences
 from src.tournament_state import filter_team_map, load_active_teams
+from src.paths import data_path
+from src.io_utils import atomic_write_json
 
 # Mapping between Elo team names and Wikipedia headings.
 TEAM_ALIASES = {
@@ -142,18 +144,28 @@ def get_deterministic_squad_value(rating):
     else:
         return int(10000000 + max(0.0, rating - 1200) * 800000)
 
+
+def merge_active_squad_snapshot(active_teams, parsed_squads, existing_squads):
+    """Return a complete active-team snapshot without erasing good old data."""
+    merged = dict(parsed_squads)
+    for team in set(active_teams) - set(merged):
+        if existing_squads.get(team):
+            merged[team] = existing_squads[team]
+    missing = sorted(set(active_teams) - set(merged))
+    return merged, missing
+
 def fetch_live_injuries_and_squads():
-    squads_path = "data/squads.json"
-    injuries_path = "data/absences.json"
-    elo_path = "data/elo_ratings.json"
-    actual_results_path = "data/actual_results.json"
+    squads_path = data_path("squads.json")
+    injuries_path = data_path("absences.json")
+    elo_path = data_path("elo_ratings.json")
+    actual_results_path = data_path("actual_results.json")
 
     if not os.path.exists(elo_path):
-        print(f"[Error] {elo_path} does not exist.")
-        return
+        raise FileNotFoundError(f"{elo_path} does not exist")
 
     with open(elo_path, "r", encoding="utf-8") as f:
         ratings = json.load(f)
+    existing_squads = load_json(squads_path, {})
     active_teams = load_active_teams(ratings_path=elo_path)
     if not active_teams:
         active_teams = set(ratings.keys())
@@ -169,11 +181,9 @@ def fetch_live_injuries_and_squads():
     try:
         r = httpx.get(url, headers=headers, timeout=15.0)
         if r.status_code != 200:
-            print(f"[Error] Received HTTP {r.status_code}.")
-            return
+            raise RuntimeError(f"Wikipedia returned HTTP {r.status_code}")
     except Exception as e:
-        print(f"[Error] Wikipedia request failed: {e}")
-        return
+        raise RuntimeError(f"Wikipedia request failed: {e}") from e
 
     soup = BeautifulSoup(r.text, "html.parser")
     headings = soup.find_all(["h2", "h3", "h4"])
@@ -366,12 +376,22 @@ def fetch_live_injuries_and_squads():
         # Store assigned players as parsed.
         final_squads[team] = assigned_players
 
-    # 5. Save files.
-    # Create the data directory if needed.
-    os.makedirs(os.path.dirname(squads_path), exist_ok=True)
+    # A transient parser failure must not erase a previously valid active
+    # squad. Keep the last known snapshot for teams that were not parsed.
+    final_squads, uncovered_teams = merge_active_squad_snapshot(
+        active_teams,
+        final_squads,
+        existing_squads,
+    )
+    if uncovered_teams:
+        raise RuntimeError(
+            "No current or previous squad data for: "
+            + ", ".join(uncovered_teams)
+            + ". Existing files were not changed."
+        )
 
-    with open(squads_path, "w", encoding="utf-8") as f:
-        json.dump(final_squads, f, ensure_ascii=False, indent=2)
+    # 5. Save files.
+    atomic_write_json(squads_path, final_squads)
 
     absences_data = load_absences(injuries_path)
     actual_results = load_json(actual_results_path, [])
@@ -387,6 +407,16 @@ def fetch_live_injuries_and_squads():
             preserved_suspensions[team] = suspensions
 
     canonical_absences = preserved_suspensions
+    # Preserve non-suspension absences for teams whose page section could not
+    # be parsed; a successful parse with no injury intentionally clears them.
+    for team in active_teams - set(parsed_teams_data):
+        previous_injuries = [
+            item
+            for item in absences_data.get(team, [])
+            if not (isinstance(item, dict) and item.get("type") == "suspension")
+        ]
+        if previous_injuries:
+            canonical_absences.setdefault(team, []).extend(previous_injuries)
     for team, players in live_injuries.items():
         canonical_absences.setdefault(team, [])
         canonical_absences[team].extend(players)
@@ -396,6 +426,7 @@ def fetch_live_injuries_and_squads():
     print(f"\n[Success] Data update complete.")
     print(f"   - Squad data saved to: {squads_path} ({len(final_squads)} teams, {total_players_count} players)")
     print(f"   - Absence data saved to: {injuries_path} ({len(live_injuries)} teams, {total_injuries_count} players)")
+    return True
 
 if __name__ == "__main__":
     fetch_live_injuries_and_squads()

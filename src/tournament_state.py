@@ -2,6 +2,8 @@ import json
 import os
 from itertools import combinations
 
+from src.paths import data_path
+
 
 def load_json(path, default_val=None):
     if default_val is None:
@@ -167,7 +169,17 @@ def _rank_equal_points_teams(team_names, stats, group_match_results, fifa_rankin
     )
 
 
-def _sort_group_standings(stats, group_match_results, fifa_rankings, team_conduct_scores):
+def rank_group_stats(
+    stats,
+    group_match_results,
+    fifa_rankings=None,
+    team_conduct_scores=None,
+):
+    """Rank one completed group using the official 2026 tiebreak sequence."""
+    fifa_rankings = fifa_rankings if isinstance(fifa_rankings, dict) else {}
+    team_conduct_scores = (
+        team_conduct_scores if isinstance(team_conduct_scores, dict) else {}
+    )
     grouped_by_points = {}
     for team in stats:
         grouped_by_points.setdefault(stats[team]["pts"], []).append(team)
@@ -187,7 +199,16 @@ def _sort_group_standings(stats, group_match_results, fifa_rankings, team_conduc
     return [(team, stats[team]) for team in ranked_teams]
 
 
-def _sort_third_places(third_places, fifa_rankings, team_conduct_scores):
+def rank_third_places(
+    third_places,
+    fifa_rankings=None,
+    team_conduct_scores=None,
+):
+    """Rank third-place teams using the cross-group FIFA criteria."""
+    fifa_rankings = fifa_rankings if isinstance(fifa_rankings, dict) else {}
+    team_conduct_scores = (
+        team_conduct_scores if isinstance(team_conduct_scores, dict) else {}
+    )
     return sorted(
         third_places,
         key=lambda team: (
@@ -226,7 +247,7 @@ def _actual_group_standings(groups, actual_results, fifa_rankings, team_conduct_
             score_b = actual_match["score_b"] if actual_match["team_a"] == team_a else actual_match["score_a"]
             _update_group_stats(team_a, team_b, score_a, score_b, stats, group_match_results)
 
-        standings[group_name] = _sort_group_standings(
+        standings[group_name] = rank_group_stats(
             stats,
             group_match_results,
             fifa_rankings,
@@ -234,6 +255,52 @@ def _actual_group_standings(groups, actual_results, fifa_rankings, team_conduct_
         )
 
     return standings
+
+
+def calculate_group_standings(
+    groups,
+    actual_results,
+    fifa_rankings=None,
+    team_conduct_scores=None,
+    require_complete=True,
+):
+    """Calculate group standings with the official 2026 tiebreak sequence.
+
+    The dashboard and tournament engine use this public helper so presentation
+    code cannot silently fall back to a different points/goal-difference sort.
+    When ``require_complete`` is false, only groups with all six recorded
+    matches are returned.
+    """
+    if not isinstance(groups, dict):
+        raise TypeError("groups must be a dictionary")
+    if not isinstance(actual_results, list):
+        raise TypeError("actual_results must be a list")
+
+    fifa_rankings = fifa_rankings if isinstance(fifa_rankings, dict) else {}
+    team_conduct_scores = (
+        team_conduct_scores if isinstance(team_conduct_scores, dict) else {}
+    )
+
+    if require_complete:
+        if not group_stage_is_complete(groups, actual_results):
+            raise ValueError("Group-stage results are incomplete")
+        selected_groups = groups
+    else:
+        selected_groups = {
+            name: teams
+            for name, teams in groups.items()
+            if {
+                frozenset(pair)
+                for pair in combinations(teams, 2)
+            }.issubset(_group_match_keys(actual_results, teams))
+        }
+
+    return _actual_group_standings(
+        selected_groups,
+        actual_results,
+        fifa_rankings,
+        team_conduct_scores,
+    )
 
 
 def _advancing_group_teams(standings, fifa_rankings, team_conduct_scores):
@@ -251,7 +318,11 @@ def _advancing_group_teams(standings, fifa_rankings, team_conduct_scores):
             "stats": teams[2][1],
         })
 
-    top_8_thirds = _sort_third_places(third_places, fifa_rankings, team_conduct_scores)[:8]
+    top_8_thirds = rank_third_places(
+        third_places,
+        fifa_rankings,
+        team_conduct_scores,
+    )[:8]
     return {
         team[0]
         for team in first_places + second_places
@@ -265,10 +336,10 @@ def get_active_teams(
     groups,
     actual_results,
     elo_ratings=None,
-    groups_file="data/groups.json",
-    fifa_rankings_file="data/fifa_rankings.json",
-    team_conduct_file="data/team_conduct_scores.json",
-    third_place_annex_file="data/third_place_annex_c.json",
+    groups_file=data_path("groups.json"),
+    fifa_rankings_file=data_path("fifa_rankings.json"),
+    team_conduct_file=data_path("team_conduct_scores.json"),
+    third_place_annex_file=data_path("third_place_annex_c.json"),
 ):
     """Return teams that can still affect future tournament predictions."""
     if not isinstance(groups, dict):
@@ -306,9 +377,9 @@ def get_active_teams(
 
 
 def load_active_teams(
-    groups_path="data/groups.json",
-    actual_results_path="data/actual_results.json",
-    ratings_path="data/elo_ratings.json",
+    groups_path=data_path("groups.json"),
+    actual_results_path=data_path("actual_results.json"),
+    ratings_path=data_path("elo_ratings.json"),
 ):
     groups = load_json(groups_path, {})
     actual_results = load_json(actual_results_path, [])

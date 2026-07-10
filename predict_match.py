@@ -1,12 +1,21 @@
 import json
-import os
 import sys
-from collections import Counter
 import math
-import numpy as np
-from src.elo import EloSystem
-from src.poisson import win_prob_to_lambda, match_probabilities
-from src.absences import calculate_absence_multipliers, load_absences
+from src.poisson import (
+    elo_expected_score_to_lambdas,
+    match_probabilities,
+    modal_scoreline,
+    poisson_prob,
+)
+from src.absences import calculate_absence_multipliers
+from src.model_config import (
+    HOST_ADVANTAGE_ELO,
+    REST_ADVANTAGE_CAP,
+    REST_ELO_PER_DAY,
+)
+from src.factory import create_world_cup_simulation
+from src.paths import data_path
+from src.simulation import HOST_COUNTRIES
 
 def find_team(query, valid_teams):
     query = query.strip().lower()
@@ -28,8 +37,8 @@ def draw_bar(pct, width=20):
 
 def predict_match():
     # Load Elo ratings.
-    elo_path = "data/elo_ratings.json"
-    if not os.path.exists(elo_path):
+    elo_path = data_path("elo_ratings.json")
+    if not elo_path.exists():
         print("[Error] data/elo_ratings.json was not found.")
         return
         
@@ -71,6 +80,9 @@ def predict_match():
     if not team_a_query or not team_b_query:
         print("[Error] Both team names are required.")
         return
+    if not 0.0 <= travel_fatigue_a <= 1.0 or not 0.0 <= travel_fatigue_b <= 1.0:
+        print("[Error] Travel-fatigue values must be between 0 and 1.")
+        return
         
     team_a = find_team(team_a_query, valid_teams)
     team_b = find_team(team_b_query, valid_teams)
@@ -93,67 +105,63 @@ def predict_match():
         return
 
     # Look up and calculate Elo values.
-    elo = EloSystem()
-    elo.load_ratings(elo_path)
-    
-    rating_a = elo.get_rating(team_a)
-    rating_b = elo.get_rating(team_b)
-    
-    # 1. Apply co-host advantage (+40 Elo).
-    from src.simulation import HOST_COUNTRIES
+    simulation = create_world_cup_simulation()
+    elo = simulation.elo_system
+
     is_host_a = team_a in HOST_COUNTRIES
     is_host_b = team_b in HOST_COUNTRIES
     home_adv_msg = ""
-    
     if is_host_a and not is_host_b:
-        rating_a += 40
-        home_adv_msg = f" * Applied co-host advantage to {team_a} (Elo +40)"
+        home_adv_msg = (
+            f" * Applied co-host advantage to {team_a} "
+            f"(Elo +{HOST_ADVANTAGE_ELO:.0f})"
+        )
     elif is_host_b and not is_host_a:
-        rating_b += 40
-        home_adv_msg = f" * Applied co-host advantage to {team_b} (Elo +40)"
-        
-    # 2. Apply rest-day advantage (+5 Elo per day, capped at +30).
-    rest_bonus = min(abs(rest_days_diff) * 5, 30)
-    if rest_days_diff >= 1:
-        rating_a += rest_bonus
-    elif rest_days_diff <= -1:
-        rating_b += rest_bonus
-        
-    # Calculate expected score.
-    win_prob_a = elo.expected_score(rating_a, rating_b)
-    
-    # Calculate base Poisson lambdas.
-    lambda_a, lambda_b = win_prob_to_lambda(win_prob_a)
-    
-    # Load absences and squads.
-    injuries_path = "data/absences.json"
-    injuries = load_absences(injuries_path)
+        home_adv_msg = (
+            f" * Applied co-host advantage to {team_b} "
+            f"(Elo +{HOST_ADVANTAGE_ELO:.0f})"
+        )
 
-    squads_path = "data/squads.json"
-    squads = {}
-    if os.path.exists(squads_path):
-        with open(squads_path, "r", encoding="utf-8") as f:
-            try:
-                squads = json.load(f)
-            except json.JSONDecodeError:
-                pass
+    rest_bonus = min(
+        abs(rest_days_diff) * REST_ELO_PER_DAY,
+        REST_ADVANTAGE_CAP,
+    )
+    rating_a, rating_b = simulation.get_adjusted_ratings(
+        team_a,
+        team_b,
+        home_advantage=True,
+        rest_days_diff=rest_days_diff,
+    )
+    base_expected_score = elo.expected_score(
+        elo.get_rating(team_a),
+        elo.get_rating(team_b),
+    )
+    lambda_a, lambda_b = elo_expected_score_to_lambdas(base_expected_score)
+
+    injuries = simulation.injuries
+    squads = simulation.squads
                 
-    att_mult_a, def_mult_a, details_a = calculate_absence_multipliers(
+    _, _, details_a = calculate_absence_multipliers(
         team_a,
         injuries,
         squads,
         include_values=True,
     )
-    att_mult_b, def_mult_b, details_b = calculate_absence_multipliers(
+    _, _, details_b = calculate_absence_multipliers(
         team_b,
         injuries,
         squads,
         include_values=True,
     )
     
-    # 3. Apply absence multipliers and 4. travel fatigue.
-    final_lambda_a = lambda_a * att_mult_a * def_mult_b * (1.0 - travel_fatigue_a)
-    final_lambda_b = lambda_b * att_mult_b * def_mult_a * (1.0 - travel_fatigue_b)
+    final_lambda_a, final_lambda_b = simulation.get_expected_goals(
+        team_a,
+        team_b,
+        home_advantage=True,
+        rest_days_diff=rest_days_diff,
+        travel_fatigue_a=travel_fatigue_a,
+        travel_fatigue_b=travel_fatigue_b,
+    )
     
     # Calculate win/draw/loss probabilities from adjusted expected goals.
     result = match_probabilities(final_lambda_a, final_lambda_b)
@@ -215,12 +223,17 @@ def predict_match():
     is_modified = (
         not math.isclose(rating_a, elo.get_rating(team_a)) or 
         not math.isclose(rating_b, elo.get_rating(team_b)) or
-        not math.isclose(final_lambda_a, lambda_a) or 
+        not math.isclose(final_lambda_a, lambda_a) or
         not math.isclose(final_lambda_b, lambda_b)
     )
     if is_modified:
-        base_win_prob = elo.expected_score(elo.get_rating(team_a), elo.get_rating(team_b))
-        base_lam_a, base_lam_b = win_prob_to_lambda(base_win_prob)
+        base_expected_score = elo.expected_score(
+            elo.get_rating(team_a),
+            elo.get_rating(team_b),
+        )
+        base_lam_a, base_lam_b = elo_expected_score_to_lambdas(
+            base_expected_score
+        )
         print(f"   (baseline pure Elo - {team_a}: {base_lam_a:.2f} | {team_b}: {base_lam_b:.2f})")
         
     print("-" * 55)
@@ -229,16 +242,14 @@ def predict_match():
     print(f"[{team_b} win] {lose_pct:>5.1f}%  {draw_bar(lose_pct)}")
     print("-" * 55)
     
-    # Estimate the modal scoreline with 1,000,000 simulated matches.
-    sim_runs = 1000000
-    sa_samples = np.random.poisson(final_lambda_a, sim_runs)
-    sb_samples = np.random.poisson(final_lambda_b, sim_runs)
-    
-    score_counts = Counter(zip(sa_samples, sb_samples))
-    (best_sa, best_sb), count = max(score_counts.items(), key=lambda x: x[1])
-    score_prob = (count / sim_runs) * 100
-    
-    print(f"[Most Likely Scoreline (from 1,000,000 Elo-based simulations)]")
+    best_sa, best_sb = modal_scoreline(final_lambda_a, final_lambda_b)
+    score_prob = (
+        poisson_prob(final_lambda_a, best_sa)
+        * poisson_prob(final_lambda_b, best_sb)
+        * 100
+    )
+
+    print("[Most Likely Scoreline (analytical Poisson mode)]")
     print(f"   * {team_a} {best_sa} - {best_sb} {team_b}  (about {score_prob:.1f}% probability)")
     print("=" * 55 + "\n")
 

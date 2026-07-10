@@ -1,5 +1,7 @@
 import os
 import json
+import math
+from numbers import Real
 
 class EloSystem:
     def __init__(self, k_factor=20):
@@ -14,13 +16,40 @@ class EloSystem:
             path = os.path.join(base_dir, "data", "elo_ratings.json")
 
         with open(path, "r", encoding="utf-8") as f:
-            self.ratings = json.load(f)
+            ratings = json.load(f)
+        if not isinstance(ratings, dict) or not ratings:
+            raise ValueError("Elo ratings must be a non-empty JSON object")
+        invalid = [
+            team
+            for team, rating in ratings.items()
+            if not isinstance(team, str)
+            or not team
+            or isinstance(rating, bool)
+            or not isinstance(rating, Real)
+            or not math.isfinite(float(rating))
+        ]
+        if invalid:
+            raise ValueError(f"Invalid Elo rating entries: {', '.join(map(str, invalid))}")
+        self.ratings = {team: float(rating) for team, rating in ratings.items()}
 
     def get_rating(self, team):
         return self.ratings.get(team, 1500)
 
-    def expected_score(self, rating_a, rating_b):
-        return 1 / (1 + 10 ** ((rating_b - rating_a) / 400))
+    @staticmethod
+    def expected_score(rating_a, rating_b):
+        for label, rating in (("rating_a", rating_a), ("rating_b", rating_b)):
+            if (
+                isinstance(rating, bool)
+                or not isinstance(rating, Real)
+                or not math.isfinite(float(rating))
+            ):
+                raise ValueError(f"{label} must be a finite real number")
+        difference = (float(rating_b) - float(rating_a)) / 400.0
+        if difference >= 0:
+            power = 10.0 ** min(difference, 308.0)
+            return 1.0 / (1.0 + power)
+        power = 10.0 ** min(-difference, 308.0)
+        return power / (1.0 + power)
 
     def update_rating(self, team_a, team_b, score_a, score_b, k_factor=None):
         ra = self.get_rating(team_a)
@@ -49,11 +78,11 @@ if __name__ == "__main__":
     elo.load_ratings()
 
     team_a, team_b = "Brazil", "South Korea"
-    prob = elo.expected_score(
+    expected = elo.expected_score(
         elo.get_rating(team_a),
         elo.get_rating(team_b)
     )
 
     print(f"{team_a} vs {team_b}")
-    print(f"{team_a} win probability: {prob:.1%}")
-    print(f"{team_b} win probability: {1 - prob:.1%}")
+    print(f"{team_a} Elo expected score: {expected:.1%}")
+    print(f"{team_b} Elo expected score: {1 - expected:.1%}")

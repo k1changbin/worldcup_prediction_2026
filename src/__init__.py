@@ -1,0 +1,1 @@
+"""Core tournament prediction package."""

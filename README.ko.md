@@ -2,226 +2,170 @@
 
 [English](README.md) | 한국어
 
-- **데이터 출처**: https://www.eloratings.net
-- **모델**: Elo 레이팅, 포아송 득점 모델, 몬테카를로 시뮬레이션
-- **입력 데이터**:
-  - `data/elo_ratings.json`: 팀별 초기 Elo 레이팅
-  - `data/groups.json`: 48개국 체제의 12개 조 편성
-  - `data/schedule.json`: 104경기 일정 및 개최 도시 정보
-  - `data/actual_results.json`: 완료된 경기 스코어
-  - `data/squads.json`: 스쿼드 및 선수 시장가치 데이터
-  - `data/absences.json`: 부상 및 징계 결장 데이터
+48개국 체제의 2026 FIFA 월드컵을 위한 Elo-포아송 경기 모델 및 몬테카를로 시뮬레이터입니다. 커맨드라인 도구와 Streamlit 대시보드가 동일한 예측 엔진을 사용합니다.
 
-## 개요
-
-이 프로젝트는 Elo 레이팅과 포아송 득점 모델을 결합해 2026 FIFA 월드컵을 예측합니다. 48개국 전체 대회를 수천 번 반복 시뮬레이션하여 각 팀의 라운드별 생존 확률을 계산하고, 같은 로직을 Streamlit 대시보드와 커맨드라인 매치 예측기로 제공합니다.
+이 프로젝트는 분석 도구이며 베팅 조언이 아닙니다. 경기 환경 보정과 선수 시장가치는 모델링 가정이므로 아래의 보정 진단 결과와 함께 해석해야 합니다.
 
 ## 주요 기능
 
-### 1. 단일 경기 예측 (`src/poisson.py`)
+- FIFA 2026의 맞대결 우선 타이브레이커로 12개 조를 시뮬레이션합니다.
+- 조 1·2위 24팀과 상위 3위 8팀을 32강에 진출시킵니다.
+- `data/schedule.json`과 Annex C의 495개 조합으로 공식 브래킷을 구성합니다.
+- 완료 경기를 안정적인 `match_number`로 고정하고 승부차기 승자까지 반영합니다.
+- 연장전, 승부차기, 개최국 이점, 휴식, 이동, 로테이션, 부상, 징계를 반영합니다.
+- 라운드별 진출 확률과 Wilson 95% 몬테카를로 표본 구간을 제공합니다.
+- 일정, 실제 결과, 조 순위, 브래킷, 1대1 예측, 전체 대회 전망을 Streamlit에서 제공합니다.
 
-- 두 팀의 Elo 전력 차이를 각 팀의 예상 득점으로 변환합니다.
-- `numpy.random.poisson`을 사용해 `2-1`, `0-0` 같은 실제 축구 스코어 형태를 샘플링합니다.
-
-### 2. 조별리그 시뮬레이션 (`src/simulation.py`)
-
-- Group A부터 Group L까지 12개 조를 시뮬레이션합니다.
-- FIFA 2026 타이브레이커 순서인 맞대결 승점, 맞대결 골득실, 맞대결 다득점, 전체 골득실, 전체 다득점, 팀 conduct 점수, FIFA 랭킹을 적용합니다.
-
-### 3. 32강 및 토너먼트 브래킷
-
-- 각 조 1위와 2위, 그리고 상위 3위 8팀을 32강에 진출시킵니다.
-- 3위 팀은 승점, 골득실, 다득점, 팀 conduct 점수, FIFA 랭킹 순으로 정렬합니다.
-- `data/third_place_annex_c.json`의 FIFA World Cup 2026 Regulations Annex C 매핑을 사용해 3위 팀을 32강 슬롯에 배정합니다.
-- 90분 무승부 시 연장전을 진행하고, 연장 후에도 동점이면 Elo 기반 확률로 승부차기를 처리합니다.
-
-### 4. 실시간 데이터 동기화 (`fetch_data.py`)
-
-- eloratings.net에서 최신 Elo 레이팅과 완료된 월드컵 경기 결과를 가져옵니다.
-- Wikipedia에서 징계 데이터를 동기화해 `data/absences.json`에 반영합니다.
-- 실제 완료된 조별리그 및 토너먼트 경기는 이후 시뮬레이션에서 실제 스코어로 고정합니다.
-- 실제 토너먼트 승자가 등록된 경우 해당 팀을 다음 라운드로 강제 진출시킵니다.
-
-### 5. 1대1 매치 예측기 (`predict_match.py`)
-
-- 데이터셋에 있는 임의의 두 팀에 대해 승리, 무승부, 패배 확률을 예측합니다.
-- 1,000,000회 벡터화 포아송 시뮬레이션으로 가장 가능성이 높은 스코어를 추정합니다.
-- 커맨드라인에서 휴식일 차이와 이동 피로도 입력을 선택적으로 지원합니다.
-
-### 6. 몬테카를로 전체 대회 시뮬레이션 (`main.py`)
-
-- 전체 대회를 보통 10,000회 반복 시뮬레이션합니다.
-- 각 팀의 32강, 16강, 8강, 4강, 결승, 우승 확률을 집계합니다.
-
-### 7. Streamlit 대시보드 (`app.py`)
-
-- 현재 대회 상태를 인터랙티브 대시보드로 제공합니다.
-- 부상 및 징계 결장 선수를 관리할 수 있습니다.
-- 일정, 실제 결과, 향후 경기 예측, 조별 순위, 토너먼트 브래킷, 1대1 시뮬레이터, 전체 대회 몬테카를로 결과를 확인할 수 있습니다.
-
-## 수학 모델
-
-시뮬레이터는 Elo 기대값과 포아송 분포를 결합합니다.
-
-### 1. Elo 기대값
-
-팀 A와 팀 B의 Elo 레이팅이 각각 $R_A$, $R_B$일 때:
-
-$$E_A = \frac{1}{1 + 10^{(R_B - R_A) / 400}}$$
-
-- $E_A$는 팀 A의 기대값이며 0과 1 사이의 값입니다.
-- Elo 차이가 400점이면 강팀의 기대값은 약 90.9%입니다.
-- 실제 월드컵 결과를 반영할 때는 `K-factor = 60`을 적용해 대회 결과가 레이팅에 뚜렷하게 반영되도록 합니다.
-
-### 2. 예상 득점
-
-Elo 기대값을 예상 득점으로 변환합니다.
-
-$$\lambda_A = \text{Base Goals} \times \left( \frac{E_A}{1 - E_A} \right)^{0.376}$$
-
-$$\lambda_B = \text{Base Goals} \times \left( \frac{1 - E_A}{E_A} \right)^{0.376}$$
-
-- $\lambda_A$, $\lambda_B$는 각 팀의 포아송 득점 모수입니다.
-- `Base Goals`는 기본값 `1.35`를 사용하며, 경기당 총 득점 평균을 약 2.7골로 둡니다.
-- 지수값은 무승부 비율을 실제 월드컵 수준에 가깝게 유지하면서 강팀의 다득점 가능성을 반영하기 위한 보정입니다.
-
-### 3. 스코어 확률
-
-예상 득점이 $\lambda$인 팀이 정확히 $k$골을 넣을 확률은 다음과 같습니다.
-
-$$P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}$$
-
-시뮬레이터는 `numpy.random.poisson(lambda)`로 이 분포에서 스코어를 샘플링합니다.
-
-## 결장 및 스쿼드 가치 보정
-
-모델은 선수 결장을 단순 수동 등급이 아니라 스쿼드 시장가치와 집중도 지수를 기반으로 반영합니다.
-
-### 1. 스쿼드 및 결장 데이터
-
-- `fetch_injuries.py`는 Wikipedia 스쿼드 페이지를 파싱해 `data/squads.json`을 생성합니다.
-- `fetch_suspensions.py`는 징계 기록을 파싱해 `data/absences.json`에 구조화된 결장 데이터를 기록합니다.
-- `src/absences.py`는 결장 데이터를 표준화해 대시보드, CLI 예측기, 전체 시뮬레이터가 같은 보정 로직을 사용하도록 합니다.
-- 징계 선수는 실제 경기 수가 충분히 진행되면 자동 복귀될 수 있습니다.
-
-표준 `data/absences.json` 예시:
-
-```json
-{
-  "South Korea": ["Cho Yu-min"],
-  "Mexico": [
-    {
-      "name": "César Montes",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 2
-    }
-  ]
-}
-```
-
-### 2. 포지션별 가치 비중
-
-결장 선수의 가치를 같은 포지션 그룹의 총 가치와 비교합니다.
-
-$$S_p = \frac{\text{Value}_p}{\sum_{i \in \text{Position}} \text{Value}_i}$$
-
-골키퍼와 수비수는 수비 배율에 영향을 주고, 미드필더와 공격수는 공격 배율에 영향을 줍니다.
-
-### 3. 팀 집중도 지수
-
-프로젝트는 허핀달-허쉬만 지수(HHI)를 사용해 스타 플레이어 의존도를 추정합니다.
-
-$$H_{\text{team}} = \sum_{i=1}^{26} \left( \frac{\text{Value}_i}{\text{Total Value}_{\text{team}}} \right)^2$$
-
-정규화된 의존도 계수:
-
-$$D_{\text{team}} = 0.2 + 0.8 \times \text{Normalized } H_{\text{team}}$$
-
-최종 포지션 전력 감소율:
-
-$$\text{Reduction}_{\text{pos}} = \sum_{p \in \text{Absent}} S_p \times D_{\text{team}}$$
-
-스쿼드가 깊고 균형 잡힌 팀은 한 명의 결장 영향이 작고, 가치가 소수 스타에게 몰린 팀은 결장 영향이 크게 반영됩니다.
-
-### 4. 최종 배율 규칙
-
-- 공격 배율: $\max(0.5, 1.0 - \text{attack reduction})$
-- 수비 배율: $\min(2.0, 1.0 + \text{defense reduction})$
-- 최종 예상 득점은 양 팀의 공격/수비 보정 배율을 교차 적용합니다.
-
-## 경기 환경 보정
-
-시뮬레이터는 대회 환경 변수도 반영합니다.
-
-### 1. 개최국 이점
-
-공동 개최국 `USA`, `Mexico`, `Canada`는 비개최국을 상대할 때 임시로 `+40` Elo 보정을 받습니다.
-
-### 2. 조별리그 로테이션
-
-조별리그 2경기 후 승점 6점으로 사실상 진출을 확정한 팀은 3차전에서 로테이션을 고려한 임시 공격 페널티를 받습니다.
-
-### 3. 휴식일 차이
-
-토너먼트 경기는 상대보다 하루 더 쉰 팀에 `+5` Elo를 부여하며, 최대 `+30` Elo로 제한합니다.
+## 프로젝트 구조
 
 ```text
-rest_bonus = min(abs(rest_days_diff) * 5, 30)
+app.py                         Streamlit 대시보드
+main.py                        전체 대회 몬테카를로 CLI
+predict_match.py               1대1 경기 예측 CLI
+fetch_data.py                  Elo·결과·징계 동기화
+fetch_schedule.py              검증을 포함한 일정 동기화
+fetch_injuries.py              스쿼드·부상 동기화
+fetch_calibration_data.py      2018·2022 보정 데이터 생성기
+evaluate_model.py              log loss·Brier score 진단
+validate_data.py               데이터 교차 검증
+src/poisson.py                 정규화된 포아송 확률과 최빈 스코어
+src/simulation.py              공통 대회·경기 환경 엔진
+src/schedule.py                일정·날짜·도시 단일 인덱스
+src/bracket.py                 일정 기반 브래킷 연결
+src/forecast.py                몬테카를로 집계와 신뢰구간
+src/evaluation.py              모델 평가 도구
+src/model_config.py            운영 모델 계수
+tests/                         회귀 테스트
 ```
 
-### 4. 이동 피로도
+## 데이터 출처와 스냅샷
 
-개최 도시는 5개 지리 권역으로 분류됩니다.
+- [World Football Elo Ratings](https://www.eloratings.net/): Elo와 완료 경기 스코어
+- ESPN scoreboard: 무승부 토너먼트 경기의 명시적 진출 팀 정보
+- Wikipedia 스쿼드·징계 페이지: 선수 명단, 교체, 출장 정지
+- `data/schedule.json`: 104경기 일정의 저장소 내 단일 기준
+- `data/third_place_annex_c.json`: FIFA 2026 규정 Annex C 매핑
 
-- Region 1: Vancouver, Seattle, San Francisco, Los Angeles
-- Region 2: Guadalajara, Monterrey, Mexico City
-- Region 3: Dallas, Houston, Kansas City
-- Region 4: Miami, Atlanta
-- Region 5: Toronto, Boston, Philadelphia, New York/New Jersey
+중요 데이터 파일:
 
-피로도 규칙:
+- `data/actual_results.json`: 경기 번호, 스코어, 단계, 승자를 포함한 완료 경기
+- `data/elo_ratings.json`: 향후 경기 예측에 사용하는 현재 Elo
+- `data/elo_ratings_pre_tournament.json`: 2026 평가에만 사용하는 2026년 5월 대회 전 Elo
+- `data/model_calibration_matches.json`: 경기 전 Elo를 복원한 2018·2022 조별리그 96경기
+- `data/squads.json`, `data/absences.json`: 활성 팀의 스쿼드와 결장 정보
 
-- 같은 권역 이동: 페널티 없음
-- 인접 권역 이동: 공격 람다 1.5% 감소
-- 대륙 횡단 이동: 공격 람다 3.0% 감소
+데이터 갱신은 전체 입력을 검증한 뒤에만 로컬 JSON을 교체합니다. 임시 파일, `fsync`, `os.replace`를 사용하며, 일부 경기만 내려온 경우에도 기존 완료 경기를 삭제하지 않습니다. 이미 고정된 과거 스코어와 충돌하는 입력은 거부합니다.
+
+## 예측 모델
+
+### Elo 기대값
+
+두 팀의 Elo가 $R_A$, $R_B$일 때:
+
+$$
+E_A = \frac{1}{1 + 10^{(R_B-R_A)/400}}
+$$
+
+`E_A`는 문자 그대로의 승률이 아니라 Elo 기대값입니다. 무승부 확률은 득점 모델에서 별도로 생성됩니다.
+
+프로젝트는 완료 경기가 반영된 최신 Elo를 내려받습니다. 내려받은 Elo에 로컬 K-factor를 다시 중복 적용하지 않습니다.
+
+### 예상 득점
+
+운영 계수는 `src/model_config.py`에서 관리합니다.
+
+$$
+\lambda_A = 1.35 \left(\frac{E_A}{1-E_A}\right)^{0.25}
+$$
+
+$$
+\lambda_B = 1.35 \left(\frac{1-E_A}{E_A}\right)^{0.25}
+$$
+
+2018·2022 조별리그의 경기 전 Elo를 복원한 회고 평가를 바탕으로 지수를 기존 `0.376`에서 `0.25`로 낮췄습니다. 다중 클래스 log loss는 `1.0709`에서 `1.0163`으로, Brier score는 `0.6124`에서 `0.5984`로 감소했습니다. 현재 2026 조별리그 스냅샷에서도 같은 비교가 log loss `0.9575`에서 `0.9244`, Brier score `0.5531`에서 `0.5471`로 개선됩니다. 이 값은 모델 진단이며 미래 성능을 보장하지 않습니다.
+
+선택형 grid search는 득점 기준값을 고정하고 의도적으로 표본 내 진단으로 표시합니다. 과거 대회가 두 개뿐이라 연도별 최적값이 불안정하므로 운영 계수를 자동으로 덮어쓰지 않습니다.
+
+재현 가능한 보고서:
+
+```bash
+python evaluate_model.py
+python evaluate_model.py --grid-search
+```
+
+### 완전한 승·무·패 확률
+
+`src/poisson.py`는 필요한 득점 범위를 자동으로 확장하고 최종 승·무·패 벡터를 정규화합니다. Elo 차이가 매우 커도 합계가 정확히 100%이며, 10골 초과 확률을 버리지 않습니다.
+
+가장 가능성이 높은 스코어는 두 포아송 분포의 최빈값으로 분석적으로 계산합니다. 따라서 CLI와 대시보드가 이 값을 위해 10만~100만 회 무작위 표본을 만들지 않습니다.
+
+### 경기 환경 보정
+
+- 공동 개최국: USA·Mexico·Canada가 비개최국을 상대하면 `+40` Elo
+- 휴식: 하루당 `+5` Elo, 최대 `+30`
+- 조별리그 3차전 로테이션: 2승 팀의 공격력 20% 감소
+- 이동: 인접 권역 1.5%, 장거리 권역 3% 공격 감소
+- 결장: 스쿼드 포지션 가치 비중과 HHI 집중도를 이용한 공격·수비 배율
+
+조별리그, 토너먼트, CLI, 대시보드는 모두 `get_adjusted_ratings`와 `get_expected_goals`를 사용하므로 보정 방식이 서로 다르지 않습니다.
+
+## 일정과 브래킷
+
+`src/schedule.py`는 `data/schedule.json`에서 경기 번호, 날짜, 단계, 도시, 권역을 직접 읽습니다. `src/bracket.py`는 `Winner Match 74` 같은 참가 팀 출처를 해석하므로 별도의 하드코딩 브래킷을 유지하지 않습니다.
+
+대표 연결:
+
+- M89 = M74 승자 vs M77 승자
+- M90 = M73 승자 vs M75 승자
+- M97 = M89 승자 vs M90 승자
+
+각 팀의 실제 직전 경기 날짜와 도시를 다음 라운드로 넘겨 휴식일 및 이동 피로를 계산합니다.
+
+## 설치
+
+패키지 메타데이터는 Python 3.11~3.14를 허용하며, CI는 현재 3.11·3.12·3.13을 검증합니다.
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+`requirements.txt`에는 직접 사용하는 런타임 의존성만 있으며 `pyproject.toml`과 일치합니다.
 
 ## 실행 방법
 
 ```bash
-# 1. 가상환경 활성화
-source venv/bin/activate
+# 저장된 모든 데이터 검증
+python validate_data.py
 
-# 2. 의존성 설치
-pip install -r requirements.txt
+# 최신 Elo, 결과, 징계 갱신
+python fetch_data.py
 
-# 3. 최신 Elo, 완료 경기 결과, 징계 데이터 동기화
-PYTHONPATH=. python3 fetch_data.py
+# 네트워크 없이 기존 결과의 경기 번호 검증 또는 마이그레이션
+python fetch_data.py --backfill-match-numbers --check-only
+python fetch_data.py --backfill-match-numbers
 
-# 4. Streamlit 대시보드 실행
-venv/bin/streamlit run app.py
+# 전체 대회 전망
+python main.py --iterations 10000
 
-# 5. 전체 몬테카를로 시뮬레이션 실행
-PYTHONPATH=. python3 main.py
+# 1대1 예측: 선택 입력은 휴식일 차이, A 피로도, B 피로도
+python predict_match.py "South Korea" "Mexico" 1 0.015 0
 
-# 6. 단일 경기 예측
-PYTHONPATH=. python3 predict_match.py "South Korea" "Mexico"
+# 대시보드
+streamlit run app.py
 ```
 
-## 출력 예시
+## 검증
 
-```text
-[Monte Carlo Simulation Results] (sorted by championship probability)
-Rank Team            Champion Final   SF      QF      R16     R32
-----------------------------------------------------------------------
-1    Argentina        31.2%   45.2%   69.1%   88.0%   95.6%  100.0%
-2    Spain            23.6%   33.6%   59.0%   66.4%   87.5%  100.0%
-3    France           16.7%   35.3%   50.0%   66.2%   89.8%  100.0%
-4    England           6.7%   16.7%   32.1%   54.5%   80.6%  100.0%
-5    Colombia          4.0%    8.6%   20.3%   50.6%   80.3%   99.8%
-6    Portugal          3.2%    7.2%   19.6%   42.2%   75.6%  100.0%
-7    Brazil            3.0%    8.6%   18.1%   34.8%   58.4%  100.0%
-8    Netherlands       2.5%    8.5%   18.5%   41.5%   62.3%  100.0%
-9    Norway            2.3%    8.5%   21.9%   42.1%   82.5%  100.0%
-10   Germany           2.1%    7.6%   16.7%   29.9%   78.0%  100.0%
+회귀 테스트는 확률 합계, 극단 입력, 분석적 최빈 스코어, 주입형 테스트 난수 생성기, FIFA 타이브레이커, Annex C, 전체 브래킷 그래프, M89·M90, 일정 메타데이터, 현재 브래킷, 실제 결과 고정, 동점 준결승 판정, 원자적 저장, 부분 응답, 데이터 스키마, 몬테카를로 신뢰구간을 다룹니다.
+
+```bash
+python -m unittest discover -s tests -v
+python validate_data.py
+python -m compileall -q . -x '(^|/)(venv|\.git|scratch)/'
 ```
+
+GitHub Actions는 Python 3.11, 3.12, 3.13에서 데이터 검증, 전체 테스트, 의존성 검사, 소스 컴파일, 애플리케이션 import를 실행합니다.
+
+표시되는 Wilson 구간은 유한한 몬테카를로 표본 오차만 나타냅니다. Elo, 모델 계수, 부상 정보 및 기타 입력 가정의 불확실성은 포함하지 않습니다.

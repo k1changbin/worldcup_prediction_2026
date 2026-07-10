@@ -2,226 +2,170 @@
 
 [Korean](README.ko.md) | English
 
-- **Data source**: https://www.eloratings.net
-- **Model**: Elo ratings, Poisson scoring model, and Monte Carlo simulation
-- **Input data**:
-  - `data/elo_ratings.json` initial Elo ratings by team
-  - `data/groups.json` 12-group allocation for the 48-team format
-  - `data/schedule.json` 104-match schedule and host-city metadata
-  - `data/actual_results.json` completed match scores
-  - `data/squads.json` squad and player market-value data
-  - `data/absences.json` injury and suspension absences
+An Elo-to-Poisson match model and Monte Carlo simulator for the 48-team FIFA World Cup 2026. The same prediction engine powers the command-line tools and Streamlit dashboard.
 
-## Overview
+This is an analytical project, not betting advice. Context adjustments and player market values remain modeling assumptions and should be interpreted with the calibration diagnostics described below.
 
-This project predicts the 2026 FIFA World Cup by combining Elo ratings with a Poisson scoring model. It can simulate the full 48-team tournament thousands of times, estimate each team's survival probability by round, and expose the same logic through a Streamlit dashboard and a command-line match predictor.
+## What the project does
 
-## Key Features
+- Simulates all 12 groups using the FIFA 2026 head-to-head-first tiebreak sequence.
+- Advances 12 group winners, 12 runners-up, and the best eight third-place teams.
+- Resolves the official 32-team bracket from `data/schedule.json` and the 495 Annex C third-place combinations.
+- Locks completed results by stable `match_number`, including penalty decisions.
+- Models extra time, penalties, co-host advantage, rest, travel, rotation, injuries, and suspensions.
+- Produces stage probabilities and Wilson 95% Monte Carlo sampling intervals.
+- Exposes schedule, results, standings, bracket, head-to-head predictions, and full forecasts in Streamlit.
 
-### 1. Single-Match Prediction (`src/poisson.py`)
-
-- Converts the Elo strength gap between two teams into expected goals for each side.
-- Uses `numpy.random.poisson` to sample realistic football scores such as `2-1` or `0-0`.
-
-### 2. Group-Stage Simulation (`src/simulation.py`)
-
-- Simulates the 12 groups from Group A to Group L, with four teams per group and six matches per group.
-- Applies the FIFA 2026 tiebreaker order: head-to-head points, head-to-head goal difference, head-to-head goals scored, overall goal difference, overall goals scored, team conduct score, and FIFA ranking.
-
-### 3. Round of 32 and Knockout Bracket
-
-- Advances all group winners and runners-up plus the eight best third-place teams.
-- Ranks third-place teams by points, goal difference, goals scored, team conduct score, and FIFA ranking.
-- Uses the FIFA World Cup 2026 Regulations Annex C mapping in `data/third_place_annex_c.json` to assign third-place teams to Round of 32 slots.
-- Simulates single-elimination matches with extra time after 90-minute draws and Elo-weighted penalties if extra time is still tied.
-
-### 4. Live Data Sync (`fetch_data.py`)
-
-- Fetches the latest Elo ratings and completed World Cup match results from eloratings.net.
-- Syncs suspension data from Wikipedia into `data/absences.json`.
-- Keeps completed group-stage and knockout matches fixed in future simulations, so real results override simulated scores.
-- Forces registered knockout winners into the next round when actual results are available.
-
-### 5. Head-to-Head Match Predictor (`predict_match.py`)
-
-- Predicts win, draw, and loss probabilities for any two teams in the dataset.
-- Runs a vectorized 1,000,000-sample Poisson simulation to estimate the most likely scoreline.
-- Supports optional rest-day and travel-fatigue inputs from the command line.
-
-### 6. Monte Carlo Tournament Simulation (`main.py`)
-
-- Repeats the full tournament simulation, typically 10,000 times.
-- Aggregates each team's probability of reaching the Round of 32, Round of 16, quarter-finals, semi-finals, final, and championship.
-
-### 7. Streamlit Dashboard (`app.py`)
-
-- Provides an interactive dashboard for the current tournament state.
-- Includes absence management for injuries and suspensions.
-- Shows the schedule, completed results, future match predictions, group standings, knockout bracket, head-to-head simulator, and full tournament Monte Carlo results.
-
-## Mathematics and Formulas
-
-The simulator combines two core models: Elo expected score and the Poisson distribution.
-
-### 1. Elo Expected Score
-
-For teams A and B with Elo ratings $R_A$ and $R_B$:
-
-$$E_A = \frac{1}{1 + 10^{(R_B - R_A) / 400}}$$
-
-- $E_A$ is team A's expected score between 0 and 1.
-- A 400-point Elo gap gives the stronger team an expected score of about 90.9%.
-- When actual World Cup results are imported, the project applies a World Cup K-factor of `60` so tournament results have a clear effect on ratings.
-
-### 2. Expected Goals
-
-The model converts Elo expected score into expected goals:
-
-$$\lambda_A = \text{Base Goals} \times \left( \frac{E_A}{1 - E_A} \right)^{0.376}$$
-
-$$\lambda_B = \text{Base Goals} \times \left( \frac{1 - E_A}{E_A} \right)^{0.376}$$
-
-- $\lambda_A$ and $\lambda_B$ are each team's Poisson scoring parameters.
-- `Base Goals` defaults to `1.35`, for an average match total near 2.7 goals.
-- The exponent keeps draw rates closer to real World Cup levels while allowing stronger teams to produce higher scorelines.
-
-### 3. Score Probability
-
-For a team with expected goals $\lambda$, the probability of scoring exactly $k$ goals is:
-
-$$P(X = k) = \frac{\lambda^k e^{-\lambda}}{k!}$$
-
-The simulator samples from this distribution with `numpy.random.poisson(lambda)`.
-
-## Absence and Squad-Value Adjustment
-
-The model adjusts team strength for missing players using squad market value and a concentration index.
-
-### 1. Squad and Absence Data
-
-- `fetch_injuries.py` parses the Wikipedia squad page and records squad data in `data/squads.json`.
-- `fetch_suspensions.py` parses suspension records and writes structured absence entries to `data/absences.json`.
-- `src/absences.py` normalizes absence data so the dashboard, CLI predictor, and full simulator share the same adjustment logic.
-- Suspensions can be restored automatically once a team has played enough actual matches.
-
-Standard `data/absences.json` shape:
-
-```json
-{
-  "South Korea": ["Cho Yu-min"],
-  "Mexico": [
-    {
-      "name": "César Montes",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 2
-    }
-  ]
-}
-```
-
-### 2. Position Value Share
-
-Each absent player's value is compared with the squad's total value in the same broad position group:
-
-$$S_p = \frac{\text{Value}_p}{\sum_{i \in \text{Position}} \text{Value}_i}$$
-
-Goalkeepers and defenders affect the defensive multiplier. Midfielders and forwards affect the attacking multiplier.
-
-### 3. Team Concentration Index
-
-The project uses the Herfindahl-Hirschman Index (HHI) to estimate star-player dependency:
-
-$$H_{\text{team}} = \sum_{i=1}^{26} \left( \frac{\text{Value}_i}{\text{Total Value}_{\text{team}}} \right)^2$$
-
-The normalized dependency factor is:
-
-$$D_{\text{team}} = 0.2 + 0.8 \times \text{Normalized } H_{\text{team}}$$
-
-Final position reduction:
-
-$$\text{Reduction}_{\text{pos}} = \sum_{p \in \text{Absent}} S_p \times D_{\text{team}}$$
-
-Teams with deep, balanced squads lose less strength from one missing player. Teams concentrated around a few stars lose more.
-
-### 4. Final Multiplier Rules
-
-- Attack multiplier: $\max(0.5, 1.0 - \text{attack reduction})$
-- Defense multiplier: $\min(2.0, 1.0 + \text{defense reduction})$
-- Final expected goals cross-apply both teams' attack and defense adjustments.
-
-## Match-Context Adjustments
-
-The simulator also accounts for tournament context.
-
-### 1. Host Advantage
-
-The co-hosts `USA`, `Mexico`, and `Canada` receive a temporary `+40` Elo boost when facing non-host teams.
-
-### 2. Group-Stage Rotation
-
-Teams that reach six points after two group matches receive a temporary attacking penalty in the third group match to model squad rotation.
-
-### 3. Rest-Day Gap
-
-Knockout matches apply a rest bonus of `+5` Elo per extra rest day, capped at `+30` Elo:
+## Project structure
 
 ```text
-rest_bonus = min(abs(rest_days_diff) * 5, 30)
+app.py                         Streamlit dashboard
+main.py                        full-tournament Monte Carlo CLI
+predict_match.py               head-to-head CLI
+fetch_data.py                  Elo/result/suspension refresh
+fetch_schedule.py              schedule refresh with schema validation
+fetch_injuries.py              squad and injury refresh
+fetch_calibration_data.py      2018/2022 leakage-free calibration dataset builder
+evaluate_model.py              log-loss and Brier-score diagnostics
+validate_data.py               cross-file data validation
+src/poisson.py                 normalized Poisson probabilities and score modes
+src/simulation.py              shared tournament and match-context engine
+src/schedule.py                authoritative schedule/date/city index
+src/bracket.py                 schedule-driven bracket source resolution
+src/forecast.py                Monte Carlo aggregation and confidence intervals
+src/evaluation.py              model evaluation utilities
+src/model_config.py            production model parameters
+tests/                         regression suite
 ```
 
-### 4. Travel Fatigue
+## Data sources and snapshots
 
-Host cities are grouped into five geographic regions:
+- [World Football Elo Ratings](https://www.eloratings.net/) for ratings and completed scores.
+- ESPN scoreboard advancement flags for tied knockout matches.
+- Wikipedia squad and disciplinary pages for squads, withdrawals, and suspensions.
+- `data/schedule.json` as the checked-in 104-match schedule source of truth.
+- FIFA World Cup 2026 Regulations Annex C, represented by `data/third_place_annex_c.json`.
 
-- Region 1: Vancouver, Seattle, San Francisco, Los Angeles
-- Region 2: Guadalajara, Monterrey, Mexico City
-- Region 3: Dallas, Houston, Kansas City
-- Region 4: Miami, Atlanta
-- Region 5: Toronto, Boston, Philadelphia, New York/New Jersey
+Important files:
 
-Fatigue rules:
+- `data/actual_results.json`: completed matches M1 onward, with scores, stage, winner, and `match_number`.
+- `data/elo_ratings.json`: current ratings used for future predictions.
+- `data/elo_ratings_pre_tournament.json`: May 2026 snapshot used only for leakage-free 2026 diagnostics.
+- `data/model_calibration_matches.json`: 96 group matches from 2018 and 2022 with reconstructed pre-match Elo.
+- `data/squads.json` and `data/absences.json`: active squad and absence inputs.
 
-- Same region: no penalty
-- Nearby region move: attacking lambda reduced by 1.5%
-- Cross-continent move: attacking lambda reduced by 3.0%
+Data refreshes validate the full incoming snapshot before replacing local JSON. Writes use a temporary file, `fsync`, and `os.replace`; partial result feeds are merged without deleting locked matches, and conflicting past scores are rejected.
+
+## Model
+
+### Elo expected score
+
+For ratings $R_A$ and $R_B$:
+
+$$
+E_A = \frac{1}{1 + 10^{(R_B-R_A)/400}}
+$$
+
+`E_A` is Elo expected score, not a literal win probability. Draw probability is introduced by the score model.
+
+The project downloads current Elo values after completed matches. It does not apply a second local K-factor update to those downloaded ratings.
+
+### Expected goals
+
+Production parameters live in `src/model_config.py`:
+
+$$
+\lambda_A = 1.35 \left(\frac{E_A}{1-E_A}\right)^{0.25}
+$$
+
+$$
+\lambda_B = 1.35 \left(\frac{1-E_A}{E_A}\right)^{0.25}
+$$
+
+The exponent was reduced from `0.376` to `0.25` after retrospective evaluation using reconstructed pre-match ratings from the 2018 and 2022 group stages. Multiclass log loss fell from `1.0709` to `1.0163`, and Brier score fell from `0.6124` to `0.5984`. On the current 2026 group-stage snapshot, the same comparison is `0.9575` to `0.9244` for log loss and `0.5531` to `0.5471` for Brier score. These are model diagnostics, not guarantees of future performance.
+
+The optional grid search keeps the scoring baseline fixed and is deliberately reported as in-sample. With only two historical tournaments, year-specific optima are unstable, so it never rewrites production parameters automatically.
+
+Run the reproducible report yourself:
+
+```bash
+python evaluate_model.py
+python evaluate_model.py --grid-search
+```
+
+### Complete outcome probabilities
+
+`src/poisson.py` expands the Poisson score support adaptively and normalizes the final win/draw/loss vector. Extreme Elo differences therefore still sum to exactly 100%; probability mass above 10 goals is no longer discarded.
+
+The most likely scoreline is calculated analytically from the two Poisson modes, so the CLI and dashboard no longer need 100,000 or 1,000,000 random samples for that value.
+
+### Context adjustments
+
+- Modeled co-host advantage: `+40` Elo for USA, Mexico, or Canada against a non-host.
+- Rest: `+5` Elo per additional rest day, capped at `+30`.
+- Third-match rotation: a 20% attack reduction for a team already on six points.
+- Travel: 1.5% attack reduction between nearby regions and 3% for long region moves.
+- Absences: position-value share scaled by squad HHI concentration, with bounded attack/defense multipliers.
+
+The group stage and knockout stage call the same `get_adjusted_ratings` and `get_expected_goals` APIs, so dashboard and Monte Carlo results use identical adjustments.
+
+## Schedule and bracket correctness
+
+`src/schedule.py` loads dates, cities, stages, and match numbers directly from `data/schedule.json`. `src/bracket.py` parses participant sources such as `Winner Match 74` instead of maintaining a second hard-coded bracket.
+
+For example:
+
+- M89 = winner M74 vs winner M77
+- M90 = winner M73 vs winner M75
+- M97 = winner M89 vs winner M90
+
+Each advancing team's actual previous date and city are carried forward when calculating rest and travel context.
+
+## Installation
+
+Python 3.11 through 3.14 is accepted by the package metadata; CI currently tests 3.11, 3.12, and 3.13.
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+`requirements.txt` contains only direct runtime dependencies and is aligned with `pyproject.toml`.
 
 ## Usage
 
 ```bash
-# 1. Activate the virtual environment, if used
-source venv/bin/activate
+# Validate every checked-in data file
+python validate_data.py
 
-# 2. Install dependencies
-pip install -r requirements.txt
+# Refresh current Elo, results, and suspensions
+python fetch_data.py
 
-# 3. Sync live Elo ratings, completed results, and suspension data
-PYTHONPATH=. python3 fetch_data.py
+# Validate or migrate legacy results to stable match numbers without network use
+python fetch_data.py --backfill-match-numbers --check-only
+python fetch_data.py --backfill-match-numbers
 
-# 4. Run the Streamlit dashboard
-venv/bin/streamlit run app.py
+# Full forecast
+python main.py --iterations 10000
 
-# 5. Run the full Monte Carlo simulation
-PYTHONPATH=. python3 main.py
+# Head-to-head forecast; optional values are rest gap, fatigue A, fatigue B
+python predict_match.py "South Korea" "Mexico" 1 0.015 0
 
-# 6. Predict a single match
-PYTHONPATH=. python3 predict_match.py "South Korea" "Mexico"
+# Dashboard
+streamlit run app.py
 ```
 
-## Example Output
+## Verification
 
-```text
-[Monte Carlo Simulation Results] (sorted by championship probability)
-Rank Team            Champion Final   SF      QF      R16     R32
-----------------------------------------------------------------------
-1    Argentina        31.2%   45.2%   69.1%   88.0%   95.6%  100.0%
-2    Spain            23.6%   33.6%   59.0%   66.4%   87.5%  100.0%
-3    France           16.7%   35.3%   50.0%   66.2%   89.8%  100.0%
-4    England           6.7%   16.7%   32.1%   54.5%   80.6%  100.0%
-5    Colombia          4.0%    8.6%   20.3%   50.6%   80.3%   99.8%
-6    Portugal          3.2%    7.2%   19.6%   42.2%   75.6%  100.0%
-7    Brazil            3.0%    8.6%   18.1%   34.8%   58.4%  100.0%
-8    Netherlands       2.5%    8.5%   18.5%   41.5%   62.3%  100.0%
-9    Norway            2.3%    8.5%   21.9%   42.1%   82.5%  100.0%
-10   Germany           2.1%    7.6%   16.7%   29.9%   78.0%  100.0%
+The regression suite covers probability normalization, extreme inputs, analytical score modes, injected test RNGs, FIFA tiebreaks, Annex C, the complete bracket graph, M89/M90, schedule metadata, current bracket state, actual-result locking, tied semifinal decisions, atomic writes, partial feeds, data validation, and Monte Carlo confidence intervals.
+
+```bash
+python -m unittest discover -s tests -v
+python validate_data.py
+python -m compileall -q . -x '(^|/)(venv|\.git|scratch)/'
 ```
+
+GitHub Actions runs data validation, the full test suite, dependency checks, source compilation, and an application import check on Python 3.11, 3.12, and 3.13.
+
+The reported Wilson intervals quantify finite Monte Carlo sampling error only. They do not represent uncertainty in Elo ratings, model parameters, injuries, or other input assumptions.

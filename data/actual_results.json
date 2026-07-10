@@ -1,30 +1,23 @@
 [
   {
-    "team_a": "South Korea",
-    "team_b": "Czechia",
-    "score_a": 2,
-    "score_b": 1,
-    "date": "2026-06-11",
-    "stage": "group",
-    "winner": "South Korea"
-  },
-  {
     "team_a": "Mexico",
     "team_b": "South Africa",
     "score_a": 2,
     "score_b": 0,
     "date": "2026-06-11",
     "stage": "group",
-    "winner": "Mexico"
+    "winner": "Mexico",
+    "match_number": 1
   },
   {
-    "team_a": "USA",
-    "team_b": "Paraguay",
-    "score_a": 4,
+    "team_a": "South Korea",
+    "team_b": "Czechia",
+    "score_a": 2,
     "score_b": 1,
-    "date": "2026-06-12",
+    "date": "2026-06-11",
     "stage": "group",
-    "winner": "USA"
+    "winner": "South Korea",
+    "match_number": 2
   },
   {
     "team_a": "Canada",
@@ -33,7 +26,18 @@
     "score_b": 1,
     "date": "2026-06-12",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 3
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Paraguay",
+    "score_a": 4,
+    "score_b": 1,
+    "date": "2026-06-12",
+    "stage": "group",
+    "winner": "USA",
+    "match_number": 4
   },
   {
     "team_a": "Scotland",
@@ -42,16 +46,18 @@
     "score_b": 0,
     "date": "2026-06-13",
     "stage": "group",
-    "winner": "Scotland"
+    "winner": "Scotland",
+    "match_number": 5
   },
   {
-    "team_a": "Qatar",
-    "team_b": "Switzerland",
-    "score_a": 1,
-    "score_b": 1,
+    "team_a": "Australia",
+    "team_b": "Türkiye",
+    "score_a": 2,
+    "score_b": 0,
     "date": "2026-06-13",
     "stage": "group",
-    "winner": null
+    "winner": "Australia",
+    "match_number": 6
   },
   {
     "team_a": "Brazil",
@@ -60,34 +66,18 @@
     "score_b": 1,
     "date": "2026-06-13",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 7
   },
   {
-    "team_a": "Australia",
-    "team_b": "Türkiye",
-    "score_a": 2,
-    "score_b": 0,
+    "team_a": "Qatar",
+    "team_b": "Switzerland",
+    "score_a": 1,
+    "score_b": 1,
     "date": "2026-06-13",
     "stage": "group",
-    "winner": "Australia"
-  },
-  {
-    "team_a": "Sweden",
-    "team_b": "Tunisia",
-    "score_a": 5,
-    "score_b": 1,
-    "date": "2026-06-14",
-    "stage": "group",
-    "winner": "Sweden"
-  },
-  {
-    "team_a": "Japan",
-    "team_b": "Netherlands",
-    "score_a": 2,
-    "score_b": 2,
-    "date": "2026-06-14",
-    "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 8
   },
   {
     "team_a": "Ivory Coast",
@@ -96,7 +86,8 @@
     "score_b": 0,
     "date": "2026-06-14",
     "stage": "group",
-    "winner": "Ivory Coast"
+    "winner": "Ivory Coast",
+    "match_number": 9
   },
   {
     "team_a": "Germany",
@@ -105,7 +96,28 @@
     "score_b": 1,
     "date": "2026-06-14",
     "stage": "group",
-    "winner": "Germany"
+    "winner": "Germany",
+    "match_number": 10
+  },
+  {
+    "team_a": "Japan",
+    "team_b": "Netherlands",
+    "score_a": 2,
+    "score_b": 2,
+    "date": "2026-06-14",
+    "stage": "group",
+    "winner": null,
+    "match_number": 11
+  },
+  {
+    "team_a": "Sweden",
+    "team_b": "Tunisia",
+    "score_a": 5,
+    "score_b": 1,
+    "date": "2026-06-14",
+    "stage": "group",
+    "winner": "Sweden",
+    "match_number": 12
   },
   {
     "team_a": "Saudi Arabia",
@@ -114,16 +126,8 @@
     "score_b": 1,
     "date": "2026-06-15",
     "stage": "group",
-    "winner": null
-  },
-  {
-    "team_a": "Iran",
-    "team_b": "New Zealand",
-    "score_a": 2,
-    "score_b": 2,
-    "date": "2026-06-15",
-    "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 13
   },
   {
     "team_a": "Cape Verde",
@@ -132,7 +136,18 @@
     "score_b": 0,
     "date": "2026-06-15",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 14
+  },
+  {
+    "team_a": "Iran",
+    "team_b": "New Zealand",
+    "score_a": 2,
+    "score_b": 2,
+    "date": "2026-06-15",
+    "stage": "group",
+    "winner": null,
+    "match_number": 15
   },
   {
     "team_a": "Belgium",
@@ -141,16 +156,8 @@
     "score_b": 1,
     "date": "2026-06-15",
     "stage": "group",
-    "winner": null
-  },
-  {
-    "team_a": "Norway",
-    "team_b": "Iraq",
-    "score_a": 4,
-    "score_b": 1,
-    "date": "2026-06-16",
-    "stage": "group",
-    "winner": "Norway"
+    "winner": null,
+    "match_number": 16
   },
   {
     "team_a": "France",
@@ -159,7 +166,28 @@
     "score_b": 1,
     "date": "2026-06-16",
     "stage": "group",
-    "winner": "France"
+    "winner": "France",
+    "match_number": 17
+  },
+  {
+    "team_a": "Norway",
+    "team_b": "Iraq",
+    "score_a": 4,
+    "score_b": 1,
+    "date": "2026-06-16",
+    "stage": "group",
+    "winner": "Norway",
+    "match_number": 18
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Algeria",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-06-16",
+    "stage": "group",
+    "winner": "Argentina",
+    "match_number": 19
   },
   {
     "team_a": "Austria",
@@ -168,16 +196,8 @@
     "score_b": 1,
     "date": "2026-06-16",
     "stage": "group",
-    "winner": "Austria"
-  },
-  {
-    "team_a": "Argentina",
-    "team_b": "Algeria",
-    "score_a": 3,
-    "score_b": 0,
-    "date": "2026-06-16",
-    "stage": "group",
-    "winner": "Argentina"
+    "winner": "Austria",
+    "match_number": 20
   },
   {
     "team_a": "Ghana",
@@ -186,7 +206,8 @@
     "score_b": 0,
     "date": "2026-06-17",
     "stage": "group",
-    "winner": "Ghana"
+    "winner": "Ghana",
+    "match_number": 21
   },
   {
     "team_a": "England",
@@ -195,7 +216,8 @@
     "score_b": 2,
     "date": "2026-06-17",
     "stage": "group",
-    "winner": "England"
+    "winner": "England",
+    "match_number": 22
   },
   {
     "team_a": "DR Congo",
@@ -204,7 +226,8 @@
     "score_b": 1,
     "date": "2026-06-17",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 23
   },
   {
     "team_a": "Colombia",
@@ -213,25 +236,8 @@
     "score_b": 1,
     "date": "2026-06-17",
     "stage": "group",
-    "winner": "Colombia"
-  },
-  {
-    "team_a": "Switzerland",
-    "team_b": "Bosnia and Herzegovina",
-    "score_a": 4,
-    "score_b": 1,
-    "date": "2026-06-18",
-    "stage": "group",
-    "winner": "Switzerland"
-  },
-  {
-    "team_a": "Mexico",
-    "team_b": "South Korea",
-    "score_a": 1,
-    "score_b": 0,
-    "date": "2026-06-18",
-    "stage": "group",
-    "winner": "Mexico"
+    "winner": "Colombia",
+    "match_number": 24
   },
   {
     "team_a": "Czechia",
@@ -240,7 +246,18 @@
     "score_b": 1,
     "date": "2026-06-18",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 25
+  },
+  {
+    "team_a": "Switzerland",
+    "team_b": "Bosnia and Herzegovina",
+    "score_a": 4,
+    "score_b": 1,
+    "date": "2026-06-18",
+    "stage": "group",
+    "winner": "Switzerland",
+    "match_number": 26
   },
   {
     "team_a": "Canada",
@@ -249,16 +266,38 @@
     "score_b": 0,
     "date": "2026-06-18",
     "stage": "group",
-    "winner": "Canada"
+    "winner": "Canada",
+    "match_number": 27
   },
   {
-    "team_a": "USA",
-    "team_b": "Australia",
-    "score_a": 2,
+    "team_a": "Mexico",
+    "team_b": "South Korea",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-18",
+    "stage": "group",
+    "winner": "Mexico",
+    "match_number": 28
+  },
+  {
+    "team_a": "Brazil",
+    "team_b": "Haiti",
+    "score_a": 3,
     "score_b": 0,
     "date": "2026-06-19",
     "stage": "group",
-    "winner": "USA"
+    "winner": "Brazil",
+    "match_number": 29
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Scotland",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-19",
+    "stage": "group",
+    "winner": "Morocco",
+    "match_number": 30
   },
   {
     "team_a": "Paraguay",
@@ -267,43 +306,18 @@
     "score_b": 0,
     "date": "2026-06-19",
     "stage": "group",
-    "winner": "Paraguay"
+    "winner": "Paraguay",
+    "match_number": 31
   },
   {
-    "team_a": "Morocco",
-    "team_b": "Scotland",
-    "score_a": 1,
+    "team_a": "USA",
+    "team_b": "Australia",
+    "score_a": 2,
     "score_b": 0,
     "date": "2026-06-19",
     "stage": "group",
-    "winner": "Morocco"
-  },
-  {
-    "team_a": "Brazil",
-    "team_b": "Haiti",
-    "score_a": 3,
-    "score_b": 0,
-    "date": "2026-06-19",
-    "stage": "group",
-    "winner": "Brazil"
-  },
-  {
-    "team_a": "Netherlands",
-    "team_b": "Sweden",
-    "score_a": 5,
-    "score_b": 1,
-    "date": "2026-06-20",
-    "stage": "group",
-    "winner": "Netherlands"
-  },
-  {
-    "team_a": "Japan",
-    "team_b": "Tunisia",
-    "score_a": 4,
-    "score_b": 0,
-    "date": "2026-06-20",
-    "stage": "group",
-    "winner": "Japan"
+    "winner": "USA",
+    "match_number": 32
   },
   {
     "team_a": "Germany",
@@ -312,7 +326,8 @@
     "score_b": 1,
     "date": "2026-06-20",
     "stage": "group",
-    "winner": "Germany"
+    "winner": "Germany",
+    "match_number": 33
   },
   {
     "team_a": "Curaçao",
@@ -321,25 +336,28 @@
     "score_b": 0,
     "date": "2026-06-20",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 34
   },
   {
-    "team_a": "Spain",
-    "team_b": "Saudi Arabia",
+    "team_a": "Netherlands",
+    "team_b": "Sweden",
+    "score_a": 5,
+    "score_b": 1,
+    "date": "2026-06-20",
+    "stage": "group",
+    "winner": "Netherlands",
+    "match_number": 35
+  },
+  {
+    "team_a": "Japan",
+    "team_b": "Tunisia",
     "score_a": 4,
     "score_b": 0,
-    "date": "2026-06-21",
+    "date": "2026-06-20",
     "stage": "group",
-    "winner": "Spain"
-  },
-  {
-    "team_a": "Egypt",
-    "team_b": "New Zealand",
-    "score_a": 3,
-    "score_b": 1,
-    "date": "2026-06-21",
-    "stage": "group",
-    "winner": "Egypt"
+    "winner": "Japan",
+    "match_number": 36
   },
   {
     "team_a": "Cape Verde",
@@ -348,7 +366,18 @@
     "score_b": 2,
     "date": "2026-06-21",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 37
+  },
+  {
+    "team_a": "Spain",
+    "team_b": "Saudi Arabia",
+    "score_a": 4,
+    "score_b": 0,
+    "date": "2026-06-21",
+    "stage": "group",
+    "winner": "Spain",
+    "match_number": 38
   },
   {
     "team_a": "Belgium",
@@ -357,7 +386,18 @@
     "score_b": 0,
     "date": "2026-06-21",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 39
+  },
+  {
+    "team_a": "Egypt",
+    "team_b": "New Zealand",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-21",
+    "stage": "group",
+    "winner": "Egypt",
+    "match_number": 40
   },
   {
     "team_a": "Norway",
@@ -366,7 +406,8 @@
     "score_b": 2,
     "date": "2026-06-22",
     "stage": "group",
-    "winner": "Norway"
+    "winner": "Norway",
+    "match_number": 41
   },
   {
     "team_a": "France",
@@ -375,7 +416,8 @@
     "score_b": 0,
     "date": "2026-06-22",
     "stage": "group",
-    "winner": "France"
+    "winner": "France",
+    "match_number": 42
   },
   {
     "team_a": "Argentina",
@@ -384,7 +426,8 @@
     "score_b": 0,
     "date": "2026-06-22",
     "stage": "group",
-    "winner": "Argentina"
+    "winner": "Argentina",
+    "match_number": 43
   },
   {
     "team_a": "Algeria",
@@ -393,16 +436,8 @@
     "score_b": 1,
     "date": "2026-06-22",
     "stage": "group",
-    "winner": "Algeria"
-  },
-  {
-    "team_a": "Portugal",
-    "team_b": "Uzbekistan",
-    "score_a": 5,
-    "score_b": 0,
-    "date": "2026-06-23",
-    "stage": "group",
-    "winner": "Portugal"
+    "winner": "Algeria",
+    "match_number": 44
   },
   {
     "team_a": "England",
@@ -411,7 +446,8 @@
     "score_b": 0,
     "date": "2026-06-23",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 45
   },
   {
     "team_a": "Croatia",
@@ -420,7 +456,18 @@
     "score_b": 0,
     "date": "2026-06-23",
     "stage": "group",
-    "winner": "Croatia"
+    "winner": "Croatia",
+    "match_number": 46
+  },
+  {
+    "team_a": "Portugal",
+    "team_b": "Uzbekistan",
+    "score_a": 5,
+    "score_b": 0,
+    "date": "2026-06-23",
+    "stage": "group",
+    "winner": "Portugal",
+    "match_number": 47
   },
   {
     "team_a": "Colombia",
@@ -429,43 +476,8 @@
     "score_b": 0,
     "date": "2026-06-23",
     "stage": "group",
-    "winner": "Colombia"
-  },
-  {
-    "team_a": "South Africa",
-    "team_b": "South Korea",
-    "score_a": 1,
-    "score_b": 0,
-    "date": "2026-06-24",
-    "stage": "group",
-    "winner": "South Africa"
-  },
-  {
-    "team_a": "Morocco",
-    "team_b": "Haiti",
-    "score_a": 4,
-    "score_b": 2,
-    "date": "2026-06-24",
-    "stage": "group",
-    "winner": "Morocco"
-  },
-  {
-    "team_a": "Mexico",
-    "team_b": "Czechia",
-    "score_a": 3,
-    "score_b": 0,
-    "date": "2026-06-24",
-    "stage": "group",
-    "winner": "Mexico"
-  },
-  {
-    "team_a": "Canada",
-    "team_b": "Switzerland",
-    "score_a": 1,
-    "score_b": 2,
-    "date": "2026-06-24",
-    "stage": "group",
-    "winner": "Switzerland"
+    "winner": "Colombia",
+    "match_number": 48
   },
   {
     "team_a": "Brazil",
@@ -474,7 +486,28 @@
     "score_b": 0,
     "date": "2026-06-24",
     "stage": "group",
-    "winner": "Brazil"
+    "winner": "Brazil",
+    "match_number": 49
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Haiti",
+    "score_a": 4,
+    "score_b": 2,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "Morocco",
+    "match_number": 50
+  },
+  {
+    "team_a": "Canada",
+    "team_b": "Switzerland",
+    "score_a": 1,
+    "score_b": 2,
+    "date": "2026-06-24",
+    "stage": "group",
+    "winner": "Switzerland",
+    "match_number": 51
   },
   {
     "team_a": "Bosnia and Herzegovina",
@@ -483,34 +516,28 @@
     "score_b": 1,
     "date": "2026-06-24",
     "stage": "group",
-    "winner": "Bosnia and Herzegovina"
+    "winner": "Bosnia and Herzegovina",
+    "match_number": 52
   },
   {
-    "team_a": "USA",
-    "team_b": "Türkiye",
-    "score_a": 2,
-    "score_b": 3,
-    "date": "2026-06-25",
-    "stage": "group",
-    "winner": "Türkiye"
-  },
-  {
-    "team_a": "Netherlands",
-    "team_b": "Tunisia",
+    "team_a": "Mexico",
+    "team_b": "Czechia",
     "score_a": 3,
-    "score_b": 1,
-    "date": "2026-06-25",
+    "score_b": 0,
+    "date": "2026-06-24",
     "stage": "group",
-    "winner": "Netherlands"
+    "winner": "Mexico",
+    "match_number": 53
   },
   {
-    "team_a": "Japan",
-    "team_b": "Sweden",
+    "team_a": "South Africa",
+    "team_b": "South Korea",
     "score_a": 1,
-    "score_b": 1,
-    "date": "2026-06-25",
+    "score_b": 0,
+    "date": "2026-06-24",
     "stage": "group",
-    "winner": null
+    "winner": "South Africa",
+    "match_number": 54
   },
   {
     "team_a": "Ivory Coast",
@@ -519,7 +546,8 @@
     "score_b": 0,
     "date": "2026-06-25",
     "stage": "group",
-    "winner": "Ivory Coast"
+    "winner": "Ivory Coast",
+    "match_number": 55
   },
   {
     "team_a": "Ecuador",
@@ -528,7 +556,38 @@
     "score_b": 1,
     "date": "2026-06-25",
     "stage": "group",
-    "winner": "Ecuador"
+    "winner": "Ecuador",
+    "match_number": 56
+  },
+  {
+    "team_a": "Japan",
+    "team_b": "Sweden",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": null,
+    "match_number": 57
+  },
+  {
+    "team_a": "Netherlands",
+    "team_b": "Tunisia",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": "Netherlands",
+    "match_number": 58
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Türkiye",
+    "score_a": 2,
+    "score_b": 3,
+    "date": "2026-06-25",
+    "stage": "group",
+    "winner": "Türkiye",
+    "match_number": 59
   },
   {
     "team_a": "Australia",
@@ -537,25 +596,8 @@
     "score_b": 0,
     "date": "2026-06-25",
     "stage": "group",
-    "winner": null
-  },
-  {
-    "team_a": "Spain",
-    "team_b": "Uruguay",
-    "score_a": 1,
-    "score_b": 0,
-    "date": "2026-06-26",
-    "stage": "group",
-    "winner": "Spain"
-  },
-  {
-    "team_a": "Senegal",
-    "team_b": "Iraq",
-    "score_a": 5,
-    "score_b": 0,
-    "date": "2026-06-26",
-    "stage": "group",
-    "winner": "Senegal"
+    "winner": null,
+    "match_number": 60
   },
   {
     "team_a": "France",
@@ -564,7 +606,18 @@
     "score_b": 1,
     "date": "2026-06-26",
     "stage": "group",
-    "winner": "France"
+    "winner": "France",
+    "match_number": 61
+  },
+  {
+    "team_a": "Senegal",
+    "team_b": "Iraq",
+    "score_a": 5,
+    "score_b": 0,
+    "date": "2026-06-26",
+    "stage": "group",
+    "winner": "Senegal",
+    "match_number": 62
   },
   {
     "team_a": "Egypt",
@@ -573,16 +626,8 @@
     "score_b": 1,
     "date": "2026-06-26",
     "stage": "group",
-    "winner": null
-  },
-  {
-    "team_a": "Cape Verde",
-    "team_b": "Saudi Arabia",
-    "score_a": 0,
-    "score_b": 0,
-    "date": "2026-06-26",
-    "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 63
   },
   {
     "team_a": "Belgium",
@@ -591,7 +636,28 @@
     "score_b": 1,
     "date": "2026-06-26",
     "stage": "group",
-    "winner": "Belgium"
+    "winner": "Belgium",
+    "match_number": 64
+  },
+  {
+    "team_a": "Cape Verde",
+    "team_b": "Saudi Arabia",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-06-26",
+    "stage": "group",
+    "winner": null,
+    "match_number": 65
+  },
+  {
+    "team_a": "Spain",
+    "team_b": "Uruguay",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-06-26",
+    "stage": "group",
+    "winner": "Spain",
+    "match_number": 66
   },
   {
     "team_a": "England",
@@ -600,16 +666,8 @@
     "score_b": 0,
     "date": "2026-06-27",
     "stage": "group",
-    "winner": "England"
-  },
-  {
-    "team_a": "DR Congo",
-    "team_b": "Uzbekistan",
-    "score_a": 3,
-    "score_b": 1,
-    "date": "2026-06-27",
-    "stage": "group",
-    "winner": "DR Congo"
+    "winner": "England",
+    "match_number": 67
   },
   {
     "team_a": "Croatia",
@@ -618,25 +676,8 @@
     "score_b": 1,
     "date": "2026-06-27",
     "stage": "group",
-    "winner": "Croatia"
-  },
-  {
-    "team_a": "Colombia",
-    "team_b": "Portugal",
-    "score_a": 0,
-    "score_b": 0,
-    "date": "2026-06-27",
-    "stage": "group",
-    "winner": null
-  },
-  {
-    "team_a": "Argentina",
-    "team_b": "Jordan",
-    "score_a": 3,
-    "score_b": 1,
-    "date": "2026-06-27",
-    "stage": "group",
-    "winner": "Argentina"
+    "winner": "Croatia",
+    "match_number": 68
   },
   {
     "team_a": "Algeria",
@@ -645,7 +686,38 @@
     "score_b": 3,
     "date": "2026-06-27",
     "stage": "group",
-    "winner": null
+    "winner": null,
+    "match_number": 69
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Jordan",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": "Argentina",
+    "match_number": 70
+  },
+  {
+    "team_a": "Colombia",
+    "team_b": "Portugal",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": null,
+    "match_number": 71
+  },
+  {
+    "team_a": "DR Congo",
+    "team_b": "Uzbekistan",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-06-27",
+    "stage": "group",
+    "winner": "DR Congo",
+    "match_number": 72
   },
   {
     "team_a": "Canada",
@@ -654,16 +726,8 @@
     "score_b": 0,
     "date": "2026-06-28",
     "stage": "knockout",
-    "winner": "Canada"
-  },
-  {
-    "team_a": "Morocco",
-    "team_b": "Netherlands",
-    "score_a": 1,
-    "score_b": 1,
-    "date": "2026-06-29",
-    "stage": "knockout",
-    "winner": "Morocco"
+    "winner": "Canada",
+    "match_number": 73
   },
   {
     "team_a": "Germany",
@@ -672,7 +736,18 @@
     "score_b": 1,
     "date": "2026-06-29",
     "stage": "knockout",
-    "winner": "Paraguay"
+    "winner": "Paraguay",
+    "match_number": 74
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Netherlands",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-06-29",
+    "stage": "knockout",
+    "winner": "Morocco",
+    "match_number": 75
   },
   {
     "team_a": "Brazil",
@@ -681,25 +756,8 @@
     "score_b": 1,
     "date": "2026-06-29",
     "stage": "knockout",
-    "winner": "Brazil"
-  },
-  {
-    "team_a": "Norway",
-    "team_b": "Ivory Coast",
-    "score_a": 2,
-    "score_b": 1,
-    "date": "2026-06-30",
-    "stage": "knockout",
-    "winner": "Norway"
-  },
-  {
-    "team_a": "Mexico",
-    "team_b": "Ecuador",
-    "score_a": 2,
-    "score_b": 0,
-    "date": "2026-06-30",
-    "stage": "knockout",
-    "winner": "Mexico"
+    "winner": "Brazil",
+    "match_number": 76
   },
   {
     "team_a": "France",
@@ -708,16 +766,28 @@
     "score_b": 0,
     "date": "2026-06-30",
     "stage": "knockout",
-    "winner": "France"
+    "winner": "France",
+    "match_number": 77
   },
   {
-    "team_a": "USA",
-    "team_b": "Bosnia and Herzegovina",
+    "team_a": "Norway",
+    "team_b": "Ivory Coast",
+    "score_a": 2,
+    "score_b": 1,
+    "date": "2026-06-30",
+    "stage": "knockout",
+    "winner": "Norway",
+    "match_number": 78
+  },
+  {
+    "team_a": "Mexico",
+    "team_b": "Ecuador",
     "score_a": 2,
     "score_b": 0,
-    "date": "2026-07-01",
+    "date": "2026-06-30",
     "stage": "knockout",
-    "winner": "USA"
+    "winner": "Mexico",
+    "match_number": 79
   },
   {
     "team_a": "England",
@@ -726,7 +796,18 @@
     "score_b": 1,
     "date": "2026-07-01",
     "stage": "knockout",
-    "winner": "England"
+    "winner": "England",
+    "match_number": 80
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Bosnia and Herzegovina",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-07-01",
+    "stage": "knockout",
+    "winner": "USA",
+    "match_number": 81
   },
   {
     "team_a": "Belgium",
@@ -735,25 +816,8 @@
     "score_b": 2,
     "date": "2026-07-01",
     "stage": "knockout",
-    "winner": "Belgium"
-  },
-  {
-    "team_a": "Switzerland",
-    "team_b": "Algeria",
-    "score_a": 2,
-    "score_b": 0,
-    "date": "2026-07-02",
-    "stage": "knockout",
-    "winner": "Switzerland"
-  },
-  {
-    "team_a": "Spain",
-    "team_b": "Austria",
-    "score_a": 3,
-    "score_b": 0,
-    "date": "2026-07-02",
-    "stage": "knockout",
-    "winner": "Spain"
+    "winner": "Belgium",
+    "match_number": 82
   },
   {
     "team_a": "Portugal",
@@ -762,25 +826,28 @@
     "score_b": 1,
     "date": "2026-07-02",
     "stage": "knockout",
-    "winner": "Portugal"
+    "winner": "Portugal",
+    "match_number": 83
   },
   {
-    "team_a": "Colombia",
-    "team_b": "Ghana",
-    "score_a": 1,
+    "team_a": "Spain",
+    "team_b": "Austria",
+    "score_a": 3,
     "score_b": 0,
-    "date": "2026-07-03",
+    "date": "2026-07-02",
     "stage": "knockout",
-    "winner": "Colombia"
+    "winner": "Spain",
+    "match_number": 84
   },
   {
-    "team_a": "Australia",
-    "team_b": "Egypt",
-    "score_a": 1,
-    "score_b": 1,
-    "date": "2026-07-03",
+    "team_a": "Switzerland",
+    "team_b": "Algeria",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-07-02",
     "stage": "knockout",
-    "winner": "Egypt"
+    "winner": "Switzerland",
+    "match_number": 85
   },
   {
     "team_a": "Argentina",
@@ -789,16 +856,28 @@
     "score_b": 2,
     "date": "2026-07-03",
     "stage": "knockout",
-    "winner": "Argentina"
+    "winner": "Argentina",
+    "match_number": 86
   },
   {
-    "team_a": "Morocco",
-    "team_b": "Canada",
-    "score_a": 3,
+    "team_a": "Colombia",
+    "team_b": "Ghana",
+    "score_a": 1,
     "score_b": 0,
-    "date": "2026-07-04",
+    "date": "2026-07-03",
     "stage": "knockout",
-    "winner": "Morocco"
+    "winner": "Colombia",
+    "match_number": 87
+  },
+  {
+    "team_a": "Australia",
+    "team_b": "Egypt",
+    "score_a": 1,
+    "score_b": 1,
+    "date": "2026-07-03",
+    "stage": "knockout",
+    "winner": "Egypt",
+    "match_number": 88
   },
   {
     "team_a": "France",
@@ -807,7 +886,18 @@
     "score_b": 0,
     "date": "2026-07-04",
     "stage": "knockout",
-    "winner": "France"
+    "winner": "France",
+    "match_number": 89
+  },
+  {
+    "team_a": "Morocco",
+    "team_b": "Canada",
+    "score_a": 3,
+    "score_b": 0,
+    "date": "2026-07-04",
+    "stage": "knockout",
+    "winner": "Morocco",
+    "match_number": 90
   },
   {
     "team_a": "Norway",
@@ -816,7 +906,8 @@
     "score_b": 1,
     "date": "2026-07-05",
     "stage": "knockout",
-    "winner": "Norway"
+    "winner": "Norway",
+    "match_number": 91
   },
   {
     "team_a": "Mexico",
@@ -825,16 +916,8 @@
     "score_b": 3,
     "date": "2026-07-05",
     "stage": "knockout",
-    "winner": "England"
-  },
-  {
-    "team_a": "USA",
-    "team_b": "Belgium",
-    "score_a": 1,
-    "score_b": 4,
-    "date": "2026-07-06",
-    "stage": "knockout",
-    "winner": "Belgium"
+    "winner": "England",
+    "match_number": 92
   },
   {
     "team_a": "Spain",
@@ -843,6 +926,47 @@
     "score_b": 0,
     "date": "2026-07-06",
     "stage": "knockout",
-    "winner": "Spain"
+    "winner": "Spain",
+    "match_number": 93
+  },
+  {
+    "team_a": "USA",
+    "team_b": "Belgium",
+    "score_a": 1,
+    "score_b": 4,
+    "date": "2026-07-06",
+    "stage": "knockout",
+    "winner": "Belgium",
+    "match_number": 94
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Egypt",
+    "score_a": 3,
+    "score_b": 2,
+    "date": "2026-07-07",
+    "stage": "knockout",
+    "winner": "Argentina",
+    "match_number": 95
+  },
+  {
+    "team_a": "Colombia",
+    "team_b": "Switzerland",
+    "score_a": 0,
+    "score_b": 0,
+    "date": "2026-07-07",
+    "stage": "knockout",
+    "winner": "Switzerland",
+    "match_number": 96
+  },
+  {
+    "team_a": "France",
+    "team_b": "Morocco",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-07-09",
+    "stage": "knockout",
+    "winner": "France",
+    "match_number": 97
   }
 ]

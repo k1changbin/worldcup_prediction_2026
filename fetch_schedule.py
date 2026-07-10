@@ -1,6 +1,8 @@
-import json
-import os
 import httpx
+
+from src.paths import data_path
+from src.io_utils import atomic_write_json
+from src.data_validation import validate_schedule
 
 # Mapping between Elo team names and API team names.
 TEAM_NAME_MAP = {
@@ -21,7 +23,7 @@ def map_team_name(name):
 
 def fetch_schedule():
     url = "https://www.thestatsapi.com/world-cup/data/fixtures.json"
-    schedules_path = "data/schedule.json"
+    schedules_path = data_path("schedule.json")
     
     print(f"[Schedule fetch] Fetching World Cup schedule from {url}...")
     
@@ -56,10 +58,12 @@ def fetch_schedule():
                 "hostCity": f.get("hostCity")
             })
             
-        # Create the directory and save the file.
-        os.makedirs(os.path.dirname(schedules_path), exist_ok=True)
-        with open(schedules_path, "w", encoding="utf-8") as file:
-            json.dump(mapped_fixtures, file, ensure_ascii=False, indent=2)
+        validation_errors = validate_schedule(mapped_fixtures)
+        if validation_errors:
+            raise ValueError("; ".join(validation_errors))
+
+        # Persist only after the complete schedule has passed validation.
+        atomic_write_json(schedules_path, mapped_fixtures)
             
         print(f"[Success] Fetched {len(mapped_fixtures)} World Cup matches -> {schedules_path}")
         return True
@@ -69,4 +73,4 @@ def fetch_schedule():
         return False
 
 if __name__ == "__main__":
-    fetch_schedule()
+    raise SystemExit(0 if fetch_schedule() else 1)

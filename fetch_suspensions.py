@@ -5,6 +5,7 @@ import os
 import re
 from src.absences import clean_served_suspensions, load_absences, save_absences
 from src.tournament_state import filter_team_map, load_active_teams
+from src.paths import PROJECT_ROOT, data_path
 
 # Mapping between website team names and project team names.
 TEAM_NAME_MAP = {
@@ -34,9 +35,9 @@ def normalize_team_name(name, valid_teams):
     return None
 
 URL = "https://en.wikipedia.org/wiki/2026_FIFA_World_Cup"
-ABSENCES_PATH = "data/absences.json"
-SQUADS_PATH = "data/squads.json"
-ACTUAL_RESULTS_PATH = "data/actual_results.json"
+ABSENCES_PATH = data_path("absences.json")
+SQUADS_PATH = data_path("squads.json")
+ACTUAL_RESULTS_PATH = data_path("actual_results.json")
 
 def load_json(path, default_val=None):
     if default_val is None:
@@ -48,10 +49,6 @@ def load_json(path, default_val=None):
             except json.JSONDecodeError:
                 return default_val
     return default_val
-
-def save_json(path, data):
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
 
 def get_actual_match_count(team_name, actual_results):
     count = 0
@@ -98,14 +95,13 @@ def main():
         
     # 2. If the live page is unavailable, fall back to a local mock file.
     if not html_content:
-        mock_path = "scratch/mock_disciplinary_record.html"
+        mock_path = PROJECT_ROOT / "scratch" / "mock_disciplinary_record.html"
         if os.path.exists(mock_path):
             print(f"[Suspension sync] Parsing local mock file: {mock_path}")
             with open(mock_path, "r", encoding="utf-8") as f:
                 html_content = f.read()
         else:
-            print("[Suspension sync] No usable data source is available. Exiting.")
-            return
+            raise RuntimeError("No usable suspension data source is available")
 
     # 3. Parse HTML.
     soup = BeautifulSoup(html_content, "html.parser")
@@ -134,8 +130,7 @@ def main():
                 break
 
     if not suspensions_table:
-        print("[Suspension sync] Could not find a Suspensions table.")
-        return
+        raise RuntimeError("Could not find a suspensions table")
 
     # 4. Extract and map table data.
     rows = suspensions_table.find_all("tr")
@@ -255,6 +250,7 @@ def main():
             print("[Suspension sync] Removed served suspension records.")
     else:
         print("[Suspension sync] No new suspended players were added.")
+    return True
 
 if __name__ == "__main__":
     main()
