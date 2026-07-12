@@ -6,6 +6,7 @@ from src.io_utils import atomic_write_json
 
 
 RESERVED_ABSENCE_KEYS = {"injuries", "suspensions"}
+SUSPENSION_REASONS = {"yellow_cards", "red_card", "disciplinary"}
 
 
 def load_json(path, default_val=None):
@@ -119,6 +120,57 @@ def save_absences(path, absences):
     save_json(path, normalize_absences(absences))
 
 
+def upsert_suspension(
+    absences,
+    team,
+    player_name,
+    reason,
+    served_at_count,
+    suspension_length=1,
+):
+    """Add or refresh one player's active suspension.
+
+    A disciplinary decision may be amended after the initial match report.  The
+    latest source must therefore replace an existing record rather than leave a
+    stale one-match suspension in place.
+    """
+    if reason not in SUSPENSION_REASONS:
+        raise ValueError(f"unsupported suspension reason: {reason!r}")
+    if (
+        not isinstance(served_at_count, int)
+        or isinstance(served_at_count, bool)
+        or served_at_count < 1
+    ):
+        raise ValueError("served_at_count must be a positive integer")
+    if (
+        not isinstance(suspension_length, int)
+        or isinstance(suspension_length, bool)
+        or suspension_length < 1
+    ):
+        raise ValueError("suspension_length must be a positive integer")
+    if reason == "yellow_cards" and suspension_length != 1:
+        raise ValueError("yellow-card accumulation must result in a one-match ban")
+
+    normalized = normalize_absences(absences)
+    record = {
+        "name": player_name,
+        "type": "suspension",
+        "reason": reason,
+        "served_at_count": served_at_count,
+        "suspension_length": suspension_length,
+    }
+    team_records = normalized.setdefault(team, [])
+
+    for index, item in enumerate(team_records):
+        if _absence_name(item) == player_name:
+            changed = item != record
+            team_records[index] = record
+            return normalized, changed
+
+    team_records.append(record)
+    return normalized, True
+
+
 def get_absence_names(raw_list):
     names = []
     for item in _as_list(raw_list):
@@ -133,6 +185,7 @@ def format_absence_list_to_str_list(raw_list):
     reason_map = {
         "red_card": "red-card suspension",
         "yellow_cards": "yellow-card accumulation suspension",
+        "disciplinary": "additional disciplinary suspension",
     }
 
     for item in _as_list(raw_list):

@@ -3,7 +3,12 @@ from bs4 import BeautifulSoup
 import json
 import os
 import re
-from src.absences import clean_served_suspensions, load_absences, save_absences
+from src.absences import (
+    clean_served_suspensions,
+    load_absences,
+    save_absences,
+    upsert_suspension,
+)
 from src.tournament_state import filter_team_map, load_active_teams
 from src.paths import PROJECT_ROOT, data_path
 
@@ -204,39 +209,33 @@ def main():
         if N >= served_at_count:
             continue
             
-        reason = "red_card" if "red" in combined_text else "yellow_cards"
-        
-        # Add the suspension record to the absences database.
-        if matched_team not in injuries:
-            injuries[matched_team] = []
-            
-        # Check whether this player is already registered by name.
-        already_exists = False
-        for idx, item in enumerate(injuries[matched_team]):
-            # Support both legacy string records and structured dictionary records.
-            item_name = item if isinstance(item, str) else item.get("name")
-            if item_name == matched_player:
-                already_exists = True
-                # Upgrade or refresh legacy/non-suspension records to structured suspensions.
-                if isinstance(item, str) or item.get("type") != "suspension":
-                    injuries[matched_team][idx] = {
-                        "name": matched_player,
-                        "type": "suspension",
-                        "reason": reason,
-                        "served_at_count": served_at_count
-                    }
-                    added_count += 1
-                break
-                
-        if not already_exists:
-            injuries[matched_team].append({
-                "name": matched_player,
-                "type": "suspension",
-                "reason": reason,
-                "served_at_count": served_at_count
-            })
+        red_card_markers = ("red card", "sent off", "sending-off", "dismissed")
+        if any(marker in combined_text for marker in red_card_markers):
+            reason = "red_card"
+        elif suspension_length > 1:
+            # Do not mislabel an extended sanction as a yellow-card
+            # accumulation when the source omits the original red-card text.
+            reason = "disciplinary"
+        else:
+            reason = "yellow_cards"
+
+        # Always refresh existing records: FIFA can extend a red-card ban after
+        # the initial report, as with Quansah's two-match suspension.
+        injuries, changed = upsert_suspension(
+            injuries,
+            matched_team,
+            matched_player,
+            reason,
+            served_at_count,
+            suspension_length,
+        )
+        if changed:
             added_count += 1
-            print(f"[Suspension sync] Registered {matched_player} for {matched_team} (returns after match count: {served_at_count})")
+            print(
+                f"[Suspension sync] Updated {matched_player} for {matched_team} "
+                f"({reason}, {suspension_length} match(es), returns after "
+                f"match count: {served_at_count})"
+            )
 
     injuries, cleaned_served = clean_served_suspensions(injuries, actual_results)
 

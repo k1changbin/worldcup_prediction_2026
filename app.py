@@ -16,6 +16,7 @@ from src.absences import (
     get_absence_names,
     load_absences,
     save_absences,
+    upsert_suspension,
 )
 from src.paths import data_path
 from src.forecast import run_tournament_forecast
@@ -229,7 +230,8 @@ def run_app():
                     if p_type == "suspension":
                         reason_map = {
                             "red_card": "red-card suspension",
-                            "yellow_cards": "yellow-card accumulation suspension"
+                            "yellow_cards": "yellow-card accumulation suspension",
+                            "disciplinary": "additional disciplinary suspension",
                         }
                         reason_text = reason_map.get(p.get("reason"), "suspension")
                         st.sidebar.text(f"  • {p_name} ({reason_text}, returns after match count {p.get('served_at_count')})")
@@ -258,7 +260,12 @@ def run_app():
             selected_player = st.sidebar.selectbox("Select Player", available_players)
             absence_reason = st.sidebar.selectbox(
                 "Absence Reason",
-                ["Injury", "Red card (1-match suspension)", "Yellow-card accumulation (1-match suspension)", "Additional suspension (2 matches)"],
+                [
+                    "Injury",
+                    "Yellow-card accumulation (1-match suspension)",
+                    "Red card (1-match suspension)",
+                    "Red card (2-match suspension)",
+                ],
             )
 
             if st.sidebar.button("Add to Absence List"):
@@ -277,16 +284,17 @@ def run_app():
                         if match.get("team_a") == selected_team or match.get("team_b") == selected_team:
                             N += 1
 
-                    suspension_length = 2 if "2 matches" in absence_reason else 1
+                    suspension_length = 2 if "2-match" in absence_reason else 1
                     served_at = N + suspension_length
-                    reason = "red_card" if "Red card" in absence_reason else "yellow_cards"
-
-                    registered_absences[selected_team].append({
-                        "name": selected_player,
-                        "type": "suspension",
-                        "reason": reason,
-                        "served_at_count": served_at
-                    })
+                    reason = "red_card" if absence_reason.startswith("Red card") else "yellow_cards"
+                    registered_absences, _ = upsert_suspension(
+                        registered_absences,
+                        selected_team,
+                        selected_player,
+                        reason,
+                        served_at,
+                        suspension_length,
+                    )
 
                 save_absences(ABSENCES_PATH, registered_absences)
                 clear_data_caches()

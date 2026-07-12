@@ -395,6 +395,24 @@ def validate_absences(absences, tournament_teams):
                         errors.append(
                             f"{team} absence {index} has invalid served_at_count"
                         )
+                    reason = item.get("reason")
+                    if reason not in {"yellow_cards", "red_card", "disciplinary"}:
+                        errors.append(
+                            f"{team} absence {index} has an invalid suspension reason"
+                        )
+                    length = item.get("suspension_length", 1)
+                    if (
+                        not isinstance(length, int)
+                        or isinstance(length, bool)
+                        or length < 1
+                    ):
+                        errors.append(
+                            f"{team} absence {index} has invalid suspension_length"
+                        )
+                    elif reason == "yellow_cards" and length != 1:
+                        errors.append(
+                            f"{team} absence {index} has an invalid yellow-card suspension length"
+                        )
             else:
                 errors.append(f"{team} absence {index} is invalid")
                 continue
