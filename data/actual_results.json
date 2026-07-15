@@ -988,5 +988,25 @@
     "stage": "knockout",
     "winner": "England",
     "match_number": 99
+  },
+  {
+    "team_a": "Argentina",
+    "team_b": "Switzerland",
+    "score_a": 3,
+    "score_b": 1,
+    "date": "2026-07-11",
+    "stage": "knockout",
+    "winner": "Argentina",
+    "match_number": 100
+  },
+  {
+    "team_a": "Spain",
+    "team_b": "France",
+    "score_a": 2,
+    "score_b": 0,
+    "date": "2026-07-14",
+    "stage": "knockout",
+    "winner": "Spain",
+    "match_number": 101
   }
 ]
