@@ -1,15 +1,5 @@
 {
   "Argentina": [
     "Leonardo Balerdi"
-  ],
-  "England": [
-    "Tino Livramento",
-    {
-      "name": "Jarell Quansah",
-      "type": "suspension",
-      "reason": "yellow_cards",
-      "served_at_count": 7,
-      "suspension_length": 1
-    }
   ]
 }
