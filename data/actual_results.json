@@ -1018,5 +1018,25 @@
     "stage": "knockout",
     "winner": "Argentina",
     "match_number": 102
+  },
+  {
+    "team_a": "England",
+    "team_b": "France",
+    "score_a": 6,
+    "score_b": 4,
+    "date": "2026-07-18",
+    "stage": "knockout",
+    "winner": "England",
+    "match_number": 103
+  },
+  {
+    "team_a": "Spain",
+    "team_b": "Argentina",
+    "score_a": 1,
+    "score_b": 0,
+    "date": "2026-07-19",
+    "stage": "knockout",
+    "winner": "Spain",
+    "match_number": 104
   }
 ]
